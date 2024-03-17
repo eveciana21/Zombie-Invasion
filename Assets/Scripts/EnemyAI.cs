@@ -7,17 +7,16 @@ public class EnemyAI : MonoBehaviour
 {
     private NavMeshAgent _navmeshAgent;
     [SerializeField] private List<Transform> _wayPoint;
+
     private int _currentPos;
     private bool _inReverse;
 
     [SerializeField] private GameObject[] _outfit;
     [SerializeField] private GameObject[] _head;
 
-    private Transform _waypointParent;
 
     void Start()
     {
-        //RandomWayPointPath();
         GenerateZombie();
 
         _navmeshAgent = GetComponent<NavMeshAgent>();
@@ -78,25 +77,6 @@ public class EnemyAI : MonoBehaviour
         else
         {
             _currentPos++;
-        }
-    }
-
-
-
-    private void RandomWayPointPath()
-    {
-        _waypointParent = GameObject.Find("Waypoints").transform;
-        int random = Random.Range(0, _waypointParent.childCount);
-        Transform waypointGroup = _waypointParent.GetChild(random);
-
-        _wayPoint.Clear();
-
-        for (int i = 0; i < waypointGroup.childCount; i++)
-        {
-            Transform waypointChild = waypointGroup.GetChild(i);
-            _wayPoint.Add(waypointChild);
-            int randomChild = Random.Range(0, _wayPoint.Count);
-            Transform randomWaypoint = _wayPoint[randomChild];
         }
     }
 

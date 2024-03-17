@@ -4,36 +4,16 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _zombiePrefab;
-    private Transform _wayPointGroup;
-
-    private Transform _spawnPoint;
     private Transform _waypointParent;
     [SerializeField] private List<Transform> _wayPoint;
     private EnemyAI _zombie;
 
+    [SerializeField] private GameObject _zombiePrefab;
+
     void Start()
     {
-        //RandomWayPointPath();
         StartCoroutine(ZombieSpawner());
     }
-
-    /*private void RandomWayPointPath()
-    {
-        _waypointParent = GameObject.Find("Waypoints").transform;
-        int random = Random.Range(0, _waypointParent.childCount);
-        Transform waypointGroup = _waypointParent.GetChild(random); //gets a random waypoint group
-
-        _wayPoint.Clear();
-
-        for (int i = 0; i < waypointGroup.childCount; i++)
-        {
-            Transform waypointChild = waypointGroup.GetChild(i);
-            _wayPoint.Add(waypointChild); //adds the waypoint child to the list
-            int randomChild = Random.Range(0, _wayPoint.Count);
-            Transform randomWaypoint = _wayPoint[randomChild];
-        }
-    }*/
 
     public IEnumerator ZombieSpawner()
     {
@@ -47,7 +27,7 @@ public class SpawnManager : MonoBehaviour
 
             for (int i = 0; i < waypointGroup.childCount; i++)
             {
-                Transform waypointChild = waypointGroup.GetChild(i);
+                Transform waypointChild = waypointGroup.GetChild(i); 
                 _wayPoint.Add(waypointChild); //adds the waypoint children to the list
             }
 
@@ -57,9 +37,9 @@ public class SpawnManager : MonoBehaviour
             _zombie = Instantiate(_zombiePrefab, randomWaypoint.position, Quaternion.identity).GetComponent<EnemyAI>();
             _zombie.SelectWayPoint(_wayPoint);
 
-            Debug.Log("Waypoint Group: " + waypointGroup.name + " WayPoint Child: " + randomWaypoint.name);
-
             yield return new WaitForSeconds(3);
         }
     }
 }
+
+
