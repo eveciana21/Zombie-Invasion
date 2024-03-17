@@ -13,16 +13,18 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private GameObject[] _outfit;
     [SerializeField] private GameObject[] _head;
 
-    private SpawnManager _spawnManager;
+    private Transform _waypointParent;
 
     void Start()
     {
-        _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
-
-        RandomWayPointPath();
+        //RandomWayPointPath();
         GenerateZombie();
 
         _navmeshAgent = GetComponent<NavMeshAgent>();
+        if (_navmeshAgent == null)
+        {
+            Debug.Log("Enemy Navmesh is Null");
+        }
         _navmeshAgent.destination = _wayPoint[0].position;
 
         _currentPos = 0;
@@ -31,6 +33,11 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+    }
+
+    public void SelectWayPoint(List<Transform> waypoint)
+    {
+        _wayPoint = waypoint;
     }
 
     private void CalculateMovement()
@@ -74,22 +81,25 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+
+
     private void RandomWayPointPath()
     {
-        Transform childWayPoint = GameObject.Find("Waypoints").transform;
-        int random = Random.Range(0, childWayPoint.childCount);
-        Transform waypointGroup = childWayPoint.GetChild(random);
+        _waypointParent = GameObject.Find("Waypoints").transform;
+        int random = Random.Range(0, _waypointParent.childCount);
+        Transform waypointGroup = _waypointParent.GetChild(random);
 
         _wayPoint.Clear();
 
         for (int i = 0; i < waypointGroup.childCount; i++)
         {
-            _wayPoint.Add(waypointGroup.GetChild(i));
-
-            //_spawnManager.Spawner(waypointGroup.GetChild(random));
-
+            Transform waypointChild = waypointGroup.GetChild(i);
+            _wayPoint.Add(waypointChild);
+            int randomChild = Random.Range(0, _wayPoint.Count);
+            Transform randomWaypoint = _wayPoint[randomChild];
         }
     }
+
 
     private void GenerateZombie()
     {
@@ -103,8 +113,9 @@ public class EnemyAI : MonoBehaviour
         }
 
         int randomOutfit = Random.Range(0, _outfit.Length);
-        int randomHead = Random.Range(0, _head.Length);
         _outfit[randomOutfit].SetActive(true);
+
+        int randomHead = Random.Range(0, _head.Length);
         _head[randomHead].SetActive(true);
     }
 }

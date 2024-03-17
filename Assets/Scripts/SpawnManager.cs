@@ -5,65 +5,63 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject _zombiePrefab;
-    [SerializeField] private Transform _spawnPoint;
-
-    [SerializeField] private List<GameObject> _instances;
-
     private Transform _wayPointGroup;
+
+    private Transform _spawnPoint;
+    private Transform _waypointParent;
+    [SerializeField] private List<Transform> _wayPoint;
+    private EnemyAI _zombie;
 
     void Start()
     {
+        //RandomWayPointPath();
         StartCoroutine(ZombieSpawner());
     }
 
-    IEnumerator ZombieSpawner()
+    /*private void RandomWayPointPath()
     {
-        while (true)
+        _waypointParent = GameObject.Find("Waypoints").transform;
+        int random = Random.Range(0, _waypointParent.childCount);
+        Transform waypointGroup = _waypointParent.GetChild(random); //gets a random waypoint group
+
+        _wayPoint.Clear();
+
+        for (int i = 0; i < waypointGroup.childCount; i++)
         {
-            //Spawner(_spawnPoint);
-            //_spawnPoint = waypoint;
-
-            _wayPointGroup = GameObject.Find("Waypoints").transform;
-            int random = Random.Range(0, _wayPointGroup.childCount); //random waypoint group
-            Transform waypointGroup = _wayPointGroup.GetChild(random); //gets the waypoint group parent
-            int randomChild = Random.Range(0, waypointGroup.childCount); //random child from the waypoint groups
-            Transform waypointChild = waypointGroup.GetChild(randomChild); //gets the random child waypoint from the waypoint group
-
-            Instantiate(_zombiePrefab, waypointChild.transform.position, Quaternion.identity);
-            Debug.Log("Waypoint Group: " + waypointGroup.name + " WayPoint Child: " + waypointChild.name);
-            yield return new WaitForSeconds(3);
-        }
-    }
-
-
-    public void Spawner(Transform waypoint)
-    {
-        _spawnPoint = waypoint;
-
-        _wayPointGroup = GameObject.Find("Waypoints").transform;
-        int random = Random.Range(0, _wayPointGroup.childCount); //random waypoint group
-        Transform waypointGroup = _wayPointGroup.GetChild(random); //gets the waypoint group parent
-        int randomChild = Random.Range(0, waypointGroup.childCount); //random child from the waypoint groups
-        Transform waypointChild = waypointGroup.GetChild(randomChild); //gets the random child waypoint from the waypoint group
-
-        Instantiate(_zombiePrefab, waypoint.transform.position, Quaternion.identity);
-        Debug.Log(waypointChild.name);
-    }
-
-
-
-
-
-
-
-    /*private void SpawnZombies()
-    {
-        _instances.Clear();
-        for (int i = 0; i < 10; i++)
-        {
-            GameObject instance = Instantiate(_zombiePrefab);
-            _instances.Add(instance);
+            Transform waypointChild = waypointGroup.GetChild(i);
+            _wayPoint.Add(waypointChild); //adds the waypoint child to the list
+            int randomChild = Random.Range(0, _wayPoint.Count);
+            Transform randomWaypoint = _wayPoint[randomChild];
         }
     }*/
 
+    public IEnumerator ZombieSpawner()
+    {
+        while (true)
+        {
+            _waypointParent = GameObject.Find("Waypoints").transform;
+            int random = Random.Range(0, _waypointParent.childCount);
+            Transform waypointGroup = _waypointParent.GetChild(random); //gets a random waypoint group
+
+            _wayPoint.Clear();
+
+            for (int i = 0; i < waypointGroup.childCount; i++)
+            {
+                Transform waypointChild = waypointGroup.GetChild(i);
+                _wayPoint.Add(waypointChild); //adds the waypoint children to the list
+            }
+
+            int randomChild = Random.Range(0, _wayPoint.Count);
+            Transform randomWaypoint = _wayPoint[randomChild]; //gets the specific child from the for loop iteration
+
+            _zombie = Instantiate(_zombiePrefab, randomWaypoint.position, Quaternion.identity).GetComponent<EnemyAI>();
+
+            //_zombie = GameObject.Find("Zombie Male").GetComponent<EnemyAI>();
+            _zombie.SelectWayPoint(_wayPoint);
+
+            Debug.Log("Waypoint Group: " + waypointGroup.name + " WayPoint Child: " + randomWaypoint.name);
+
+            yield return new WaitForSeconds(3);
+        }
+    }
 }
