@@ -55,8 +55,6 @@ public class SpawnManager : MonoBehaviour
             Transform randomWaypoint = _wayPoint[randomChild]; //gets the specific child from the for loop iteration
 
             _zombie = Instantiate(_zombiePrefab, randomWaypoint.position, Quaternion.identity).GetComponent<EnemyAI>();
-
-            //_zombie = GameObject.Find("Zombie Male").GetComponent<EnemyAI>();
             _zombie.SelectWayPoint(_wayPoint);
 
             Debug.Log("Waypoint Group: " + waypointGroup.name + " WayPoint Child: " + randomWaypoint.name);

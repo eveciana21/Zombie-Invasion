@@ -37,7 +37,7 @@ public class EnemyAI : MonoBehaviour
 
     public void SelectWayPoint(List<Transform> waypoint)
     {
-        _wayPoint = waypoint;
+        _wayPoint = new List<Transform>(waypoint);
     }
 
     private void CalculateMovement()
