@@ -465,7 +465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1884282908527581468
 Transform:
   m_ObjectHideFlags: 0
@@ -3179,7 +3179,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1884282908527640148
 Transform:
   m_ObjectHideFlags: 0
@@ -3593,7 +3593,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1884282908527594060
 Transform:
   m_ObjectHideFlags: 0
@@ -3904,7 +3904,7 @@ GameObject:
   - component: {fileID: 1884282908537259744}
   - component: {fileID: 1884282908537259775}
   - component: {fileID: 1884282908537259774}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Zombie Male
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3959,10 +3959,10 @@ Animator:
   m_GameObject: {fileID: 1884282908527884292}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: a1aade9bc7779e24b8219a8ceb948e08, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1b6476e4f4665fa45961a333f41a1d87, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -3980,10 +3980,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 400
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -4005,6 +4005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _wayPoint: []
+  _isWalking: 0
   _outfit:
   - {fileID: 1884282908527839632}
   - {fileID: 1884282908527834304}
@@ -4050,6 +4051,7 @@ MonoBehaviour:
   - {fileID: 1884282908527847406}
   - {fileID: 1884282908527864048}
   - {fileID: 1884282908527871750}
+  _currentState: 1
 --- !u!1 &1884282908527889962
 GameObject:
   m_ObjectHideFlags: 0
@@ -4856,7 +4858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1884282908527592734
 Transform:
   m_ObjectHideFlags: 0

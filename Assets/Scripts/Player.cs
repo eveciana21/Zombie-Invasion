@@ -13,9 +13,8 @@ public class Player : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             GameObject bullet = PoolManager.Instance.RequestBullet();
-            //bullet.transform.position = Vector3.zero;
             bullet.transform.position = _bulletSpawnPos.transform.position; //Where to spawn bullet
-            bullet.transform.rotation = _bulletSpawnPos.transform.rotation;
+            bullet.transform.rotation = _bulletSpawnPos.transform.rotation; 
         }
     }
 }
