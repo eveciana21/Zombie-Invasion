@@ -10,8 +10,8 @@ public class EnemyAI : MonoBehaviour
 
     private int _currentPos;
     private bool _inReverse;
-    private bool _isWalking;
-    private bool _isDead;
+    [SerializeField] private bool _isWalking;
+    [SerializeField] private bool _isDead;
 
     [SerializeField] private GameObject[] _outfit;
     [SerializeField] private GameObject[] _head;
@@ -54,16 +54,56 @@ public class EnemyAI : MonoBehaviour
     {
         CurrentAIState();
     }
-
     public void SelectWayPoint(List<Transform> waypoint)
     {
         _wayPoint = new List<Transform>(waypoint);
+    }
+
+    private void CurrentAIState()
+    {
+        switch (_currentState)
+        {
+            case AIState.Idle:
+                if (_isWalking == true && _isDead == false)
+                {
+                    StartCoroutine("IdleRoutine");
+                    _isWalking = false;
+                }
+                break;
+
+            case AIState.Walk:
+                if (_isDead == false)
+                {
+                    CalculateMovement();
+                }
+                break;
+
+
+            //////////////////////////////////////////////////////////////////////////////////
+
+
+            case AIState.Run:
+                Debug.Log("Run State");
+                break;
+
+            case AIState.Attack:
+                Debug.Log("Attack State");
+                break;
+
+            case AIState.Death:
+                _isWalking = false;
+                _animator.SetBool("Walking", false);
+                StopCoroutine("IdleRoutine");
+                StartCoroutine(DeathRoutine());
+                break;
+        }
     }
 
     private void CalculateMovement()
     {
         if (_navmeshAgent.remainingDistance < 1f)
         {
+            _currentState = AIState.Idle;
             _animator.SetBool("Walking", false);
 
             if (_inReverse == true)
@@ -75,11 +115,11 @@ public class EnemyAI : MonoBehaviour
                 Forward();
             }
             _navmeshAgent.SetDestination(_wayPoint[_currentPos].position);
-            _currentState = AIState.Idle;
         }
         else
         {
             _animator.SetBool("Walking", true);
+            _isWalking = true;
         }
     }
 
@@ -126,69 +166,41 @@ public class EnemyAI : MonoBehaviour
         _head[randomHead].SetActive(true);
     }
 
-    private void CurrentAIState()
-    {
-        switch (_currentState)
-        {
-            case AIState.Idle:
-                if (_isWalking == false || _isDead == false)
-                {
-                    StartCoroutine("IdleRoutine");
-                    _isWalking = true;
-                }
-                break;
 
-            case AIState.Walk:
-                if (_isDead == false)
-                {
-                    CalculateMovement();
-                }
-                break;
-
-
-
-
-            //////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-            case AIState.Run:
-                Debug.Log("Run State");
-                break;
-
-            case AIState.Attack:
-                Debug.Log("Attack State");
-                break;
-
-            case AIState.Death:
-                StopCoroutine("IdleRoutine");
-                StartCoroutine("DeathRoutine");
-                _isDead = false;
-                Debug.Log("Death State");
-                break;
-        }
-    }
     IEnumerator IdleRoutine()
     {
         _navmeshAgent.isStopped = true;
         yield return new WaitForSeconds(3);
         _navmeshAgent.isStopped = false;
         _currentState = AIState.Walk;
-        _isWalking = false;
+        _isWalking = true;
     }
-
 
     IEnumerator DeathRoutine()
     {
         _isDead = true;
         _navmeshAgent.isStopped = true;
-        _animator.SetBool("Walking", false);
-        _animator.SetTrigger("Death");
+        _animator.SetBool("Death", true);
+        yield return new WaitForSeconds(6);
+
+        _animator.SetBool("Emerge", true);
         yield return new WaitForSeconds(3);
-        _animator.SetTrigger("Emerge");
+
+        _animator.SetBool("Emerge", false);
+        _animator.SetBool("Death", false);
+
         _navmeshAgent.isStopped = false;
+        _isDead = false;
+
         _currentState = AIState.Walk;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Bullet")
+        {
+            Debug.Log("Hit!");
+            _currentState = AIState.Death;
+        }
     }
 }

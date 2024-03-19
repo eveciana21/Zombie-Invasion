@@ -3904,6 +3904,8 @@ GameObject:
   - component: {fileID: 1884282908537259744}
   - component: {fileID: 1884282908537259775}
   - component: {fileID: 1884282908537259774}
+  - component: {fileID: 6645078548251701316}
+  - component: {fileID: 5131557356583535297}
   m_Layer: 15
   m_Name: Zombie Male
   m_TagString: Untagged
@@ -3980,16 +3982,16 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2.5
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 400
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: -0.05
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1884282908537259774
@@ -4006,6 +4008,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _wayPoint: []
   _isWalking: 0
+  _isDead: 0
   _outfit:
   - {fileID: 1884282908527839632}
   - {fileID: 1884282908527834304}
@@ -4052,6 +4055,36 @@ MonoBehaviour:
   - {fileID: 1884282908527864048}
   - {fileID: 1884282908527871750}
   _currentState: 1
+--- !u!136 &6645078548251701316
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884282908527884292}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.29495162
+  m_Height: 1.6294038
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.79348266, z: 0.017284691}
+--- !u!54 &5131557356583535297
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884282908527884292}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!1 &1884282908527889962
 GameObject:
   m_ObjectHideFlags: 0
