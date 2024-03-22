@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
             _zombie = Instantiate(_zombiePrefab, randomWaypoint.position, Quaternion.identity).GetComponent<EnemyAI>();
             _zombie.SelectWayPoint(_wayPoint);
 
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(30);
         }
     }
 }

@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour
 
     private int _currentPos;
     private bool _inReverse;
-    [SerializeField] private bool _isWalking;
+    [SerializeField] private bool _isWalking = true;
     [SerializeField] private bool _isDead;
 
     [SerializeField] private GameObject[] _outfit;
@@ -22,7 +22,6 @@ public class EnemyAI : MonoBehaviour
     {
         Idle,
         Walk,
-        Run,
         Attack,
         Death
     }
@@ -31,6 +30,8 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
+        _currentState = AIState.Walk;
+
         GenerateZombie();
 
         _animator = GetComponent<Animator>();
@@ -54,6 +55,7 @@ public class EnemyAI : MonoBehaviour
     {
         CurrentAIState();
     }
+
     public void SelectWayPoint(List<Transform> waypoint)
     {
         _wayPoint = new List<Transform>(waypoint);
@@ -66,6 +68,7 @@ public class EnemyAI : MonoBehaviour
             case AIState.Idle:
                 if (_isWalking == true && _isDead == false)
                 {
+                    Debug.Log("Idle State");
                     StartCoroutine("IdleRoutine");
                     _isWalking = false;
                 }
@@ -74,27 +77,26 @@ public class EnemyAI : MonoBehaviour
             case AIState.Walk:
                 if (_isDead == false)
                 {
+                    Debug.Log("Walking State");
                     CalculateMovement();
                 }
                 break;
 
-
             //////////////////////////////////////////////////////////////////////////////////
-
-
-            case AIState.Run:
-                Debug.Log("Run State");
-                break;
 
             case AIState.Attack:
                 Debug.Log("Attack State");
                 break;
 
             case AIState.Death:
-                _isWalking = false;
-                _animator.SetBool("Walking", false);
-                StopCoroutine("IdleRoutine");
-                StartCoroutine(DeathRoutine());
+                if (_isDead == true)
+                {
+                    _isWalking = false;
+                    StartCoroutine(DeathRoutine());
+                    _isDead = false;
+                    StopCoroutine("IdleRoutine");
+                    _animator.SetBool("Walking", false);
+                }
                 break;
         }
     }
@@ -118,6 +120,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
+            Debug.Log("Calculate Movement Walking");
             _animator.SetBool("Walking", true);
             _isWalking = true;
         }
@@ -147,7 +150,6 @@ public class EnemyAI : MonoBehaviour
             _currentPos++;
         }
     }
-
     private void GenerateZombie()
     {
         for (int i = 0; i < _outfit.Length; i++)
@@ -166,41 +168,46 @@ public class EnemyAI : MonoBehaviour
         _head[randomHead].SetActive(true);
     }
 
-
     IEnumerator IdleRoutine()
     {
         _navmeshAgent.isStopped = true;
         yield return new WaitForSeconds(3);
         _navmeshAgent.isStopped = false;
+        _animator.SetBool("Walking", true); //testing
         _currentState = AIState.Walk;
         _isWalking = true;
+        Debug.Log("Idle Coroutine");
+
     }
 
     IEnumerator DeathRoutine()
     {
-        _isDead = true;
         _navmeshAgent.isStopped = true;
         _animator.SetBool("Death", true);
+
         yield return new WaitForSeconds(6);
 
         _animator.SetBool("Emerge", true);
+
         yield return new WaitForSeconds(3);
 
         _animator.SetBool("Emerge", false);
         _animator.SetBool("Death", false);
-
         _navmeshAgent.isStopped = false;
-        _isDead = false;
 
         _currentState = AIState.Walk;
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Bullet")
         {
-            Debug.Log("Hit!");
-            _currentState = AIState.Death;
+            if (_isDead == false)
+            {
+                Debug.Log("Hit!");
+                _isDead = true;
+                _currentState = AIState.Death;
+            }
         }
-    }
+    }*/
 }

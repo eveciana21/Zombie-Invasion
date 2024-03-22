@@ -7,6 +7,7 @@ TagManager:
   - CinemachineTarget
   - Waypoint
   - Bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - Enemy
   - 
   - 
-  - 
+  - Waypoint
   - 
   - 
   - 
