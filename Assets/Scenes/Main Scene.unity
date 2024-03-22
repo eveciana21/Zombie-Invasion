@@ -6708,7 +6708,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12259,7 +12259,7 @@ GameObject:
   - component: {fileID: 1051802886}
   - component: {fileID: 1051802885}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Reticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12274,7 +12274,7 @@ RectTransform:
   m_GameObject: {fileID: 1051802883}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.47, y: 0.47, z: 0.47}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2135026395}
@@ -12305,9 +12305,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300044, guid: 6bd0f56a86a1848f79e3c884b14c5c68, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 6bd0f56a86a1848f79e3c884b14c5c68, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -25669,7 +25669,7 @@ RectTransform:
   m_Children:
   - {fileID: 1051802884}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -31571,14 +31571,14 @@ Transform:
   m_GameObject: {fileID: 114703507470231580}
   m_LocalRotation: {x: -0, y: -0.35850695, z: -0, w: 0.9335271}
   m_LocalPosition: {x: 97.63, y: 0.318, z: -5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2649515655562290403}
   - {fileID: 4925025977753817036}
   - {fileID: 7990389377688848222}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -42.017, z: 0}
 --- !u!114 &4115516602557725325
 MonoBehaviour:
@@ -31982,7 +31982,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2435884892827479115}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.38369268
   m_Height: 3.8752968

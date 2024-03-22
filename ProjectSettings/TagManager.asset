@@ -8,6 +8,8 @@ TagManager:
   - Waypoint
   - Bullet
   - Enemy
+  - Enemy Head
+  - Enemy Body
   layers:
   - Default
   - TransparentFX
@@ -25,8 +27,8 @@ TagManager:
   - 
   - 
   - Enemy
-  - 
-  - 
+  - Enemy Head
+  - Enemy Body
   - Waypoint
   - 
   - 
