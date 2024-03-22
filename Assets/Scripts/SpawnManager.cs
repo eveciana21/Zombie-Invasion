@@ -34,10 +34,10 @@ public class SpawnManager : MonoBehaviour
             int randomChild = Random.Range(0, _wayPoint.Count);
             Transform randomWaypoint = _wayPoint[randomChild]; //gets the specific child from the for loop iteration
 
-            _zombie = Instantiate(_zombiePrefab, randomWaypoint.position, Quaternion.identity).GetComponent<EnemyAI>();
-            _zombie.SelectWayPoint(_wayPoint);
+            _zombie = Instantiate(_zombiePrefab, randomWaypoint.position, Quaternion.identity).GetComponent<EnemyAI>(); 
+            _zombie.SelectWayPoint(_wayPoint); //gives this individual zombie prefab a set of waypoints
 
-            yield return new WaitForSeconds(30);
+            yield return new WaitForSeconds(3);
         }
     }
 }
