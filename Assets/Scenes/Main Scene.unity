@@ -2218,6 +2218,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 210714569}
   m_Mesh: {fileID: 536338270393415738, guid: 141c9591846bb74418ae23ffab8b10c6, type: 3}
+--- !u!1 &219530826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 219530827}
+  m_Layer: 0
+  m_Name: Blood Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &219530827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219530826}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 325048676}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &221353323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3336,6 +3367,9 @@ MonoBehaviour:
   _muzzleFlash: {fileID: 6448678254984977763, guid: 44e9103be6da9ee459243ade835d63a1, type: 3}
   _muzzleFlashContainer: {fileID: 18952463}
   _muzzleFlashPool: []
+  _blood: {fileID: 2980669446609880781, guid: ed16618aea0b48946b09ac350e62dd6c, type: 3}
+  _bloodContainer: {fileID: 219530826}
+  _bloodPool: []
 --- !u!4 &325048676
 Transform:
   m_ObjectHideFlags: 0
@@ -3349,8 +3383,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 434411951}
+  - {fileID: 219530827}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &326179329
 PrefabInstance:
@@ -5213,7 +5248,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &490307801
 PrefabInstance:
@@ -6699,79 +6734,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5442092971471928624, guid: 3dd87f49552be684da8b96bac52e3d9d, type: 3}
   m_PrefabInstance: {fileID: 607572669}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &608639733
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 89.82719
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.0009810925
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.028226852
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527625580, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527884292, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_Name
-      value: Zombie Male
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908527884292, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908537259774, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: _wayPoint.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908537259774, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: _wayPoint.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884282908537259774, guid: e14839a2306f4454397db4529c62dad4, type: 3}
-      propertyPath: _wayPoint.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e14839a2306f4454397db4529c62dad4, type: 3}
 --- !u!1 &616112644
 GameObject:
   m_ObjectHideFlags: 0
@@ -25669,7 +25631,7 @@ RectTransform:
   m_Children:
   - {fileID: 1051802884}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -31594,8 +31556,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bullet: {fileID: 1974611338022114787, guid: bf1316e2fc811fa4492e5cb538f73da9, type: 3}
   _bulletSpawnPos: {fileID: 1699716963}
-  _bulletHole: {fileID: 1984278566956696, guid: b7e921fd4d73a46dfb94fbcc207ba193, type: 3}
   _muzzleFlashTransform: {fileID: 18952463}
+  _bloodSplatter: {fileID: 2980669446609880781, guid: ed16618aea0b48946b09ac350e62dd6c, type: 3}
+  _playerScore: 0
 --- !u!23 &4141906208695741382
 MeshRenderer:
   m_ObjectHideFlags: 0

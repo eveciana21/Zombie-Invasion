@@ -25,6 +25,9 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private GameObject _muzzleFlashContainer;
     [SerializeField] private List<GameObject> _muzzleFlashPool;
 
+    [SerializeField] private GameObject _blood;
+    [SerializeField] private GameObject _bloodContainer;
+    [SerializeField] private List<GameObject> _bloodPool;
     private void Awake()
     {
         _instance = this;
@@ -32,7 +35,8 @@ public class PoolManager : MonoBehaviour
     private void Start()
     {
         _bulletPool = GenerateBullet(10);
-        _muzzleFlashPool = GenerateMuzzleFlash(20);
+        _muzzleFlashPool = GenerateMuzzleFlash(15);
+        _bloodPool = GenerateBlood(15);
     }
 
     //BULLET POOL
@@ -97,6 +101,36 @@ public class PoolManager : MonoBehaviour
         _muzzleFlashPool.Add(newMuzzleFlash);
 
         return newMuzzleFlash;
+    }
+
+    List<GameObject> GenerateBlood(int bloodQuantity)
+    {
+
+        for (int i = 0; i < bloodQuantity; i++)
+        {
+            GameObject blood = Instantiate(_blood);
+            blood.transform.parent = _bloodContainer.transform;
+            blood.SetActive(false);
+            _bloodPool.Add(blood);
+        }
+        return _bloodPool;
+    }
+
+    public GameObject RequestBlood()
+    {
+        foreach (var blood in _bloodPool)
+        {
+            if (blood.activeInHierarchy == false)
+            {
+                blood.SetActive(true);
+                return blood;
+            }
+        }
+        GameObject newBlood = Instantiate(_blood);
+        newBlood.transform.parent = _bloodContainer.transform;
+        _bloodPool.Add(newBlood);
+
+        return newBlood;
     }
 }
 

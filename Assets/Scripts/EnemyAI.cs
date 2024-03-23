@@ -20,7 +20,11 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] private AIState _currentState;
 
-    private int _health;
+    [SerializeField] private int _health = 100;
+
+    [SerializeField] private int _score;
+
+    private Player _player;
 
     private enum AIState
     {
@@ -38,8 +42,10 @@ public class EnemyAI : MonoBehaviour
 
         GenerateZombie();
 
+        _player = GameObject.Find("Player").GetComponent<Player>();
         _animator = GetComponent<Animator>();
         _navmeshAgent = GetComponent<NavMeshAgent>();
+
 
         if (_navmeshAgent == null)
         {
@@ -117,7 +123,6 @@ public class EnemyAI : MonoBehaviour
                     StopCoroutine("DeathRoutine");
                     StartCoroutine("DeathRoutine");
                 }
-
                 break;
         }
     }
@@ -141,9 +146,10 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(3);
         _animator.SetBool("Death", false);
         _animator.SetBool("Emerge", false);
-        _navmeshAgent.isStopped = false;
         _currentState = AIState.Walk;
+        _navmeshAgent.isStopped = false;
         _isDead = false;
+        _health = 100;
     }
 
 
@@ -151,15 +157,14 @@ public class EnemyAI : MonoBehaviour
     {
         _health -= damageTaken;
 
-        if (_health == 0)
+        if (_health <= 0)
         {
             if (!_isDead)
             {
                 _currentState = AIState.Death;
+                _player.AddToScore(50);
             }
-            _health = 100;
         }
-        Debug.Log("Health = " + _health + "Damage Taken = " + damageTaken);
     }
 
 

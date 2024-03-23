@@ -7,11 +7,13 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private GameObject _bullet;
     [SerializeField] private GameObject _bulletSpawnPos;
-    [SerializeField] private GameObject _bulletHole;
     [SerializeField] private GameObject _muzzleFlashTransform;
+    [SerializeField] private GameObject _bloodSplatter;
 
     private int _headShot = 25;
     private int _bodyShot = 10;
+
+    [SerializeField] private int _playerScore;
 
     private void Update()
     {
@@ -31,15 +33,16 @@ public class Player : MonoBehaviour
                     if (hit.collider.gameObject.name == "Head Collider")
                     {
                         hit.collider.GetComponentInParent<EnemyAI>().SendMessage("EnemyDeath", _headShot, SendMessageOptions.DontRequireReceiver);
-                        //Debug.Log("Hit: " + hit.collider.gameObject.name);
                     }
                     if (hit.collider.gameObject.name == "Body Collider")
                     {
                         hit.collider.GetComponentInParent<EnemyAI>().SendMessage("EnemyDeath", _bodyShot, SendMessageOptions.DontRequireReceiver);
-                        //Debug.Log("Hit: " + hit.collider.gameObject.name);
                     }
-                }
 
+                    GameObject blood = PoolManager.Instance.RequestBlood();
+                    blood.transform.position = hit.point;
+                    blood.transform.rotation = Quaternion.LookRotation(hit.normal);
+                }
             }
             else
             {
@@ -50,27 +53,8 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    /*private void FireBullet()
+    public void AddToScore(int playerScore)
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            //Ray rayOrigin = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            RaycastHit hit;
-
-            if (Physics.Raycast(_bulletSpawnPos.transform.position, transform.forward, out hit, Mathf.Infinity))
-            {
-                GameObject bullet = PoolManager.Instance.RequestBullet();
-                bullet.transform.position = _bulletSpawnPos.transform.position; //Where to spawn bullet
-                bullet.transform.rotation = _bulletSpawnPos.transform.rotation;
-
-                //Instantiate(_bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
-
-                if (hit.collider.tag == "Enemy")
-                {
-                    Debug.Log("Hit");
-                }
-            }
-        }
-    }*/
+        _playerScore += playerScore;
+    }
 }
