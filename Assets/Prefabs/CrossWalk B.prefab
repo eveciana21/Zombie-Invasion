@@ -839,7 +839,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5804557977027082466}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CrossWalk B
   m_TagString: Untagged
   m_Icon: {fileID: 0}

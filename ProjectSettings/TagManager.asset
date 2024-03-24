@@ -10,6 +10,8 @@ TagManager:
   - Enemy
   - Enemy Head
   - Enemy Body
+  - FxTemporaire
+  - Floor
   layers:
   - Default
   - TransparentFX

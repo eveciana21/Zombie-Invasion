@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
             Ray rayOrigin = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             RaycastHit hit;
 
-            if (Physics.Raycast(rayOrigin, out hit, 50f))
+            if (Physics.Raycast(rayOrigin, out hit, 65f))
             {
                 GameObject muzzleFlash = PoolManager.Instance.RequestMuzzleFlash();
                 muzzleFlash.transform.position = _muzzleFlashTransform.transform.position;
@@ -38,9 +38,8 @@ public class Player : MonoBehaviour
                     {
                         hit.collider.GetComponentInParent<EnemyAI>().SendMessage("EnemyDeath", _bodyShot, SendMessageOptions.DontRequireReceiver);
                     }
-
                     GameObject blood = PoolManager.Instance.RequestBlood();
-                    blood.transform.position = hit.point;
+                    blood.transform.position = hit.point + new Vector3(0, 0, 0.05f);
                     blood.transform.rotation = Quaternion.LookRotation(hit.normal);
                 }
             }

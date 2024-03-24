@@ -1233,7 +1233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 113418471}
   - component: {fileID: 113418472}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Floor Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3361,15 +3361,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6372f88432646c40bfd96d1e12c3047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullet: {fileID: 1974611338022114787, guid: bf1316e2fc811fa4492e5cb538f73da9, type: 3}
-  _bulletContainer: {fileID: 434411950}
-  _bulletPool: []
   _muzzleFlash: {fileID: 6448678254984977763, guid: 44e9103be6da9ee459243ade835d63a1, type: 3}
   _muzzleFlashContainer: {fileID: 18952463}
   _muzzleFlashPool: []
-  _blood: {fileID: 2980669446609880781, guid: ed16618aea0b48946b09ac350e62dd6c, type: 3}
+  _blood:
+  - {fileID: 6823200998282874702, guid: 8f8fe12323625f5499b2853dd2ad3e58, type: 3}
+  - {fileID: 7660402514052369722, guid: 0c5a02b04d1499d4cb28849da58418c2, type: 3}
+  - {fileID: 4826065304282138669, guid: e7c6f0e5de6ad67469880213b5d2afcb, type: 3}
   _bloodContainer: {fileID: 219530826}
   _bloodPool: []
+  _puddleOfBlood: {fileID: 100000, guid: eecc3745611815548a3c0e871c7ef3fc, type: 3}
+  _puddleOfBloodContainer: {fileID: 623463468}
+  _puddleOfBloodPool: []
 --- !u!4 &325048676
 Transform:
   m_ObjectHideFlags: 0
@@ -3384,6 +3387,7 @@ Transform:
   m_Children:
   - {fileID: 434411951}
   - {fileID: 219530827}
+  - {fileID: 623463469}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5166,10 +5170,6 @@ PrefabInstance:
       value: CrossWalk B (3)
       objectReference: {fileID: 0}
     - target: {fileID: 5804557977027082467, guid: 8f799a4ad0a47eb439b1ef8fb10f524f, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5804557977027082467, guid: 8f799a4ad0a47eb439b1ef8fb10f524f, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -6768,6 +6768,37 @@ Transform:
   - {fileID: 8176916383447477850}
   m_Father: {fileID: 1905060313}
   m_RootOrder: 75
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &623463468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 623463469}
+  m_Layer: 0
+  m_Name: Puddle Of Blood Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &623463469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623463468}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 325048676}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &631225100
 PrefabInstance:
@@ -12261,7 +12292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -22562,7 +22593,7 @@ GameObject:
   - component: {fileID: 1905060313}
   m_Layer: 9
   m_Name: Streets
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25116,10 +25147,6 @@ PrefabInstance:
     - target: {fileID: 5804557977027082467, guid: 8f799a4ad0a47eb439b1ef8fb10f524f, type: 3}
       propertyPath: m_Name
       value: CrossWalk B
-      objectReference: {fileID: 0}
-    - target: {fileID: 5804557977027082467, guid: 8f799a4ad0a47eb439b1ef8fb10f524f, type: 3}
-      propertyPath: m_Layer
-      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7473149713954751835, guid: 8f799a4ad0a47eb439b1ef8fb10f524f, type: 3}
       propertyPath: m_Layer
@@ -34622,8 +34649,8 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6405335552827722226}
   m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1

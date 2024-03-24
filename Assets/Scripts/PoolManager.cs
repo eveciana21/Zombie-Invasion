@@ -17,58 +17,30 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private GameObject _bullet;
-    [SerializeField] private GameObject _bulletContainer;
-    [SerializeField] private List<GameObject> _bulletPool;
-
     [SerializeField] private GameObject _muzzleFlash;
     [SerializeField] private GameObject _muzzleFlashContainer;
     [SerializeField] private List<GameObject> _muzzleFlashPool;
 
-    [SerializeField] private GameObject _blood;
+    [SerializeField] private GameObject[] _blood;
     [SerializeField] private GameObject _bloodContainer;
     [SerializeField] private List<GameObject> _bloodPool;
+
+    [SerializeField] private GameObject _puddleOfBlood;
+    [SerializeField] private GameObject _puddleOfBloodContainer;
+    [SerializeField] private List<GameObject> _puddleOfBloodPool;
+
     private void Awake()
     {
         _instance = this;
     }
     private void Start()
     {
-        _bulletPool = GenerateBullet(10);
         _muzzleFlashPool = GenerateMuzzleFlash(15);
         _bloodPool = GenerateBlood(15);
+        _puddleOfBloodPool = GeneratePuddleOfBlood(20);
     }
 
-    //BULLET POOL
-    List<GameObject> GenerateBullet(int amountOfBullets)
-    {
 
-        for (int i = 0; i < amountOfBullets; i++)
-        {
-            GameObject bullet = Instantiate(_bullet);
-            bullet.transform.parent = _bulletContainer.transform;
-            bullet.SetActive(false);
-            _bulletPool.Add(bullet);
-        }
-        return _bulletPool;
-    }
-
-    public GameObject RequestBullet()
-    {
-        foreach (var bullet in _bulletPool)
-        {
-            if (bullet.activeInHierarchy == false)
-            {
-                bullet.SetActive(true);
-                return bullet;
-            }
-        }
-        GameObject newBullet = Instantiate(_bullet);
-        newBullet.transform.parent = _bulletContainer.transform;
-        _bulletPool.Add(newBullet);
-
-        return newBullet;
-    }
 
     // // // // // // // // // // // // // // // // // // // // // // // //
 
@@ -103,12 +75,17 @@ public class PoolManager : MonoBehaviour
         return newMuzzleFlash;
     }
 
+    // // // // // // // // // // // // // // // // // // // // // // // //
+
+    //BlOOD SPLATTER POOL//
+
     List<GameObject> GenerateBlood(int bloodQuantity)
     {
 
         for (int i = 0; i < bloodQuantity; i++)
         {
-            GameObject blood = Instantiate(_blood);
+            int random = Random.Range(0, _blood.Length);
+            GameObject blood = Instantiate(_blood[random]);
             blood.transform.parent = _bloodContainer.transform;
             blood.SetActive(false);
             _bloodPool.Add(blood);
@@ -126,11 +103,45 @@ public class PoolManager : MonoBehaviour
                 return blood;
             }
         }
-        GameObject newBlood = Instantiate(_blood);
+        int random = Random.Range(0, _blood.Length);
+        GameObject newBlood = Instantiate(_blood[random]);
         newBlood.transform.parent = _bloodContainer.transform;
         _bloodPool.Add(newBlood);
 
         return newBlood;
+    }
+
+    // // // // // // // // // // // // // // // // // // // // // // // //
+
+    //PUDDLE OF BLOOD POOL//
+
+    List<GameObject> GeneratePuddleOfBlood(int puddleOfBloodAmount)
+    {
+        for (int i = 0; i < puddleOfBloodAmount; i++)
+        {
+            GameObject puddleOfBlood = Instantiate(_puddleOfBlood);
+            puddleOfBlood.transform.parent = _puddleOfBloodContainer.transform;
+            puddleOfBlood.SetActive(false);
+            _puddleOfBloodPool.Add(puddleOfBlood);
+        }
+        return _puddleOfBloodPool;
+    }
+
+    public GameObject RequestPuddleOfBlood()
+    {
+        foreach (var puddleOfBlood in _puddleOfBloodPool)
+        {
+            if (puddleOfBlood.activeInHierarchy == false)
+            {
+                puddleOfBlood.SetActive(true);
+                return puddleOfBlood;
+            }
+        }
+        GameObject newPuddleOfBlood = Instantiate(_puddleOfBlood);
+        newPuddleOfBlood.transform.parent = _puddleOfBloodContainer.transform;
+        _muzzleFlashPool.Add(newPuddleOfBlood);
+
+        return newPuddleOfBlood;
     }
 }
 

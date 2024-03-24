@@ -9,22 +9,26 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private List<Transform> _wayPoint;
 
     private int _currentPos;
+    [SerializeField] private int _health = 100;
+    [SerializeField] private int _score;
+
     private bool _inReverse;
+    private bool _enemyHasFallen;
     [SerializeField] private bool _isWalking = true;
     [SerializeField] private bool _isDead;
 
     [SerializeField] private GameObject[] _outfit;
     [SerializeField] private GameObject[] _head;
+    [SerializeField] private GameObject[] _bloodPuddle;
+
+    [SerializeField] private GameObject _fallDetector;
+    [SerializeField] private LayerMask _floorMask;
 
     private Animator _animator;
 
-    [SerializeField] private AIState _currentState;
-
-    [SerializeField] private int _health = 100;
-
-    [SerializeField] private int _score;
-
     private Player _player;
+
+    [SerializeField] private AIState _currentState;
 
     private enum AIState
     {
@@ -33,7 +37,6 @@ public class EnemyAI : MonoBehaviour
         Attack,
         Death
     }
-
 
     void Start()
     {
@@ -45,7 +48,6 @@ public class EnemyAI : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Player>();
         _animator = GetComponent<Animator>();
         _navmeshAgent = GetComponent<NavMeshAgent>();
-
 
         if (_navmeshAgent == null)
         {
@@ -63,7 +65,26 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        CurrentAIState();
+        CurrentAIState(); //Finite State Machine
+        PuddleOfBlood(); //will instantiate a puddle of blood if the player has fallen
+    }
+
+    private void PuddleOfBlood()
+    {
+        if (!_enemyHasFallen)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(_fallDetector.transform.position, _fallDetector.transform.forward, out hit, 0.5f, _floorMask))
+            {
+                if (_isDead)
+                {
+                    GameObject puddleOfBlood = PoolManager.Instance.RequestPuddleOfBlood();
+                    puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.07f, 0);
+                    puddleOfBlood.transform.rotation = Quaternion.LookRotation(hit.normal);
+                    _enemyHasFallen = true;
+                }
+            }
+        }
     }
 
     public void SelectWayPoint(List<Transform> waypoint)
@@ -103,7 +124,7 @@ public class EnemyAI : MonoBehaviour
             case AIState.Idle:
                 if (_isWalking == false && !_isDead)
                 {
-                    StartCoroutine(IdleRoutine());
+                    StartCoroutine("IdleRoutine");
                 }
                 break;
 
@@ -120,6 +141,7 @@ public class EnemyAI : MonoBehaviour
                 _isWalking = false;
                 if (!_isDead)
                 {
+                    StopCoroutine("IdleRoutine");
                     StopCoroutine("DeathRoutine");
                     StartCoroutine("DeathRoutine");
                 }
@@ -148,6 +170,7 @@ public class EnemyAI : MonoBehaviour
         _animator.SetBool("Emerge", false);
         _currentState = AIState.Walk;
         _navmeshAgent.isStopped = false;
+        _enemyHasFallen = false;
         _isDead = false;
         _health = 100;
     }
@@ -156,6 +179,7 @@ public class EnemyAI : MonoBehaviour
     public void EnemyDeath(int damageTaken)
     {
         _health -= damageTaken;
+        Debug.Log("Damage Taken: " + damageTaken);
 
         if (_health <= 0)
         {
@@ -165,7 +189,12 @@ public class EnemyAI : MonoBehaviour
                 _player.AddToScore(50);
             }
         }
+        else
+        {
+            _animator.SetTrigger("Hit");
+        }
     }
+
 
 
 
