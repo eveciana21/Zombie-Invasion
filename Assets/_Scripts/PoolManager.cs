@@ -40,8 +40,6 @@ public class PoolManager : MonoBehaviour
         _puddleOfBloodPool = GeneratePuddleOfBlood(20);
     }
 
-
-
     // // // // // // // // // // // // // // // // // // // // // // // //
 
     //MUZZLE FLASH POOL
@@ -76,7 +74,6 @@ public class PoolManager : MonoBehaviour
     }
 
     // // // // // // // // // // // // // // // // // // // // // // // //
-
     //BlOOD SPLATTER POOL//
 
     List<GameObject> GenerateBlood(int bloodQuantity)
@@ -112,7 +109,6 @@ public class PoolManager : MonoBehaviour
     }
 
     // // // // // // // // // // // // // // // // // // // // // // // //
-
     //PUDDLE OF BLOOD POOL//
 
     List<GameObject> GeneratePuddleOfBlood(int puddleOfBloodAmount)

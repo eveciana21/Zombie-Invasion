@@ -19,7 +19,6 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] private GameObject[] _outfit;
     [SerializeField] private GameObject[] _head;
-    [SerializeField] private GameObject[] _bloodPuddle;
 
     [SerializeField] private GameObject _fallDetector;
     [SerializeField] private LayerMask _floorMask;
@@ -128,14 +127,12 @@ public class EnemyAI : MonoBehaviour
                 }
                 break;
 
-
             case AIState.Walk:
                 if (!_isDead)
                 {
                     CalculateMovement();
                 }
                 break;
-
 
             case AIState.Death:
                 _isWalking = false;
@@ -163,11 +160,16 @@ public class EnemyAI : MonoBehaviour
         _isDead = true;
         _animator.SetBool("Death", true);
         _navmeshAgent.isStopped = true;
+
         yield return new WaitForSeconds(3);
+
         _animator.SetBool("Emerge", true);
+
         yield return new WaitForSeconds(3);
+
         _animator.SetBool("Death", false);
         _animator.SetBool("Emerge", false);
+
         _currentState = AIState.Walk;
         _navmeshAgent.isStopped = false;
         _enemyHasFallen = false;
@@ -179,7 +181,6 @@ public class EnemyAI : MonoBehaviour
     public void EnemyDeath(int damageTaken)
     {
         _health -= damageTaken;
-        Debug.Log("Damage Taken: " + damageTaken);
 
         if (_health <= 0)
         {
@@ -194,9 +195,6 @@ public class EnemyAI : MonoBehaviour
             _animator.SetTrigger("Hit");
         }
     }
-
-
-
 
     private void Reverse()
     {
@@ -239,5 +237,6 @@ public class EnemyAI : MonoBehaviour
         int randomHead = Random.Range(0, _head.Length);
         _head[randomHead].SetActive(true);
     }
-
 }
+
+

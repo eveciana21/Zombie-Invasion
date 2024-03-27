@@ -8,7 +8,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private List<Transform> _wayPoint;
     private EnemyAI _zombie;
 
-    [SerializeField] private GameObject _zombiePrefab;
+    [SerializeField] private GameObject[] _zombiePrefab;
 
     void Start()
     {
@@ -27,17 +27,18 @@ public class SpawnManager : MonoBehaviour
 
             for (int i = 0; i < waypointGroup.childCount; i++)
             {
-                Transform waypointChild = waypointGroup.GetChild(i); 
+                Transform waypointChild = waypointGroup.GetChild(i);
                 _wayPoint.Add(waypointChild); //adds the waypoint children to the list
             }
 
             int randomChild = Random.Range(0, _wayPoint.Count);
             Transform randomWaypoint = _wayPoint[randomChild]; //gets the specific child from the for loop iteration
 
-            _zombie = Instantiate(_zombiePrefab, randomWaypoint.position, Quaternion.identity).GetComponent<EnemyAI>(); 
+            int randomZombieGender = Random.Range(0, _zombiePrefab.Length);
+            _zombie = Instantiate(_zombiePrefab[randomZombieGender], randomWaypoint.position, Quaternion.identity).GetComponent<EnemyAI>();
             _zombie.SelectWayPoint(_wayPoint); //gives this individual zombie prefab a set of waypoints
 
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1);
         }
     }
 }

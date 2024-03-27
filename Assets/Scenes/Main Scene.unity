@@ -304,7 +304,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3064084695752423153}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1001 &35644162
 PrefabInstance:
@@ -5234,7 +5234,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _wayPoint: []
-  _zombiePrefab: {fileID: 1884282908527884292, guid: e14839a2306f4454397db4529c62dad4, type: 3}
+  _zombiePrefab:
+  - {fileID: 1884282908527884292, guid: e14839a2306f4454397db4529c62dad4, type: 3}
+  - {fileID: 1711743537454433394, guid: 7c4c8037f4d82e54c89c6e15718a7a1c, type: 3}
 --- !u!4 &489555575
 Transform:
   m_ObjectHideFlags: 0
@@ -19916,7 +19918,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3064084695752423153}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
 --- !u!1001 &1701814800
 PrefabInstance:
@@ -31135,8 +31137,8 @@ Transform:
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 1699716964}
   - {fileID: 18952464}
+  - {fileID: 1699716964}
   m_Father: {fileID: 2649515655562290403}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
@@ -31972,7 +31974,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2435884892827479115}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.38369268
   m_Height: 3.8752968
