@@ -38,7 +38,7 @@ public class SpawnManager : MonoBehaviour
             _zombie = Instantiate(_zombiePrefab[randomZombieGender], randomWaypoint.position, Quaternion.identity).GetComponent<EnemyAI>();
             _zombie.SelectWayPoint(_wayPoint); //gives this individual zombie prefab a set of waypoints
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
         }
     }
 }

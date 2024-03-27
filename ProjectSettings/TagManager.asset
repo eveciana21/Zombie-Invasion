@@ -12,6 +12,8 @@ TagManager:
   - Enemy Body
   - FxTemporaire
   - Floor
+  - Barrel
+  - Explosion
   layers:
   - Default
   - TransparentFX

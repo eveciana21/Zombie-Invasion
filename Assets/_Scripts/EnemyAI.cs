@@ -237,6 +237,16 @@ public class EnemyAI : MonoBehaviour
         int randomHead = Random.Range(0, _head.Length);
         _head[randomHead].SetActive(true);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Explosion")
+        {
+            print("Died");
+            _currentState = AIState.Death;
+            _health = 0;
+        }
+    }
 }
 
 
