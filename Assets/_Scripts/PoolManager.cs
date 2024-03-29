@@ -2,20 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager : MonoSingleton<PoolManager>
 {
-    private static PoolManager _instance;
-    public static PoolManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                Debug.LogError("Pool Manager is NULL");
-            }
-            return _instance;
-        }
-    }
 
     [SerializeField] private GameObject _muzzleFlash;
     [SerializeField] private GameObject _muzzleFlashContainer;
@@ -29,10 +17,11 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private GameObject _puddleOfBloodContainer;
     [SerializeField] private List<GameObject> _puddleOfBloodPool;
 
-    private void Awake()
+    public override void Init()
     {
-        _instance = this;
+        base.Init(); //Turns this class into a singleton
     }
+
     private void Start()
     {
         _muzzleFlashPool = GenerateMuzzleFlash(15);

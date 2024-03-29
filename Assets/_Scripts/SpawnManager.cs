@@ -2,15 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : MonoSingleton<SpawnManager>
 {
     private Transform _waypointParent;
     [SerializeField] private List<Transform> _wayPoint;
     private EnemyAI _zombie;
 
     [SerializeField] private GameObject[] _zombiePrefab;
+    [SerializeField] private GameObject _zombieContainer;
 
-    void Start()
+    public override void Init()
+    {
+        base.Init(); //Turns this class into a singleton
+    }
+
+    public void SpawnEnemies()
     {
         StartCoroutine(ZombieSpawner());
     }
@@ -36,6 +42,7 @@ public class SpawnManager : MonoBehaviour
 
             int randomZombieGender = Random.Range(0, _zombiePrefab.Length);
             _zombie = Instantiate(_zombiePrefab[randomZombieGender], randomWaypoint.position, Quaternion.identity).GetComponent<EnemyAI>();
+            _zombie.transform.parent = _zombieContainer.transform;
             _zombie.SelectWayPoint(_wayPoint); //gives this individual zombie prefab a set of waypoints
 
             yield return new WaitForSeconds(3);
