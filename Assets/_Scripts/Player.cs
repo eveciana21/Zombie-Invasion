@@ -7,23 +7,30 @@ using StarterAssets;
 public class Player : MonoBehaviour
 {
     [SerializeField] private LayerMask _layerMask;
+    private StarterAssetsInputs _input;
+
     [SerializeField] private GameObject _muzzleFlashTransform;
 
-    [SerializeField] private int _firingDistance = 65;
     [SerializeField] private int _headShot = 25;
     [SerializeField] private int _bodyShot = 10;
-    [SerializeField] private int _ammoCount;
     [SerializeField] private int _playerScore;
 
-
-
-    [SerializeField] private float _fireRate = 0.5f;
-    private float _canFire;
-
     private bool _barrelDestroyed;
-    private bool _isFiring;
 
-    private StarterAssetsInputs _input;
+    [SerializeField] private Weapon _weapon;
+
+    [Header("Weapon Characteristics")]
+
+    private float _canFire;
+    [SerializeField] private float _fireRate = 0.2f;
+
+    [SerializeField] private int _firingDistance = 65;
+
+    [SerializeField] private int _ammoCount;
+
+    [SerializeField] private RectTransform _reticleTransform;
+
+
 
     private void Start()
     {
@@ -32,6 +39,11 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Input is NULL");
         }
+
+        _weapon.GetComponent<Weapon>();
+        if (_weapon == null)
+            Debug.LogError("Weapon is NULL");
+
     }
 
     private void Update()
@@ -41,6 +53,7 @@ public class Player : MonoBehaviour
             if (Time.time > _canFire)
             {
                 Fire();
+                _weapon.WeaponRecoil();
                 _canFire = Time.time + _fireRate;
             }
         }
@@ -48,8 +61,10 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
-        Ray rayOrigin = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        //Ray rayOrigin = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray rayOrigin = Camera.main.ScreenPointToRay(_reticleTransform.position);
         RaycastHit hit;
+
 
         if (Physics.Raycast(rayOrigin, out hit, _firingDistance))
         {

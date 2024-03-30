@@ -11,7 +11,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     void Start()
     {
-        SpawnManager.Instance.SpawnEnemies();
+        SpawnManager.Instance.SpawnEnemies(); // start spawning enemies
     }
 
 

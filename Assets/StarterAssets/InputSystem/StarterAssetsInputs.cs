@@ -22,7 +22,6 @@ namespace StarterAssets
         public bool cursorLocked = true;
         public bool cursorInputForLook = true;
 
-        private bool _isFiring;
 
 #if ENABLE_INPUT_SYSTEM
         public void OnMove(InputValue value)

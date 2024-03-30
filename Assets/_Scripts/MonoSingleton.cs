@@ -24,6 +24,6 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
 
     public virtual void Init()
     {
-        //optional to override and convert manager into singleton
+        //optional to override and convert overriden manager into singleton
     }
 }

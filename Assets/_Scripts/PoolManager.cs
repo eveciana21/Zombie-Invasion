@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PoolManager : MonoSingleton<PoolManager>
 {
-
     [SerializeField] private GameObject _muzzleFlash;
     [SerializeField] private GameObject _muzzleFlashContainer;
     [SerializeField] private List<GameObject> _muzzleFlashPool;
@@ -24,9 +23,9 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     private void Start()
     {
-        _muzzleFlashPool = GenerateMuzzleFlash(15);
-        _bloodPool = GenerateBlood(15);
-        _puddleOfBloodPool = GeneratePuddleOfBlood(20);
+        _muzzleFlashPool = GenerateMuzzleFlash(10);
+        _bloodPool = GenerateBlood(10);
+        _puddleOfBloodPool = GeneratePuddleOfBlood(10);
     }
 
     // // // // // // // // // // // // // // // // // // // // // // // //
