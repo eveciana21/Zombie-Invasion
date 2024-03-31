@@ -5631,10 +5631,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.24723563
-  m_Height: 1.0563338
+  m_Radius: 0.26658452
+  m_Height: 1.0109022
   m_Direction: 1
-  m_Center: {x: 0.00089421694, y: 0.52647966, z: 0.013028759}
+  m_Center: {x: -0.0008214793, y: 0.503763, z: 0.01302876}
 --- !u!1 &5257914306014297403
 GameObject:
   m_ObjectHideFlags: 0
@@ -5874,5 +5874,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3123809
-  m_Center: {x: -0.016533075, y: -0.0015093643, z: -0.016009336}
+  m_Radius: 0.3321642
+  m_Center: {x: -0.016533075, y: -0.0015093709, z: -0.021402927}

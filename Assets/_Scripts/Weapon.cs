@@ -16,11 +16,6 @@ public class Weapon : MonoBehaviour
     private Vector3 _originalReticlePos;
     private Vector3 _recoil;
 
-    [Header("Camera Shake")]
-
-    [SerializeField] private Camera _camera;
-    [SerializeField] private float _screenShakeAmount = 0.1f;
-    [SerializeField] private float _screenShakeDuration = 0.1f;
 
     void Start()
     {
@@ -35,7 +30,7 @@ public class Weapon : MonoBehaviour
 
         if (_reticleTransform != null)
         {
-            Vector3 recoilOffset = new Vector3(_recoil.x * _reticleSensitivity, _recoil.y * _reticleSensitivity);
+            Vector3 recoilOffset = new Vector3(_recoil.x * _reticleSensitivity * 100f, _recoil.y * _reticleSensitivity * 100);
             Vector3 targetPosition = _originalReticlePos + recoilOffset;
             _reticleTransform.anchoredPosition = Vector3.Lerp(_reticleTransform.anchoredPosition, targetPosition, _recoilSpeed * Time.deltaTime);
         }
@@ -43,8 +38,6 @@ public class Weapon : MonoBehaviour
 
     public void WeaponRecoil()
     {
-        //CameraShake.Instance.ShakeCamera();
-
         _recoil += new Vector3(Random.Range(-_recoilAmount, _recoilAmount), Random.Range(-_recoilAmount, _recoilAmount), 0f);
         _recoil = Vector3.ClampMagnitude(_recoil, _maxRecoil);
     }

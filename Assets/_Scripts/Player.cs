@@ -6,65 +6,92 @@ using StarterAssets;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private LayerMask _layerMask;
     private StarterAssetsInputs _input;
 
+    [SerializeField] private LayerMask _layerMask;
     [SerializeField] private GameObject _muzzleFlashTransform;
+    [SerializeField] private RectTransform _reticleTransform;
+    [SerializeField] private Weapon _weapon;
+
+    [Header("Damage")]
+
+    [SerializeField] private int _health = 100;
 
     [SerializeField] private int _headShot = 25;
     [SerializeField] private int _bodyShot = 10;
     [SerializeField] private int _playerScore;
 
+    [SerializeField] private bool _ammoRemaining = true;
     private bool _barrelDestroyed;
-
-    [SerializeField] private Weapon _weapon;
+    private bool _playerDead;
 
     [Header("Weapon Characteristics")]
 
-    private float _canFire;
     [SerializeField] private float _fireRate = 0.2f;
-
     [SerializeField] private int _firingDistance = 65;
-
-    [SerializeField] private int _ammoCount;
-
-    [SerializeField] private RectTransform _reticleTransform;
-
-
+    [SerializeField] private int _ammo = 30;
+    private float _canFire;
 
     private void Start()
     {
         _input = GameObject.Find("PlayerCapsule").GetComponent<StarterAssetsInputs>();
         if (_input == null)
-        {
             Debug.LogError("Input is NULL");
-        }
 
         _weapon.GetComponent<Weapon>();
         if (_weapon == null)
             Debug.LogError("Weapon is NULL");
-
     }
 
     private void Update()
     {
-        if (_input.fire)
+        Shoot();
+
+        if (Keyboard.current.pKey.wasPressedThisFrame)
+        {
+            _health -= 10;
+            if (_health <= 0)
+            {
+                _playerDead = true;
+                _health = 0;
+            }
+            UIManager.Instance.HealthRemaining(_health);
+        }
+    }
+
+    private void Shoot()
+    {
+        if (_ammoRemaining && _input.fire)
         {
             if (Time.time > _canFire)
             {
                 Fire();
                 _weapon.WeaponRecoil();
+                _ammo--;
+
+                if (_ammo <= 0)
+                {
+                    _ammo = 0;
+                    StartCoroutine(ReloadAmmo());
+                }
                 _canFire = Time.time + _fireRate;
             }
         }
+        UIManager.Instance.AmmoCount(_ammo);
+    }
+
+    IEnumerator ReloadAmmo()
+    {
+        _ammoRemaining = false;
+        yield return new WaitForSeconds(2);
+        _ammo = 30;
+        _ammoRemaining = true;
     }
 
     private void Fire()
     {
-        //Ray rayOrigin = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Ray rayOrigin = Camera.main.ScreenPointToRay(_reticleTransform.position);
         RaycastHit hit;
-
 
         if (Physics.Raycast(rayOrigin, out hit, _firingDistance))
         {

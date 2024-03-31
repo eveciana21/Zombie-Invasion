@@ -3079,10 +3079,6 @@ MonoBehaviour:
   - {fileID: 1711743537454267884}
   - {fileID: 1711743537454352072}
   - {fileID: 1711743537454363920}
-  _bloodPuddle:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   _fallDetector: {fileID: 3945890124294469002}
   _floorMask:
     serializedVersion: 2
@@ -3493,9 +3489,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.24723563
-  m_Height: 1.0563338
+  m_Height: 0.9567695
   m_Direction: 1
-  m_Center: {x: 0.00089421694, y: 0.52647966, z: 0.013028759}
+  m_Center: {x: 0.000894206, y: 0.47669855, z: 0.013028765}
 --- !u!1 &3945890124166198201
 GameObject:
   m_ObjectHideFlags: 0
