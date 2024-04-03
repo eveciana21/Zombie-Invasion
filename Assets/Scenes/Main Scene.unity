@@ -14590,7 +14590,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Ammo: 30'
+  m_text: 'Ammo: 100'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -26986,10 +26986,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4115516602557725324}
-  - component: {fileID: 4115516602557725325}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32934,32 +32933,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -42.017, z: 0}
---- !u!114 &4115516602557725325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 114703507470231580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3070e539071e86644b990f9436a0f275, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 4194304
-  _muzzleFlashTransform: {fileID: 18952463}
-  _reticleTransform: {fileID: 1051802884}
-  _weapon: {fileID: 4237601476191931808}
-  _health: 100
-  _headShot: 20
-  _bodyShot: 10
-  _playerScore: 0
-  _ammoRemaining: 1
-  _fireRate: 0.1
-  _firingDistance: 70
-  _ammo: 30
 --- !u!23 &4141906208695741382
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33367,8 +33340,8 @@ MonoBehaviour:
   _recoilAmount: 0.03
   _recoilSpeed: 10
   _maxRecoil: 0.03
-  _reticleTransform: {fileID: 1051802884}
   _reticleSensitivity: 10
+  _reticleTransform: {fileID: 1051802884}
 --- !u!4 &4399096903930847641
 Transform:
   m_ObjectHideFlags: 0
@@ -36019,7 +35992,7 @@ GameObject:
   - component: {fileID: 6405335552827722240}
   m_Layer: 7
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36088,7 +36061,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 2
 --- !u!114 &6414849137137959320
 MonoBehaviour:
@@ -36794,11 +36767,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7990389377688848222}
+  - component: {fileID: 7990389377688848224}
   - component: {fileID: 7325175580356419054}
   - component: {fileID: 7325175580356419043}
   - component: {fileID: 668836469933700884}
   - component: {fileID: 6414849137137959320}
   - component: {fileID: 7325175580356419048}
+  - component: {fileID: 7990389377688848225}
   m_Layer: 7
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -40436,6 +40411,46 @@ Transform:
   m_Father: {fileID: 4115516602557725324}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7990389377688848224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325175580356419044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3070e539071e86644b990f9436a0f275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 4194304
+  _muzzleFlashTransform: {fileID: 18952463}
+  _reticleTransform: {fileID: 1051802884}
+  _weapon: {fileID: 4237601476191931808}
+  _health: 100
+  _headShot: 20
+  _bodyShot: 10
+  _playerScore: 0
+  _ammoRemaining: 1
+  _fireRate: 0.1
+  _firingDistance: 70
+  _ammo: 9999
+--- !u!136 &7990389377688848225
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325175580356419044}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.5
+  m_Height: 2.4722815
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.7361407, z: 0}
 --- !u!4 &8031750182090519636
 Transform:
   m_ObjectHideFlags: 0

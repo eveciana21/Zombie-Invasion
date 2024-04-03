@@ -3054,10 +3054,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _wayPoint: []
-  _health: 100
-  _score: 0
-  _isWalking: 0
-  _isDead: 0
   _outfit:
   - {fileID: 1711743537454433086}
   - {fileID: 1711743537454324014}
@@ -3079,11 +3075,21 @@ MonoBehaviour:
   - {fileID: 1711743537454267884}
   - {fileID: 1711743537454352072}
   - {fileID: 1711743537454363920}
-  _fallDetector: {fileID: 3945890124294469002}
+  _rotateTowardsPlayerSpeed: 3
+  _health: 100
+  _currentState: 1
+  _isWalking: 0
+  _isDead: 0
+  _nearPlayer: 0
+  _canAttack: 1
   _floorMask:
     serializedVersion: 2
     m_Bits: 512
-  _currentState: 1
+  _playerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  _fallDetector: {fileID: 3945890124294469002}
+  _enemyFist: {fileID: 3945890124166198201}
 --- !u!1 &1711743537454435164
 GameObject:
   m_ObjectHideFlags: 0
@@ -3547,7 +3553,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3945890124294469001}
-  - component: {fileID: 3945890124294469000}
   m_Layer: 0
   m_Name: Fall Detection
   m_TagString: Untagged
@@ -3570,16 +3575,3 @@ Transform:
   m_Father: {fileID: 1711743537454608152}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!65 &3945890124294469000
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3945890124294469002}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3702384, y: 0.30806357, z: 0.23297606}
-  m_Center: {x: 0.07144838, y: 0.015362862, z: -0.0039505786}

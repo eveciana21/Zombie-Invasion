@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private bool _ammoRemaining = true;
     private bool _barrelDestroyed;
-    private bool _playerDead;
+    private bool _playerIsAlive;
 
     [Header("Weapon Characteristics")]
 
@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
             _health -= 10;
             if (_health <= 0)
             {
-                _playerDead = true;
+                _playerIsAlive = true;
                 _health = 0;
             }
             UIManager.Instance.HealthRemaining(_health);

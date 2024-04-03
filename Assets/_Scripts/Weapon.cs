@@ -10,8 +10,12 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _recoilSpeed = 5f;
     [SerializeField] private float _maxRecoil = 0.5f;
 
-    [SerializeField] private RectTransform _reticleTransform;
     [SerializeField] private float _reticleSensitivity = 500;
+    [SerializeField] private RectTransform _reticleTransform;
+
+    private Vector3 _reticleOffset;
+    private Vector3 _reticleTargetPos;
+
     private Vector3 _originalPos;
     private Vector3 _originalReticlePos;
     private Vector3 _recoil;
@@ -30,15 +34,16 @@ public class Weapon : MonoBehaviour
 
         if (_reticleTransform != null)
         {
-            Vector3 recoilOffset = new Vector3(_recoil.x * _reticleSensitivity * 100f, _recoil.y * _reticleSensitivity * 100);
-            Vector3 targetPosition = _originalReticlePos + recoilOffset;
-            _reticleTransform.anchoredPosition = Vector3.Lerp(_reticleTransform.anchoredPosition, targetPosition, _recoilSpeed * Time.deltaTime);
+            _reticleOffset = new Vector2(_recoil.x * _reticleSensitivity * 100f, _recoil.y * _reticleSensitivity * 100); //move the reticle 
+            _reticleTargetPos = _originalReticlePos + _reticleOffset; //updates reticle by adding movement based on original position
+            _reticleTransform.anchoredPosition = Vector2.Lerp(_reticleTransform.anchoredPosition, _reticleTargetPos, _recoilSpeed * Time.deltaTime);
         }
     }
 
     public void WeaponRecoil()
     {
-        _recoil += new Vector3(Random.Range(-_recoilAmount, _recoilAmount), Random.Range(-_recoilAmount, _recoilAmount), 0f);
-        _recoil = Vector3.ClampMagnitude(_recoil, _maxRecoil);
+        _recoil += new Vector3(Random.Range(-_recoilAmount, _recoilAmount), Random.Range(-_recoilAmount, _recoilAmount), Random.Range(-_recoilAmount, _recoilAmount)); // random recoil value
+        _recoil = Vector3.ClampMagnitude(_recoil, _maxRecoil); // recoil along this clamped value and don't exceed maxRecoil.
     }
 }
+
