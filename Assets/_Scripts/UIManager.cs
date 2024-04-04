@@ -10,6 +10,10 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private TextMeshProUGUI _ammoCount;
     [SerializeField] private TextMeshProUGUI _health;
 
+    [SerializeField] private GameObject _heart, _heartBroken;
+    [SerializeField] private GameObject _skull;
+
+
     public override void Init()
     {
         base.Init(); //Turns this class into a singleton
@@ -18,12 +22,30 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void AmmoCount(int currentAmmo)
     {
-        _ammoCount.text = "Ammo: " + currentAmmo.ToString();
+        _ammoCount.text = currentAmmo.ToString();
     }
 
     public void HealthRemaining(int health)
     {
-        _health.text = "Health: " + health.ToString();
+        _health.text = health.ToString();
+
+        if (health <= 25)
+        {
+            _heartBroken.SetActive(true);
+            _heart.SetActive(false);
+
+            if (health <= 0)
+            {
+                _heartBroken.SetActive(false);
+                _heart.SetActive(false);
+                _skull.SetActive(true);
+            }
+        }
+        if (health > 25)
+        {
+            _heartBroken.SetActive(false);
+            _heart.SetActive(true);
+        }
     }
 
 

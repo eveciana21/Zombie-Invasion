@@ -16,6 +16,7 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] private float _rotateTowardsPlayerSpeed = 3;
     [SerializeField] private int _health = 100;
+    private float _distanceToAttack = 2f;
     private int _currentPos;
 
     private bool _inReverse;
@@ -34,6 +35,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private LayerMask _playerMask;
     [SerializeField] private GameObject _fallDetector;
     [SerializeField] private GameObject _enemyFist;
+
+    private bool _isAttacking;
 
     private NavMeshAgent _navmeshAgent;
     private Animator _animator;
@@ -78,7 +81,6 @@ public class EnemyAI : MonoBehaviour
         CurrentAIState(); //Finite State Machine
         PuddleOfBlood(); //will instantiate a puddle of blood if the player has fallen
         MoveTowardsPlayer();
-        //DamagePlayer();
     }
 
     private void MoveTowardsPlayer()
@@ -136,7 +138,6 @@ public class EnemyAI : MonoBehaviour
             else
             {
                 _animator.SetBool("Walking", false);
-
             }
         }
     }
@@ -166,7 +167,7 @@ public class EnemyAI : MonoBehaviour
                         Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
                         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotateTowardsPlayerSpeed * Time.deltaTime); //slowly turn to player
 
-                        if (distanceFromPlayer < 2)
+                        if (distanceFromPlayer < _distanceToAttack)
                         {
                             _currentState = AIState.Attack;
                         }
@@ -181,6 +182,8 @@ public class EnemyAI : MonoBehaviour
 
             case AIState.Attack:
 
+                DamagePlayer();
+
                 if (_canAttack == true)
                 {
                     StopCoroutine("IdleRoutine");
@@ -192,10 +195,6 @@ public class EnemyAI : MonoBehaviour
             case AIState.Death:
                 _isWalking = false;
                 _canAttack = false;
-
-                DamagePlayer();
-
-                _animator.SetBool("Attack", false);
 
                 if (!_isDead)
                 {
@@ -227,6 +226,7 @@ public class EnemyAI : MonoBehaviour
 
         _navmeshAgent.isStopped = false;
         _navmeshAgent.ResetPath();
+        _isAttacking = false;
         _isWalking = true;
         _canAttack = true;
 
@@ -258,7 +258,19 @@ public class EnemyAI : MonoBehaviour
         _health = 100;
 
         _currentState = AIState.Walk;
+    }
 
+    private void DamagePlayer()
+    {
+        if (Physics.Raycast(_enemyFist.transform.position, _enemyFist.transform.forward, _distanceToAttack * 1.5f, _playerMask))
+        {
+            if (_isAttacking == false)
+            {
+                Debug.Log("Hit Player");
+                _player.DamagePlayer();
+                _isAttacking = true;
+            }
+        }
     }
 
     public void EnemyDeath(int damageTaken) //called from player
@@ -338,13 +350,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void DamagePlayer()
-    {
-        if (Physics.Raycast(_enemyFist.transform.position, _enemyFist.transform.forward, 2f, _playerMask))
-        {
-            Debug.Log("Hit Player");
-        }
-    }
+
 
     private void OnTriggerEnter(Collider other)
     {

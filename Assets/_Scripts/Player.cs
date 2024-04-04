@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private bool _ammoRemaining = true;
     private bool _barrelDestroyed;
-    private bool _playerIsAlive;
+    private bool _playerIsAlive = true;
 
     [Header("Weapon Characteristics")]
 
@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
     [SerializeField] private int _firingDistance = 65;
     [SerializeField] private int _ammo = 30;
     private float _canFire;
+
+    [SerializeField] private GameObject[] _bloodScreen;
 
     private void Start()
     {
@@ -46,17 +48,6 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Shoot();
-
-        if (Keyboard.current.pKey.wasPressedThisFrame)
-        {
-            _health -= 10;
-            if (_health <= 0)
-            {
-                _playerIsAlive = true;
-                _health = 0;
-            }
-            UIManager.Instance.HealthRemaining(_health);
-        }
     }
 
     private void Shoot()
@@ -135,5 +126,24 @@ public class Player : MonoBehaviour
     public void AddToScore(int playerScore)
     {
         _playerScore += playerScore;
+    }
+
+    public void DamagePlayer()
+    {
+        if (_playerIsAlive)
+        {
+            _health -= 25;
+
+            int random = Random.Range(0, _bloodScreen.Length);
+            _bloodScreen[random].SetActive(true);
+
+            if (_health <= 0)
+            {
+                _health = 0;
+                _playerIsAlive = false;
+            }
+        }
+
+        UIManager.Instance.HealthRemaining(_health);
     }
 }
