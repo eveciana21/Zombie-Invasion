@@ -13,6 +13,8 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject _heart, _heartBroken;
     [SerializeField] private GameObject _skull;
 
+    [SerializeField] private TextMeshProUGUI _scoreText;
+
 
     public override void Init()
     {
@@ -46,6 +48,11 @@ public class UIManager : MonoSingleton<UIManager>
             _heartBroken.SetActive(false);
             _heart.SetActive(true);
         }
+    }
+
+    public void Score(int score)
+    {
+        _scoreText.text = score.ToString();
     }
 
 

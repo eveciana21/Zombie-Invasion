@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, out hit, _firingDistance))
         {
-            if (hit.collider.CompareTag("Enemy"))
+            if (hit.collider.tag == "Enemy")
             {
                 if (hit.collider.gameObject.name == "Head Collider") // headshot damage
                 {
@@ -126,6 +126,7 @@ public class Player : MonoBehaviour
     public void AddToScore(int playerScore)
     {
         _playerScore += playerScore;
+        UIManager.Instance.Score(_playerScore);
     }
 
     public void DamagePlayer()

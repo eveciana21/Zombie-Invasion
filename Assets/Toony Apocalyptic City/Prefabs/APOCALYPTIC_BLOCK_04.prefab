@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2360406744049888726
 MeshFilter:
@@ -129,7 +129,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -42.781}
 --- !u!33 &6102741646781894155
 MeshFilter:
@@ -497,7 +497,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &6681303756538963023
 MeshFilter:
@@ -562,103 +562,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Center: {x: 0.000015258796, y: 0, z: 0.000003814699}
---- !u!1 &4110779088612379749
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1998999539370981683}
-  - component: {fileID: 3524108152378223789}
-  - component: {fileID: 1854515984937573267}
-  - component: {fileID: 92532152275682176}
-  m_Layer: 9
-  m_Name: Floor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1998999539370981683
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4110779088612379749}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.2, z: 0}
-  m_LocalScale: {x: 32.122017, y: 1, z: 32.08731}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3524108152378223789
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4110779088612379749}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1854515984937573267
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4110779088612379749}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &92532152275682176
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4110779088612379749}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4235963392227566203
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,7 +594,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!33 &5045924422490607750
 MeshFilter:
@@ -788,7 +691,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &5081291157820866518
 MeshFilter:
@@ -885,7 +788,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &555861698471588624
 MeshFilter:
@@ -978,7 +881,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1998999539370981683}
   - {fileID: 8223352128028551697}
   - {fileID: 3747612361189530208}
   - {fileID: 5251703044598548614}
@@ -1024,7 +926,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &5783856749361741049
 MeshFilter:
@@ -1121,7 +1023,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1258325384275020005
 MeshFilter:
@@ -1218,7 +1120,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -33.081}
 --- !u!33 &6067971099235739702
 MeshFilter:
@@ -1315,7 +1217,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6106093019158712940}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1609352379459489229
 MeshFilter:
@@ -1435,6 +1337,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_A14
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 17ca985cd19808d41bbfb9a1b11e3b05, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17ca985cd19808d41bbfb9a1b11e3b05, type: 3}
 --- !u!4 &7791989400677804887 stripped
@@ -1496,6 +1402,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 1df3a85d7b625af478447842b29f8622, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A10 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 1df3a85d7b625af478447842b29f8622, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1df3a85d7b625af478447842b29f8622, type: 3}
@@ -1567,6 +1477,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_A9
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 9b4e9712a6cd5344c9bc6c4096bcfe17, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b4e9712a6cd5344c9bc6c4096bcfe17, type: 3}
 --- !u!4 &7791989400666555044 stripped
@@ -1628,6 +1542,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 331598e9400c3334093a6e49348d7e87, type: 3}
       propertyPath: m_Name
       value: Sidewalk_C5 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 331598e9400c3334093a6e49348d7e87, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 331598e9400c3334093a6e49348d7e87, type: 3}
@@ -2987,6 +2905,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_A10 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 1df3a85d7b625af478447842b29f8622, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1df3a85d7b625af478447842b29f8622, type: 3}
 --- !u!4 &7791989400847830378 stripped
@@ -3048,6 +2970,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: b48122743a4fee947a87ed10c13a94f6, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A6
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: b48122743a4fee947a87ed10c13a94f6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b48122743a4fee947a87ed10c13a94f6, type: 3}
@@ -3184,6 +3110,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 79df2bfb148ff074a9284fc9e344b582, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 79df2bfb148ff074a9284fc9e344b582, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79df2bfb148ff074a9284fc9e344b582, type: 3}
@@ -4967,6 +4897,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_A0 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
 --- !u!4 &7791989401216406286 stripped
@@ -5028,6 +4962,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: fe90345f8d62d8b4d80b81eb29423367, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A12
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: fe90345f8d62d8b4d80b81eb29423367, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe90345f8d62d8b4d80b81eb29423367, type: 3}
@@ -5351,6 +5289,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_A1
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 79df2bfb148ff074a9284fc9e344b582, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79df2bfb148ff074a9284fc9e344b582, type: 3}
 --- !u!4 &7791989401199358596 stripped
@@ -5668,6 +5610,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 79df2bfb148ff074a9284fc9e344b582, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A1 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 79df2bfb148ff074a9284fc9e344b582, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79df2bfb148ff074a9284fc9e344b582, type: 3}
@@ -6172,6 +6118,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A0 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
@@ -6718,7 +6668,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: b3d1634f8720c4748ae3f34978122ac6, type: 3}
   m_PrefabInstance: {fileID: 2979133203028511257}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &633445615578844927
+--- !u!65 &3618694614789474409
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6729,8 +6679,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0331764, y: 5.9095383, z: 0.6104255}
-  m_Center: {x: -0.07735946, y: 2.9547691, z: 0.09535898}
+  m_Size: {x: 0.3810081, y: 5.9095383, z: 0.25737}
+  m_Center: {x: -0.00034871697, y: 2.9547691, z: 0.0007558167}
 --- !u!4 &7791989401475588355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: b3d1634f8720c4748ae3f34978122ac6, type: 3}
@@ -7249,6 +7199,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_A6 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: b48122743a4fee947a87ed10c13a94f6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b48122743a4fee947a87ed10c13a94f6, type: 3}
 --- !u!4 &7791989401536956740 stripped
@@ -7390,6 +7344,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 47f1c86f3e310604bbeb38283d9052ad, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A7
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 47f1c86f3e310604bbeb38283d9052ad, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47f1c86f3e310604bbeb38283d9052ad, type: 3}
@@ -7650,6 +7608,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
       propertyPath: m_Name
       value: Sidewalk_C6 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
@@ -8505,6 +8467,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_C6 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
 --- !u!4 &7791989401675112921 stripped
@@ -8708,6 +8674,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
       propertyPath: m_Name
       value: Sidewalk_C6
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
@@ -9364,6 +9334,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 1df3a85d7b625af478447842b29f8622, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A10
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 1df3a85d7b625af478447842b29f8622, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1df3a85d7b625af478447842b29f8622, type: 3}
@@ -10106,6 +10080,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 331598e9400c3334093a6e49348d7e87, type: 3}
       propertyPath: m_Name
       value: Sidewalk_C5 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 331598e9400c3334093a6e49348d7e87, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 331598e9400c3334093a6e49348d7e87, type: 3}
@@ -11113,6 +11091,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_A8
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 7f8fd072312b12247a7b50a0e8221e41, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f8fd072312b12247a7b50a0e8221e41, type: 3}
 --- !u!4 &7791989401952543264 stripped
@@ -11254,6 +11236,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 47f1c86f3e310604bbeb38283d9052ad, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A7 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 47f1c86f3e310604bbeb38283d9052ad, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47f1c86f3e310604bbeb38283d9052ad, type: 3}
@@ -11444,6 +11430,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A0 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
@@ -11961,6 +11951,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_A7 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 47f1c86f3e310604bbeb38283d9052ad, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47f1c86f3e310604bbeb38283d9052ad, type: 3}
 --- !u!4 &7791989402137029117 stripped
@@ -12333,6 +12327,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_C5
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 331598e9400c3334093a6e49348d7e87, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 331598e9400c3334093a6e49348d7e87, type: 3}
 --- !u!4 &7791989402191932320 stripped
@@ -12456,6 +12454,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: b7360105031a2ff4d8528b61d787f28c, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A13
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: b7360105031a2ff4d8528b61d787f28c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7360105031a2ff4d8528b61d787f28c, type: 3}
@@ -13057,6 +13059,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_A11
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: abd32eeac779a0c4ba40a4c0e077f9f3, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abd32eeac779a0c4ba40a4c0e077f9f3, type: 3}
 --- !u!4 &7791989402303393473 stripped
@@ -13654,6 +13660,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 930ed4f1249680c42b7bc3ff7d17d06e, type: 3}
@@ -14645,6 +14655,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sidewalk_A7 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 47f1c86f3e310604bbeb38283d9052ad, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47f1c86f3e310604bbeb38283d9052ad, type: 3}
 --- !u!4 &7791989402495881069 stripped
@@ -14892,6 +14906,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
       propertyPath: m_Name
       value: Sidewalk_C6 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12dd6549d10d2e345b5f54531cd82da7, type: 3}
@@ -15920,6 +15938,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 7f8fd072312b12247a7b50a0e8221e41, type: 3}
       propertyPath: m_Name
       value: Sidewalk_A8 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 7f8fd072312b12247a7b50a0e8221e41, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f8fd072312b12247a7b50a0e8221e41, type: 3}
