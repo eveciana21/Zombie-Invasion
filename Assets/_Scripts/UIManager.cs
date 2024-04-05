@@ -8,6 +8,7 @@ public class UIManager : MonoSingleton<UIManager>
 {
 
     [SerializeField] private TextMeshProUGUI _ammoCount;
+    [SerializeField] private TextMeshProUGUI _ammoSubCount;
     [SerializeField] private TextMeshProUGUI _health;
 
     [SerializeField] private GameObject _heart, _heartBroken;
@@ -21,10 +22,14 @@ public class UIManager : MonoSingleton<UIManager>
         base.Init(); //Turns this class into a singleton
     }
 
-
     public void AmmoCount(int currentAmmo)
     {
         _ammoCount.text = currentAmmo.ToString();
+    }
+
+    public void AmmoSubCount(int currentAmmo)
+    {
+        _ammoSubCount.text = currentAmmo.ToString();
     }
 
     public void HealthRemaining(int health)

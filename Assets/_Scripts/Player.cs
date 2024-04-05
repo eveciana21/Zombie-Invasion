@@ -21,7 +21,9 @@ public class Player : MonoBehaviour
     [SerializeField] private int _bodyShot = 10;
     [SerializeField] private int _playerScore;
 
-    [SerializeField] private bool _ammoRemaining = true;
+
+
+
     private bool _barrelDestroyed;
     private bool _playerIsAlive = true;
 
@@ -29,7 +31,15 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _fireRate = 0.2f;
     [SerializeField] private int _firingDistance = 65;
+
     [SerializeField] private int _ammo = 30;
+    [SerializeField] private int _ammoSubCount = 60;
+    private int _maxAmmo = 30;
+
+    private bool _ammoRemaining = true;
+    private bool _canReload = true;
+    private bool _isReloading;
+
     private float _canFire;
 
     [SerializeField] private GameObject[] _bloodScreen;
@@ -48,6 +58,26 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Shoot();
+
+        if (Keyboard.current.rKey.isPressed)
+        {
+            if (_ammoSubCount <= 0)
+            {
+                _canReload = false;
+            }
+            else
+            {
+                _canReload = true;
+            }
+
+            if (_canReload && !_isReloading)
+            {
+                if (_ammo < _maxAmmo)
+                {
+                    StartCoroutine(ReloadAmmo());
+                }
+            }
+        }
     }
 
     private void Shoot()
@@ -63,7 +93,10 @@ public class Player : MonoBehaviour
                 if (_ammo <= 0)
                 {
                     _ammo = 0;
-                    StartCoroutine(ReloadAmmo());
+                    if (!_isReloading)
+                    {
+                        StartCoroutine(ReloadAmmo());
+                    }
                 }
                 _canFire = Time.time + _fireRate;
             }
@@ -73,10 +106,37 @@ public class Player : MonoBehaviour
 
     IEnumerator ReloadAmmo()
     {
-        _ammoRemaining = false;
-        yield return new WaitForSeconds(2);
-        _ammo = 30;
-        _ammoRemaining = true;
+        _isReloading = true;
+
+        if (_canReload == true)
+        {
+            Debug.Log("Reloading!");
+
+            _ammoRemaining = false;
+
+            yield return new WaitForSeconds(2);
+
+            int spaceLeftInChamber = _maxAmmo - _ammo;
+            if (spaceLeftInChamber > 0 && _ammoSubCount > 0)
+            {
+                int bulletsToReload = Mathf.Min(spaceLeftInChamber, _ammoSubCount);
+                _ammo += bulletsToReload;
+                _ammoSubCount -= bulletsToReload;
+
+                Debug.Log("Reloaded " + bulletsToReload + " bullets.");
+
+                _ammoRemaining = true;
+            }
+        }
+        else
+        {
+            _ammoRemaining = false;
+            Debug.Log("NO AMMO!");
+        }
+
+        _isReloading = false;
+
+        UIManager.Instance.AmmoSubCount(_ammoSubCount);
     }
 
     private void Fire()
@@ -146,5 +206,32 @@ public class Player : MonoBehaviour
         }
 
         UIManager.Instance.HealthRemaining(_health);
+    }
+
+
+    public void AmmoPickup()
+    {
+        _ammoSubCount += 60;
+
+        _canReload = true;
+        _ammoRemaining = true;
+
+        if (_ammo <= 0 && !_isReloading)
+        {
+            StartCoroutine(ReloadAmmo());
+        }
+
+        UIManager.Instance.AmmoSubCount(_ammoSubCount);
+    }
+
+    public void HealthPickup()
+    {
+        _health = 100;
+        UIManager.Instance.HealthRemaining(_health);
+
+        for (int i = 0; i < _bloodScreen.Length; i++)
+        {
+            _bloodScreen[i].SetActive(false);
+        }
     }
 }
