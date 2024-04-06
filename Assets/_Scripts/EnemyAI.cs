@@ -37,10 +37,15 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private GameObject _enemyFist;
 
     private bool _isAttacking;
+    private bool _isOutOfGround;
 
     private NavMeshAgent _navmeshAgent;
     private Animator _animator;
     private Player _player;
+
+    [SerializeField] private GameObject _smokeCloud;
+
+    //private string _animationState;
 
     private enum AIState
     {
@@ -65,34 +70,48 @@ public class EnemyAI : MonoBehaviour
         if (_player == null)
             Debug.LogError("Player is NULL");
 
-        _currentState = AIState.Walk;
-
-        _health = 100;
-
         GenerateZombie();
+
+        StartCoroutine(EmergingFromGround());
+
+        GameObject smokeCloud = PoolManager.Instance.RequestSmokeCloud();
+        smokeCloud.transform.position = transform.position;
 
         //_navmeshAgent.destination = _wayPoint[0].position; //<-- not sure if I need this yet
 
         _currentPos = 0;
+
+        int randomAnimation = Random.Range(0, 2);
+        if (randomAnimation == 0)
+        {
+            _animator.SetLayerWeight(0, 1);
+            _animator.SetLayerWeight(1, 0);
+            Debug.Log("Random Variant 1");
+        }
+        if (randomAnimation == 1)
+        {
+            _animator.SetLayerWeight(0, 0);
+            _animator.SetLayerWeight(1, 1);
+            Debug.Log("Random Variant 2");
+        }
+
+
+    }
+
+    IEnumerator EmergingFromGround()
+    {
+        yield return new WaitForSeconds(2.5f);
+        _currentState = AIState.Walk;
+        _isOutOfGround = true;
     }
 
     void Update()
     {
         CurrentAIState(); //Finite State Machine
         PuddleOfBlood(); //will instantiate a puddle of blood if the player has fallen
-        MoveTowardsPlayer();
+
     }
 
-    private void MoveTowardsPlayer()
-    {
-        float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
-
-        if (distanceFromPlayer > 20)
-        {
-            _nearPlayer = false;
-            _currentState = AIState.Walk;
-        }
-    }
 
 
     public void SelectWayPoint(List<Transform> waypoint)
@@ -172,6 +191,12 @@ public class EnemyAI : MonoBehaviour
                             _currentState = AIState.Attack;
                         }
                     }
+                    /*if (distanceFromPlayer > 20)
+                    {
+                        _nearPlayer = false;
+                        _currentState = AIState.Walk;
+                    }*/
+
                     else
                     {
                         _nearPlayer = false;

@@ -16,6 +16,10 @@ public class PoolManager : MonoSingleton<PoolManager>
     [SerializeField] private GameObject _puddleOfBloodContainer;
     [SerializeField] private List<GameObject> _puddleOfBloodPool;
 
+    [SerializeField] private GameObject _smokeCloud;
+    [SerializeField] private GameObject _smokeCloudContainer;
+    [SerializeField] private List<GameObject> _smokeCloudPool;
+
     public override void Init()
     {
         base.Init(); //Turns this class into a singleton
@@ -26,6 +30,7 @@ public class PoolManager : MonoSingleton<PoolManager>
         _muzzleFlashPool = GenerateMuzzleFlash(10);
         _bloodPool = GenerateBlood(10);
         _puddleOfBloodPool = GeneratePuddleOfBlood(10);
+        _smokeCloudPool = GenerateSmokeCloud(10);
     }
 
     // // // // // // // // // // // // // // // // // // // // // // // //
@@ -126,6 +131,39 @@ public class PoolManager : MonoSingleton<PoolManager>
         _muzzleFlashPool.Add(newPuddleOfBlood);
 
         return newPuddleOfBlood;
+    }
+
+    // // // // // // // // // // // // // // // // // // // // // // // //
+    //SMOKE CLOUD POOL//
+
+    List<GameObject> GenerateSmokeCloud(int smokeCloudQuantity)
+    {
+
+        for (int i = 0; i < smokeCloudQuantity; i++)
+        {
+            GameObject smokeCloud = Instantiate(_smokeCloud);
+            smokeCloud.transform.parent = _smokeCloudContainer.transform;
+            smokeCloud.SetActive(false);
+            _smokeCloudPool.Add(smokeCloud);
+        }
+        return _smokeCloudPool;
+    }
+
+    public GameObject RequestSmokeCloud()
+    {
+        foreach (var smokeCloud in _smokeCloudPool)
+        {
+            if (smokeCloud.activeInHierarchy == false)
+            {
+                smokeCloud.SetActive(true);
+                return smokeCloud;
+            }
+        }
+        GameObject newSmokeCloud = Instantiate(_smokeCloud);
+        newSmokeCloud.transform.parent = _smokeCloudContainer.transform;
+        _smokeCloudPool.Add(newSmokeCloud);
+
+        return newSmokeCloud;
     }
 }
 

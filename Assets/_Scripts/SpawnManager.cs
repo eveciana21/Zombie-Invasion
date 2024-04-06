@@ -16,6 +16,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
         base.Init(); //Turns this class into a singleton
     }
 
+
     public void SpawnEnemies()
     {
         StartCoroutine(ZombieSpawner());

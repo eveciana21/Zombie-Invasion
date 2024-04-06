@@ -4111,6 +4111,7 @@ MonoBehaviour:
     m_Bits: 128
   _fallDetector: {fileID: 6729167336553874623}
   _enemyFist: {fileID: 1854729074621899975}
+  _smokeCloud: {fileID: 1889253293493771229, guid: 541335bcf6abce74fbee3e3341136f81, type: 3}
 --- !u!1 &1884282908527889962
 GameObject:
   m_ObjectHideFlags: 0
