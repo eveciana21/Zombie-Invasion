@@ -11,6 +11,7 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] private GameObject[] _outfit;
     [SerializeField] private GameObject[] _head;
+    [SerializeField] private GameObject[] _enemyWeapon;
 
     [Header("Characteristics")]
 
@@ -34,18 +35,16 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private LayerMask _floorMask;
     [SerializeField] private LayerMask _playerMask;
     [SerializeField] private GameObject _fallDetector;
-    [SerializeField] private GameObject _enemyFist;
+    [SerializeField] private GameObject _enemyRightFist, _enemyLeftFist;
+    [SerializeField] private GameObject _smokeCloud;
 
     private bool _isAttacking;
-    private bool _isOutOfGround;
+    private int _randomAnim;
 
     private NavMeshAgent _navmeshAgent;
     private Animator _animator;
     private Player _player;
 
-    [SerializeField] private GameObject _smokeCloud;
-
-    //private string _animationState;
 
     private enum AIState
     {
@@ -74,42 +73,27 @@ public class EnemyAI : MonoBehaviour
 
         StartCoroutine(EmergingFromGround());
 
-        GameObject smokeCloud = PoolManager.Instance.RequestSmokeCloud();
-        smokeCloud.transform.position = transform.position;
-
         //_navmeshAgent.destination = _wayPoint[0].position; //<-- not sure if I need this yet
 
         _currentPos = 0;
 
-        int randomAnimation = Random.Range(0, 2);
-        if (randomAnimation == 0)
-        {
-            _animator.SetLayerWeight(0, 1);
-            _animator.SetLayerWeight(1, 0);
-            Debug.Log("Random Variant 1");
-        }
-        if (randomAnimation == 1)
-        {
-            _animator.SetLayerWeight(0, 0);
-            _animator.SetLayerWeight(1, 1);
-            Debug.Log("Random Variant 2");
-        }
+
 
 
     }
 
     IEnumerator EmergingFromGround()
     {
+        GameObject smokeCloud = PoolManager.Instance.RequestSmokeCloud();
+        smokeCloud.transform.position = transform.position;
         yield return new WaitForSeconds(2.5f);
         _currentState = AIState.Walk;
-        _isOutOfGround = true;
     }
 
     void Update()
     {
         CurrentAIState(); //Finite State Machine
         PuddleOfBlood(); //will instantiate a puddle of blood if the player has fallen
-
     }
 
 
@@ -199,6 +183,7 @@ public class EnemyAI : MonoBehaviour
 
                     else
                     {
+                        Debug.Log("Player Too Far");
                         _nearPlayer = false;
                         return;
                     }
@@ -287,13 +272,48 @@ public class EnemyAI : MonoBehaviour
 
     private void DamagePlayer()
     {
-        if (Physics.Raycast(_enemyFist.transform.position, _enemyFist.transform.forward, _distanceToAttack * 1.5f, _playerMask))
+        if (_randomAnim == 0)
         {
-            if (_isAttacking == false)
+            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.up, _distanceToAttack * 0.5f, _playerMask))
             {
-                Debug.Log("Hit Player");
-                _player.DamagePlayer();
-                _isAttacking = true;
+                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.up * (_distanceToAttack * 0.5f), Color.red);
+                if (_isAttacking == false)
+                {
+                    Debug.Log("Hit by First Variant");
+                    Debug.Break();
+                    _player.DamagePlayer(10);
+                    _isAttacking = true;
+                }
+            }
+        }
+        else if (_randomAnim == 1)
+        {
+            if (Physics.Raycast(_enemyLeftFist.transform.position, -_enemyLeftFist.transform.up, _distanceToAttack * 0.5f, _playerMask))
+            {
+                Debug.DrawRay(_enemyLeftFist.transform.position, -_enemyLeftFist.transform.up * (_distanceToAttack * 0.5f), Color.red);
+                if (_isAttacking == false)
+                {
+                    Debug.Break();
+
+                    _player.DamagePlayer(10);
+                    _isAttacking = true;
+                }
+            }
+        }
+        else if (_randomAnim == 2)
+        {
+            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.up, _distanceToAttack * 0.75f, _playerMask))
+            {
+                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.up * (_distanceToAttack * 0.75f), Color.red);
+
+                if (_isAttacking == false)
+                {
+                    Debug.Break();
+
+                    _player.DamagePlayer(30);
+                    _isAttacking = true;
+
+                }
             }
         }
     }
@@ -356,6 +376,45 @@ public class EnemyAI : MonoBehaviour
 
         int randomHead = Random.Range(0, _head.Length);
         _head[randomHead].SetActive(true);
+
+        for (int i = 0; i < _enemyWeapon.Length; i++)
+        {
+            _enemyWeapon[i].SetActive(false);
+        }
+
+        int chanceOfHavingWeapon = Random.Range(0, 101);
+        if (chanceOfHavingWeapon > 10)
+        {
+            _randomAnim = Random.Range(0, 2);
+        }
+        else
+        {
+            int randomWeapon = Random.Range(0, _enemyWeapon.Length);
+            _enemyWeapon[randomWeapon].SetActive(true);
+            _randomAnim = 2;
+        }
+
+        if (_randomAnim == 0)
+        {
+            _animator.SetLayerWeight(0, 1);
+            _animator.SetLayerWeight(1, 0);
+            _animator.SetLayerWeight(2, 0);
+            Debug.Log("Random Variant 1");
+        }
+        else if (_randomAnim == 1)
+        {
+            _animator.SetLayerWeight(0, 0);
+            _animator.SetLayerWeight(1, 1);
+            _animator.SetLayerWeight(2, 0);
+            Debug.Log("Random Variant 2");
+        }
+        else if (_randomAnim == 2)
+        {
+            _animator.SetLayerWeight(0, 0);
+            _animator.SetLayerWeight(1, 0);
+            _animator.SetLayerWeight(2, 1);
+            Debug.Log("Random Variant 3");
+        }
     }
     private void PuddleOfBlood()
     {
@@ -375,8 +434,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Explosion")
@@ -386,5 +443,4 @@ public class EnemyAI : MonoBehaviour
             _health = 0;
         }
     }
-
 }

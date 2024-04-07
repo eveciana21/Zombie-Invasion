@@ -4096,6 +4096,13 @@ MonoBehaviour:
   - {fileID: 1884282908527847406}
   - {fileID: 1884282908527864048}
   - {fileID: 1884282908527871750}
+  _enemyWeapon:
+  - {fileID: 1884282908527879444}
+  - {fileID: 1884282908528057252}
+  - {fileID: 1884282908527842980}
+  - {fileID: 1884282908527830448}
+  - {fileID: 1884282908527842688}
+  - {fileID: 1884282908527883980}
   _rotateTowardsPlayerSpeed: 3
   _health: 100
   _currentState: 1
@@ -4110,7 +4117,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _fallDetector: {fileID: 6729167336553874623}
-  _enemyFist: {fileID: 1854729074621899975}
+  _enemyRightFist: {fileID: 1884282908527862590}
+  _enemyLeftFist: {fileID: 1884282908528059602}
   _smokeCloud: {fileID: 1889253293493771229, guid: 541335bcf6abce74fbee3e3341136f81, type: 3}
 --- !u!1 &1884282908527889962
 GameObject:
@@ -4680,7 +4688,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884282908528059602}
-  m_LocalRotation: {x: -0.7068252, y: -0.000000010540907, z: -0.000000010532516, w: 0.7073883}
+  m_LocalRotation: {x: -0.70681053, y: -0.000024627927, z: -0.000024627927, w: 0.70740294}
   m_LocalPosition: {x: -0.13800707, y: 0, z: -0.00000009689331}
   m_LocalScale: {x: 1, y: 0.99999994, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4688,7 +4696,7 @@ Transform:
   - {fileID: 1884282908527618622}
   m_Father: {fileID: 1884282908527649708}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.952, y: -0.002, z: -0.002}
 --- !u!1 &1884282908528060858
 GameObject:
   m_ObjectHideFlags: 0

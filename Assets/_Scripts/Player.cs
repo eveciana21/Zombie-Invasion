@@ -189,11 +189,11 @@ public class Player : MonoBehaviour
         UIManager.Instance.Score(_playerScore);
     }
 
-    public void DamagePlayer()
+    public void DamagePlayer(int health)
     {
         if (_playerIsAlive)
         {
-            _health -= 25;
+            _health -= health;
 
             int random = Random.Range(0, _bloodScreen.Length);
             _bloodScreen[random].SetActive(true);
