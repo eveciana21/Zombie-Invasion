@@ -21,9 +21,6 @@ public class Player : MonoBehaviour
     [SerializeField] private int _bodyShot = 10;
     [SerializeField] private int _playerScore;
 
-
-
-
     private bool _barrelDestroyed;
     private bool _playerIsAlive = true;
 
@@ -53,6 +50,11 @@ public class Player : MonoBehaviour
         _weapon.GetComponent<Weapon>();
         if (_weapon == null)
             Debug.LogError("Weapon is NULL");
+
+        for (int i = 0; i < _bloodScreen.Length; i++)
+        {
+            _bloodScreen[i].SetActive(false);
+        }
     }
 
     private void Update()
@@ -196,6 +198,12 @@ public class Player : MonoBehaviour
             _health -= health;
 
             int random = Random.Range(0, _bloodScreen.Length);
+
+            while (_bloodScreen[random].activeInHierarchy)
+            {
+                Debug.Log("Reroll. Value = " + random);
+                random = Random.Range(0, _bloodScreen.Length);
+            }
             _bloodScreen[random].SetActive(true);
 
             if (_health <= 0)
@@ -204,7 +212,6 @@ public class Player : MonoBehaviour
                 _playerIsAlive = false;
             }
         }
-
         UIManager.Instance.HealthRemaining(_health);
     }
 

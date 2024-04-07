@@ -10,7 +10,7 @@ public class Powerup : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Player player = other.transform.GetComponentInChildren<Player>();
+            Player player = GameObject.Find("PlayerCapsule").GetComponent<Player>();
 
             if (player != null)
             {
@@ -27,6 +27,11 @@ public class Powerup : MonoBehaviour
                         break;
                 }
             }
+            else
+            {
+                Debug.LogError("Player is NULL");
+            }
+
             Destroy(this.gameObject);
         }
     }

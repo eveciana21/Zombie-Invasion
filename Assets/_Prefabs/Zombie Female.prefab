@@ -3096,8 +3096,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _fallDetector: {fileID: 3945890124294469002}
-  _enemyRightFist: {fileID: 1711743537454340004}
-  _enemyLeftFist: {fileID: 1711743537454420364}
+  _enemyRightFist: {fileID: 1711743537454421120}
+  _enemyLeftFist: {fileID: 1711743537454380822}
   _smokeCloud: {fileID: 1889253293493771229, guid: 541335bcf6abce74fbee3e3341136f81, type: 3}
 --- !u!1 &1711743537454435164
 GameObject:

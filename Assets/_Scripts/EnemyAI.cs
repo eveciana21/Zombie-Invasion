@@ -76,10 +76,6 @@ public class EnemyAI : MonoBehaviour
         //_navmeshAgent.destination = _wayPoint[0].position; //<-- not sure if I need this yet
 
         _currentPos = 0;
-
-
-
-
     }
 
     IEnumerator EmergingFromGround()
@@ -183,7 +179,6 @@ public class EnemyAI : MonoBehaviour
 
                     else
                     {
-                        Debug.Log("Player Too Far");
                         _nearPlayer = false;
                         return;
                     }
@@ -272,15 +267,19 @@ public class EnemyAI : MonoBehaviour
 
     private void DamagePlayer()
     {
+        Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotateTowardsPlayerSpeed * Time.deltaTime);
+
         if (_randomAnim == 0)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.up, _distanceToAttack * 0.5f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, Vector3.forward, _distanceToAttack * 0.35f, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.up * (_distanceToAttack * 0.5f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, Vector3.forward * (_distanceToAttack * 0.35f), Color.red);
+
                 if (_isAttacking == false)
                 {
-                    Debug.Log("Hit by First Variant");
                     Debug.Break();
+
                     _player.DamagePlayer(10);
                     _isAttacking = true;
                 }
@@ -288,9 +287,10 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 1)
         {
-            if (Physics.Raycast(_enemyLeftFist.transform.position, -_enemyLeftFist.transform.up, _distanceToAttack * 0.5f, _playerMask))
+            if (Physics.Raycast(_enemyLeftFist.transform.position, Vector3.forward, _distanceToAttack * 0.35f, _playerMask))
             {
-                Debug.DrawRay(_enemyLeftFist.transform.position, -_enemyLeftFist.transform.up * (_distanceToAttack * 0.5f), Color.red);
+                Debug.DrawRay(_enemyLeftFist.transform.position, Vector3.forward * (_distanceToAttack * 0.35f), Color.red);
+
                 if (_isAttacking == false)
                 {
                     Debug.Break();
@@ -302,9 +302,9 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 2)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.up, _distanceToAttack * 0.75f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, Vector3.forward, _distanceToAttack * 0.5f, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.up * (_distanceToAttack * 0.75f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, Vector3.forward * (_distanceToAttack * 0.5f), Color.red);
 
                 if (_isAttacking == false)
                 {
@@ -312,7 +312,6 @@ public class EnemyAI : MonoBehaviour
 
                     _player.DamagePlayer(30);
                     _isAttacking = true;
-
                 }
             }
         }
@@ -394,27 +393,29 @@ public class EnemyAI : MonoBehaviour
             _randomAnim = 2;
         }
 
-        if (_randomAnim == 0)
+        for (int i = 0; i < 3; i++)
         {
-            _animator.SetLayerWeight(0, 1);
-            _animator.SetLayerWeight(1, 0);
-            _animator.SetLayerWeight(2, 0);
-            Debug.Log("Random Variant 1");
+            _animator.SetLayerWeight(i, (_randomAnim == i) ? 1 : 0);
         }
-        else if (_randomAnim == 1)
-        {
-            _animator.SetLayerWeight(0, 0);
-            _animator.SetLayerWeight(1, 1);
-            _animator.SetLayerWeight(2, 0);
-            Debug.Log("Random Variant 2");
-        }
-        else if (_randomAnim == 2)
-        {
-            _animator.SetLayerWeight(0, 0);
-            _animator.SetLayerWeight(1, 0);
-            _animator.SetLayerWeight(2, 1);
-            Debug.Log("Random Variant 3");
-        }
+
+        /* if (_randomAnim == 0)
+         {
+             _animator.SetLayerWeight(0, 1);
+             _animator.SetLayerWeight(1, 0);
+             _animator.SetLayerWeight(2, 0);
+         }
+         else if (_randomAnim == 1)
+         {
+             _animator.SetLayerWeight(0, 0);
+             _animator.SetLayerWeight(1, 1);
+             _animator.SetLayerWeight(2, 0);
+         }
+         else if (_randomAnim == 2)
+         {
+             _animator.SetLayerWeight(0, 0);
+             _animator.SetLayerWeight(1, 0);
+             _animator.SetLayerWeight(2, 1);
+         }*/
     }
     private void PuddleOfBlood()
     {
