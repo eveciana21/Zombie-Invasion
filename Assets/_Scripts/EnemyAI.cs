@@ -265,6 +265,8 @@ public class EnemyAI : MonoBehaviour
         _currentState = AIState.Walk;
     }
 
+
+
     private void DamagePlayer()
     {
         Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
@@ -272,14 +274,12 @@ public class EnemyAI : MonoBehaviour
 
         if (_randomAnim == 0)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, Vector3.forward, _distanceToAttack * 0.35f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * 0.35f, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, Vector3.forward * (_distanceToAttack * 0.35f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack * 0.35f), Color.red);
 
                 if (_isAttacking == false)
                 {
-                    Debug.Break();
-
                     _player.DamagePlayer(10);
                     _isAttacking = true;
                 }
@@ -287,14 +287,12 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 1)
         {
-            if (Physics.Raycast(_enemyLeftFist.transform.position, Vector3.forward, _distanceToAttack * 0.35f, _playerMask))
+            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack * 0.35f, _playerMask))
             {
-                Debug.DrawRay(_enemyLeftFist.transform.position, Vector3.forward * (_distanceToAttack * 0.35f), Color.red);
+                Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack * 0.35f), Color.red);
 
                 if (_isAttacking == false)
                 {
-                    Debug.Break();
-
                     _player.DamagePlayer(10);
                     _isAttacking = true;
                 }
@@ -302,14 +300,12 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 2)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, Vector3.forward, _distanceToAttack * 0.5f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.up, _distanceToAttack * 0.5f, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, Vector3.forward * (_distanceToAttack * 0.5f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.up * (_distanceToAttack * 0.5f), Color.red);
 
                 if (_isAttacking == false)
                 {
-                    Debug.Break();
-
                     _player.DamagePlayer(30);
                     _isAttacking = true;
                 }
@@ -395,27 +391,8 @@ public class EnemyAI : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            _animator.SetLayerWeight(i, (_randomAnim == i) ? 1 : 0);
+            _animator.SetLayerWeight(i, (_randomAnim == i) ? 1 : 0); //chooses animation layer at random
         }
-
-        /* if (_randomAnim == 0)
-         {
-             _animator.SetLayerWeight(0, 1);
-             _animator.SetLayerWeight(1, 0);
-             _animator.SetLayerWeight(2, 0);
-         }
-         else if (_randomAnim == 1)
-         {
-             _animator.SetLayerWeight(0, 0);
-             _animator.SetLayerWeight(1, 1);
-             _animator.SetLayerWeight(2, 0);
-         }
-         else if (_randomAnim == 2)
-         {
-             _animator.SetLayerWeight(0, 0);
-             _animator.SetLayerWeight(1, 0);
-             _animator.SetLayerWeight(2, 1);
-         }*/
     }
     private void PuddleOfBlood()
     {

@@ -10,13 +10,12 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     [SerializeField] private GameObject[] _zombiePrefab;
     [SerializeField] private GameObject _zombieContainer;
+    [SerializeField] private int _enemiesInGame = 0;
 
     public override void Init()
     {
         base.Init(); //Turns this class into a singleton
     }
-
-
     public void SpawnEnemies()
     {
         StartCoroutine(ZombieSpawner());
@@ -24,7 +23,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     public IEnumerator ZombieSpawner()
     {
-        while (true)
+        while (_enemiesInGame <= 60)
         {
             _waypointParent = GameObject.Find("Waypoints").transform;
             int random = Random.Range(0, _waypointParent.childCount);
@@ -46,7 +45,12 @@ public class SpawnManager : MonoSingleton<SpawnManager>
             _zombie.transform.parent = _zombieContainer.transform;
             _zombie.SelectWayPoint(_wayPoint); //gives this individual zombie prefab a set of waypoints
 
+            _enemiesInGame++;
             yield return new WaitForSeconds(3);
+        }
+        if (_enemiesInGame == 60)
+        {
+            Debug.Log("Enemy Count has reached max");
         }
     }
 }
