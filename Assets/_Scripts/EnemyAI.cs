@@ -264,9 +264,6 @@ public class EnemyAI : MonoBehaviour
 
         _currentState = AIState.Walk;
     }
-
-
-
     private void DamagePlayer()
     {
         Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
