@@ -44,6 +44,7 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent _navmeshAgent;
     private Animator _animator;
     private Player _player;
+    //private Collider _playerBody;
 
 
     private enum AIState
@@ -56,7 +57,10 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        _player = GameObject.Find("Player").GetComponentInChildren<Player>();
+        //_player = GameObject.Find("Player").GetComponentInChildren<Player>();
+        //_playerBody = GameObject.Find("PlayerCapsule").GetComponent<Collider>();
+
+        _player = GameObject.Find("PlayerCapsule").GetComponent<Player>();
         _animator = GetComponent<Animator>();
         _navmeshAgent = GetComponent<NavMeshAgent>();
 
@@ -171,16 +175,10 @@ public class EnemyAI : MonoBehaviour
                             _currentState = AIState.Attack;
                         }
                     }
-                    /*if (distanceFromPlayer > 20)
-                    {
-                        _nearPlayer = false;
-                        _currentState = AIState.Walk;
-                    }*/
-
                     else
                     {
                         _nearPlayer = false;
-                        return;
+                        _currentState = AIState.Walk;
                     }
                 }
                 break;
@@ -271,9 +269,9 @@ public class EnemyAI : MonoBehaviour
 
         if (_randomAnim == 0)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * 0.35f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * 0.4f, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack * 0.35f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack * 0.4f), Color.red);
 
                 if (_isAttacking == false)
                 {
@@ -284,9 +282,9 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 1)
         {
-            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack * 0.35f, _playerMask))
+            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack * 0.4f, _playerMask))
             {
-                Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack * 0.35f), Color.red);
+                Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack * 0.4f), Color.red);
 
                 if (_isAttacking == false)
                 {
@@ -297,9 +295,9 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 2)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.up, _distanceToAttack * 0.5f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.up, _distanceToAttack * 0.6f, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.up * (_distanceToAttack * 0.5f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.up * (_distanceToAttack * 0.6f), Color.red);
 
                 if (_isAttacking == false)
                 {

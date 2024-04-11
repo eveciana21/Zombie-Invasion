@@ -10,7 +10,13 @@ public class NPC : MonoBehaviour
     private int _currentPos;
 
     private bool _isWalking;
-    private bool _inReverse;
+
+    private float _rotateTowardsPlayerSpeed = 3f;
+    private Player _player;
+
+    [SerializeField] private int _npcID;
+    private bool _nearPlayer;
+    private bool _dialogTextOnScreen;
 
     private enum AIState
     {
@@ -27,6 +33,8 @@ public class NPC : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
 
+        _player = GameObject.Find("Player").GetComponentInChildren<Player>();
+
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.destination = _wayPoint[0].position;
 
@@ -37,12 +45,23 @@ public class NPC : MonoBehaviour
 
     void Update()
     {
+        CurrentAIState();
+
+        float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
+        if (distanceFromPlayer < 7f)
+        {
+            _currentState = AIState.Talk;
+        }
+    }
+
+    private void CurrentAIState()
+    {
         switch (_currentState)
         {
             case AIState.Idle:
                 if (_isWalking == false)
                 {
-                    StartCoroutine(IdleRoutine());
+                    StartCoroutine("IdleRoutine");
                 }
                 break;
 
@@ -51,9 +70,32 @@ public class NPC : MonoBehaviour
                 break;
 
             case AIState.Talk:
+
+                Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotateTowardsPlayerSpeed * Time.deltaTime);
+
+                if (_dialogTextOnScreen == false)
+                {
+                    StopCoroutine("IdleRoutine");
+                    _animator.SetBool("Walking", false);
+                    UIManager.Instance.DialogText(_npcID, true);
+                    _navMeshAgent.isStopped = true;
+                    _dialogTextOnScreen = true;
+                    _isWalking = false;
+                }
+
+                float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
+                if (distanceFromPlayer > 7)
+                {
+                    UIManager.Instance.DialogText(_npcID, false);
+                    _dialogTextOnScreen = false;
+                    _currentState = AIState.Idle;
+                }
+
                 break;
         }
     }
+
 
 
     IEnumerator IdleRoutine()
@@ -87,29 +129,6 @@ public class NPC : MonoBehaviour
         }
     }
 
-    private void Reverse()
-    {
-        if (_currentPos == 0)
-        {
-            _currentPos = 0;
-            _inReverse = false;
-        }
-        else
-        {
-            _currentPos--;
-        }
-    }
-    private void Forward()
-    {
-        if (_currentPos == _wayPoint.Count - 1)
-        {
-            _inReverse = true;
-            _currentPos--;
-        }
-        else
-        {
-            _currentPos++;
-        }
-    }
+
 }
 
