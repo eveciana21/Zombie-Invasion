@@ -16,45 +16,93 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject _skull;
 
     [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private int _score;
 
-    [SerializeField] private TextMeshProUGUI _dialogText;
-    [SerializeField] private GameObject _dialogBox;
+    [SerializeField] private GameObject _proveYourWorthText;
+
+    [SerializeField] private TextMeshProUGUI _dialogueText;
+    [SerializeField] private GameObject _dialogueBox;
     private float _textSpeed = 0.06f;
-    private string _fullText;
+
+    private bool _confirmedPlayerNotAZombie;
+    private bool _giftGiven;
 
 
-    private void Start()
+    IEnumerator DialogueTextRoutine(string dialogue)
     {
-        _fullText = _dialogText.text;
-        _dialogText.text = " ";
-    }
-
-    IEnumerator DialogTextRoutine()
-    {
-        for (int i = 0; i <= _fullText.Length; i++)
+        _dialogueText.text = " ";
+        for (int i = 0; i <= dialogue.Length; i++)
         {
-            _dialogText.text = _fullText.Substring(0, i);
+            _dialogueText.text = dialogue.Substring(0, i);
+            yield return new WaitForSeconds(_textSpeed);
+        }
+    }
+    IEnumerator SecondaryDialogueRoutine(string dialogue)
+    {
+        _dialogueText.text = " ";
+        for (int i = 0; i <= dialogue.Length; i++)
+        {
+            _dialogueText.text = dialogue.Substring(0, i);
+            yield return new WaitForSeconds(_textSpeed);
+        }
+        _giftGiven = true;
+    }
+    IEnumerator TertiaryDialogueRoutine(string dialogue)
+    {
+        _dialogueText.text = " ";
+        for (int i = 0; i <= dialogue.Length; i++)
+        {
+            _dialogueText.text = dialogue.Substring(0, i);
             yield return new WaitForSeconds(_textSpeed);
         }
     }
 
-
-    public void DialogText(int npcID, bool nearPlayer)
+    public void DialogueText(bool nearPlayer, string dialogue, string secondaryDialogue, string tertiaryDialogue)
     {
         if (nearPlayer)
         {
-            if (npcID == 0)
+            _dialogueBox.SetActive(true);
+
+            if (_confirmedPlayerNotAZombie == true)
             {
-                _dialogBox.SetActive(true);
-                StartCoroutine("DialogTextRoutine");
+                if (_giftGiven == false)
+                {
+                    StartCoroutine(SecondaryDialogueRoutine(secondaryDialogue));
+                }
+
+                else
+                {
+                    StartCoroutine(TertiaryDialogueRoutine(tertiaryDialogue));
+                }
+            }
+            else
+            {
+                StartCoroutine(DialogueTextRoutine(dialogue));
+                StopCoroutine("ProveYourWorthRoutine");
+                _proveYourWorthText.SetActive(false);
             }
         }
         else
         {
-            _dialogBox.SetActive(false);
-            StopCoroutine("DialogTextRoutine");
-        }
+            _dialogueBox.SetActive(false);
+            StopCoroutine("DialogueTextRoutine");
+            StopCoroutine("SecondaryDialogueRoutine");
+            StopCoroutine("TertiaryDialogueRoutine");
 
+            if (_confirmedPlayerNotAZombie == false)
+            {
+                StopCoroutine("ProveYourWorthRoutine");
+                StartCoroutine(ProveYourWorthRoutine());
+            }
+        }
+    }
+
+    IEnumerator ProveYourWorthRoutine()
+    {
+        yield return new WaitForSeconds(1);
+        _proveYourWorthText.SetActive(true);
+        yield return new WaitForSeconds(3);
+        _proveYourWorthText.SetActive(false);
     }
 
     public override void Init()
@@ -98,6 +146,11 @@ public class UIManager : MonoSingleton<UIManager>
     public void Score(int score)
     {
         _scoreText.text = score.ToString();
+
+        if (score == 100)
+        {
+            _confirmedPlayerNotAZombie = true;
+        }
     }
 
 

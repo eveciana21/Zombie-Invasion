@@ -14,9 +14,12 @@ public class NPC : MonoBehaviour
     private float _rotateTowardsPlayerSpeed = 3f;
     private Player _player;
 
-    [SerializeField] private int _npcID;
+    [SerializeField] private string _dialogueText, _secondaryDialogueText, _tertiaryDialogueText;
+
+
     private bool _nearPlayer;
-    private bool _dialogTextOnScreen;
+    private bool _dialogueTextOnScreen;
+
 
     private enum AIState
     {
@@ -28,7 +31,6 @@ public class NPC : MonoBehaviour
     [SerializeField] private AIState _currentState;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -74,29 +76,27 @@ public class NPC : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotateTowardsPlayerSpeed * Time.deltaTime);
 
-                if (_dialogTextOnScreen == false)
+                if (_dialogueTextOnScreen == false)
                 {
+                    UIManager.Instance.DialogueText(true, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText);
+
                     StopCoroutine("IdleRoutine");
                     _animator.SetBool("Walking", false);
-                    UIManager.Instance.DialogText(_npcID, true);
                     _navMeshAgent.isStopped = true;
-                    _dialogTextOnScreen = true;
+                    _dialogueTextOnScreen = true;
                     _isWalking = false;
                 }
 
                 float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
                 if (distanceFromPlayer > 7)
                 {
-                    UIManager.Instance.DialogText(_npcID, false);
-                    _dialogTextOnScreen = false;
+                    UIManager.Instance.DialogueText(false, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText);
+                    _dialogueTextOnScreen = false;
                     _currentState = AIState.Idle;
                 }
-
                 break;
         }
     }
-
-
 
     IEnumerator IdleRoutine()
     {
@@ -128,7 +128,5 @@ public class NPC : MonoBehaviour
             _animator.SetBool("Walking", true);
         }
     }
-
-
 }
 

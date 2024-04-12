@@ -153,7 +153,7 @@ public class EnemyAI : MonoBehaviour
             case AIState.Idle:
                 if (_isWalking == false && !_isDead)
                 {
-                    StartCoroutine("IdleRoutine");
+                    StartCoroutine(IdleRoutine());
                 }
                 break;
 
@@ -246,7 +246,7 @@ public class EnemyAI : MonoBehaviour
 
         _animator.SetBool("Emerge", true);
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(Random.Range(4, 6));
 
         _animator.SetBool("Death", false);
         _animator.SetBool("Emerge", false);
@@ -394,16 +394,33 @@ public class EnemyAI : MonoBehaviour
         if (!_enemyHasFallen)
         {
             RaycastHit hit;
-            if (Physics.Raycast(_fallDetector.transform.position, _fallDetector.transform.forward, out hit, 0.5f, _floorMask))
+            if (_randomAnim == 0 || _randomAnim == 2)
             {
-                if (_isDead)
+                if (Physics.Raycast(_fallDetector.transform.position, _fallDetector.transform.forward, out hit, 0.5f, _floorMask))
                 {
-                    GameObject puddleOfBlood = PoolManager.Instance.RequestPuddleOfBlood();
-                    puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.07f, 0);
-                    puddleOfBlood.transform.rotation = Quaternion.LookRotation(hit.normal);
-                    _enemyHasFallen = true;
+                    if (_isDead)
+                    {
+                        GameObject puddleOfBlood = PoolManager.Instance.RequestPuddleOfBlood();
+                        puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.07f, 0);
+                        puddleOfBlood.transform.rotation = Quaternion.LookRotation(hit.normal);
+                        _enemyHasFallen = true;
+                    }
                 }
             }
+            else if (_randomAnim == 1)
+            {
+                if (Physics.Raycast(_fallDetector.transform.position, -_fallDetector.transform.forward, out hit, 0.5f, _floorMask))
+                {
+                    if (_isDead)
+                    {
+                        GameObject puddleOfBlood = PoolManager.Instance.RequestPuddleOfBlood();
+                        puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.07f, 0);
+                        puddleOfBlood.transform.rotation = Quaternion.LookRotation(hit.normal);
+                        _enemyHasFallen = true;
+                    }
+                }
+            }
+
         }
     }
 
