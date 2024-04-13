@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
 
     private float _canFire;
 
+    private int _killCount;
+
     [SerializeField] private GameObject[] _bloodScreen;
 
     private void Start()
@@ -188,7 +190,8 @@ public class Player : MonoBehaviour
     public void AddToScore(int playerScore)
     {
         _playerScore += playerScore;
-        UIManager.Instance.Score(_playerScore);
+        _killCount++;
+        UIManager.Instance.Score(_playerScore, _killCount);
     }
 
     public void DamagePlayer(int health)
@@ -214,7 +217,6 @@ public class Player : MonoBehaviour
         }
         UIManager.Instance.HealthRemaining(_health);
     }
-
 
     public void AmmoPickup()
     {

@@ -153,7 +153,7 @@ public class EnemyAI : MonoBehaviour
             case AIState.Idle:
                 if (_isWalking == false && !_isDead)
                 {
-                    StartCoroutine(IdleRoutine());
+                    StartCoroutine("IdleRoutine");
                 }
                 break;
 
@@ -242,11 +242,11 @@ public class EnemyAI : MonoBehaviour
         _animator.SetBool("Death", true);
         _navmeshAgent.isStopped = true;
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(Random.Range(4, 6));
 
         _animator.SetBool("Emerge", true);
 
-        yield return new WaitForSeconds(Random.Range(4, 6));
+        yield return new WaitForSeconds(3);
 
         _animator.SetBool("Death", false);
         _animator.SetBool("Emerge", false);

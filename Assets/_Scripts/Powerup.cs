@@ -25,6 +25,9 @@ public class Powerup : MonoBehaviour
                         Debug.Log("You Picked Up Health!");
                         player.HealthPickup();
                         break;
+                    case 2:
+                        Debug.Log("You picked up a Vaccine Component!");
+                        break;
                 }
             }
             else

@@ -14,11 +14,19 @@ public class NPC : MonoBehaviour
     private float _rotateTowardsPlayerSpeed = 3f;
     private Player _player;
 
-    [SerializeField] private string _dialogueText, _secondaryDialogueText, _tertiaryDialogueText;
+    [Header("Dialogue")]
+    [SerializeField] private string _dialogueText;
+    [SerializeField] private string _secondaryDialogueText;
+    [SerializeField] private string _tertiaryDialogueText;
 
+    [SerializeField] private string _npcName;
 
     private bool _nearPlayer;
     private bool _dialogueTextOnScreen;
+
+    [Space]
+
+    [SerializeField] private GameObject _gift;
 
 
     private enum AIState
@@ -78,8 +86,7 @@ public class NPC : MonoBehaviour
 
                 if (_dialogueTextOnScreen == false)
                 {
-                    UIManager.Instance.DialogueText(true, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText);
-
+                    UIManager.Instance.DialogueText(true, _npcName, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText);
                     StopCoroutine("IdleRoutine");
                     _animator.SetBool("Walking", false);
                     _navMeshAgent.isStopped = true;
@@ -90,10 +97,13 @@ public class NPC : MonoBehaviour
                 float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
                 if (distanceFromPlayer > 7)
                 {
-                    UIManager.Instance.DialogueText(false, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText);
+                    UIManager.Instance.DialogueText(false, _npcName, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText);
                     _dialogueTextOnScreen = false;
                     _currentState = AIState.Idle;
                 }
+
+                UIManager.Instance.ActivateGift(_npcName, _gift);
+
                 break;
         }
     }

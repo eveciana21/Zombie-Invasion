@@ -24,9 +24,34 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject _dialogueBox;
     private float _textSpeed = 0.06f;
 
-    private bool _confirmedPlayerNotAZombie;
-    private bool _giftGiven;
-
+    private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
+    {
+        {"NPC1", 2 },
+        {"NPC2", 4 },
+        {"NPC3", 8 },
+        {"NPC4", 8 }
+    };
+    private Dictionary<string, bool> _confirmedPlayerNotZombie = new Dictionary<string, bool>()
+    {
+        {"NPC1", false },
+        {"NPC2", false },
+        {"NPC3", false },
+        {"NPC4", false }
+    };
+    private Dictionary<string, bool> _giftGivenDict = new Dictionary<string, bool>()
+    {
+        {"NPC1", false },
+        {"NPC2", false },
+        {"NPC3", false },
+        {"NPC4", false }
+    };
+    private Dictionary<string, bool> _canGiveGiftDict = new Dictionary<string, bool>()
+    {
+        {"NPC1", false },
+        {"NPC2", false },
+        {"NPC3", false },
+        {"NPC4", false }
+    };
 
     IEnumerator DialogueTextRoutine(string dialogue)
     {
@@ -37,39 +62,29 @@ public class UIManager : MonoSingleton<UIManager>
             yield return new WaitForSeconds(_textSpeed);
         }
     }
-    IEnumerator SecondaryDialogueRoutine(string dialogue)
+    IEnumerator SecondaryDialogueRoutine(string dialogue, string npcName)
     {
-        _dialogueText.text = " ";
-        for (int i = 0; i <= dialogue.Length; i++)
-        {
-            _dialogueText.text = dialogue.Substring(0, i);
-            yield return new WaitForSeconds(_textSpeed);
-        }
-        _giftGiven = true;
+        yield return DialogueTextRoutine(dialogue);
+        _canGiveGiftDict[npcName] = true;
+
     }
     IEnumerator TertiaryDialogueRoutine(string dialogue)
     {
-        _dialogueText.text = " ";
-        for (int i = 0; i <= dialogue.Length; i++)
-        {
-            _dialogueText.text = dialogue.Substring(0, i);
-            yield return new WaitForSeconds(_textSpeed);
-        }
+        yield return DialogueTextRoutine(dialogue);
     }
 
-    public void DialogueText(bool nearPlayer, string dialogue, string secondaryDialogue, string tertiaryDialogue)
+    public void DialogueText(bool nearPlayer, string npcName, string dialogue, string secondaryDialogue, string tertiaryDialogue)
     {
         if (nearPlayer)
         {
             _dialogueBox.SetActive(true);
 
-            if (_confirmedPlayerNotAZombie == true)
+            if (_confirmedPlayerNotZombie[npcName] == true)
             {
-                if (_giftGiven == false)
+                if (!_giftGivenDict[npcName])
                 {
-                    StartCoroutine(SecondaryDialogueRoutine(secondaryDialogue));
+                    StartCoroutine(SecondaryDialogueRoutine(secondaryDialogue, npcName));
                 }
-
                 else
                 {
                     StartCoroutine(TertiaryDialogueRoutine(tertiaryDialogue));
@@ -85,11 +100,9 @@ public class UIManager : MonoSingleton<UIManager>
         else
         {
             _dialogueBox.SetActive(false);
-            StopCoroutine("DialogueTextRoutine");
-            StopCoroutine("SecondaryDialogueRoutine");
-            StopCoroutine("TertiaryDialogueRoutine");
+            StopAllCoroutines();
 
-            if (_confirmedPlayerNotAZombie == false)
+            if (_confirmedPlayerNotZombie[npcName] == false)
             {
                 StopCoroutine("ProveYourWorthRoutine");
                 StartCoroutine(ProveYourWorthRoutine());
@@ -143,15 +156,33 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
-    public void Score(int score)
+    public void Score(int score, int killCount)
     {
         _scoreText.text = score.ToString();
-
-        if (score == 100)
+        foreach (var npc in _npcKillThreshold.Keys)
         {
-            _confirmedPlayerNotAZombie = true;
+            if (killCount >= _npcKillThreshold[npc])
+            {
+                if (!_giftGivenDict[npc])
+                {
+                    _confirmedPlayerNotZombie[npc] = true;
+                    Debug.Log(npc + " Kill Count Confirmed!");
+                }
+            }
         }
     }
 
-
+    public void ActivateGift(string npcName, GameObject gift)
+    {
+        if (!_giftGivenDict[npcName] && _canGiveGiftDict[npcName])
+        {
+            if (gift != null)
+            {
+                Debug.Log("Gift Given");
+                _giftGivenDict[npcName] = true;
+                gift.SetActive(true);
+                gift.transform.parent = null;
+            }
+        }
+    }
 }
