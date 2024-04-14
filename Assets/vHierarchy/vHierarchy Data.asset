@@ -32,19 +32,23 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-9fc0d4010bbf28b4594072e72b8655ab-1652979075-0
         - globalObjectIdString: GlobalObjectId_V1-2-9fc0d4010bbf28b4594072e72b8655ab-382950169-0
         - globalObjectIdString: GlobalObjectId_V1-2-9fc0d4010bbf28b4594072e72b8655ab-1421858994-0
+        - globalObjectIdString: GlobalObjectId_V1-2-9fc0d4010bbf28b4594072e72b8655ab-705507993-0
+        - globalObjectIdString: GlobalObjectId_V1-2-9fc0d4010bbf28b4594072e72b8655ab-2649515655562290406-0
+        - globalObjectIdString: GlobalObjectId_V1-2-9fc0d4010bbf28b4594072e72b8655ab-7325175580356419044-0
+        - globalObjectIdString: GlobalObjectId_V1-2-9fc0d4010bbf28b4594072e72b8655ab-394955605-0
         values:
         - colorIndex: 2
           iconNameOrGuid: 
         - colorIndex: 2
           iconNameOrGuid: 
         - colorIndex: 4
-          iconNameOrGuid: 
+          iconNameOrGuid: AvatarMask On Icon
         - colorIndex: 3
           iconNameOrGuid: 
         - colorIndex: 9
           iconNameOrGuid: 
         - colorIndex: 2
-          iconNameOrGuid: 
+          iconNameOrGuid: Terrain Icon
         - colorIndex: 3
           iconNameOrGuid: 
         - colorIndex: 3
@@ -57,6 +61,14 @@ MonoBehaviour:
           iconNameOrGuid: 
         - colorIndex: 2
           iconNameOrGuid: 
+        - colorIndex: 0
+          iconNameOrGuid: DirectionalLight Icon
+        - colorIndex: 0
+          iconNameOrGuid: Camera Icon
+        - colorIndex: 0
+          iconNameOrGuid: AvatarMask On Icon
+        - colorIndex: 0
+          iconNameOrGuid: Settings Icon
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-1-e14839a2306f4454397db4529c62dad4-5257914306014297403-0

@@ -45,8 +45,6 @@ public class EnemyAI : MonoBehaviour
     private Animator _animator;
     private Player _player;
     //private Collider _playerBody;
-
-
     private enum AIState
     {
         Idle,
@@ -87,7 +85,7 @@ public class EnemyAI : MonoBehaviour
         GameObject smokeCloud = PoolManager.Instance.RequestSmokeCloud();
         smokeCloud.transform.position = transform.position;
         yield return new WaitForSeconds(2.5f);
-        _currentState = AIState.Walk;
+        _currentState = AIState.Idle;
     }
 
     void Update()
@@ -95,8 +93,6 @@ public class EnemyAI : MonoBehaviour
         CurrentAIState(); //Finite State Machine
         PuddleOfBlood(); //will instantiate a puddle of blood if the player has fallen
     }
-
-
 
     public void SelectWayPoint(List<Transform> waypoint)
     {
@@ -107,51 +103,72 @@ public class EnemyAI : MonoBehaviour
     {
         if (_nearPlayer == false)
         {
-            if (_navmeshAgent.remainingDistance < 1)
-            {
-                _isWalking = false;
-                _animator.SetBool("Walking", false);
+            MoveToWayPoint();
+        }
+        else
+        {
+            MoveTowardsPlayer();
+            Debug.Log("Player within Range");
+        }
+    }
 
-                if (_inReverse == true)
-                {
-                    Reverse();
-                }
-                else
-                {
-                    Forward();
-                }
-                _navmeshAgent.SetDestination(_wayPoint[_currentPos].position); //move enemy to the next destination waypoint
-                _currentState = AIState.Idle;
+    private void MoveTowardsPlayer()
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotateTowardsPlayerSpeed * Time.deltaTime); //slowly turn to player
+
+        float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
+        if (distanceFromPlayer <= _distanceToAttack)
+        {
+            _currentState = AIState.Attack;
+        }
+        else
+        {
+            _navmeshAgent.SetDestination(_player.transform.position); // set new destination to player position
+
+            _isWalking = true;
+            _animator.SetBool("Walking", true);
+        }
+
+    }
+
+    private void MoveToWayPoint()
+    {
+        if (_navmeshAgent.remainingDistance <= 1)
+        {
+            _isWalking = false;
+            _animator.SetBool("Walking", false);
+
+            if (_inReverse == true)
+            {
+                Reverse();
             }
             else
             {
-                _isWalking = true;
-                _animator.SetBool("Walking", true);
+                Forward();
+            }
+
+            if (!_nearPlayer)
+            {
+                _currentState = AIState.Idle;
             }
         }
         else
         {
-            Debug.Log("Player within Range");
-            _navmeshAgent.SetDestination(_player.transform.position); // set new destination to player position
-
-            if (_isWalking == true)
-            {
-                _animator.SetBool("Walking", true);
-            }
-            else
-            {
-                _animator.SetBool("Walking", false);
-            }
+            _isWalking = true;
+            _animator.SetBool("Walking", true);
         }
-    }
 
+        _navmeshAgent.SetDestination(_wayPoint[_currentPos].position); //move enemy to the next destination waypoint
+    }
 
     private void CurrentAIState()
     {
         switch (_currentState)
         {
             case AIState.Idle:
-                if (_isWalking == false && !_isDead)
+                //if (_isWalking == false && !_isDead)
+                if (!_isDead)
                 {
                     StartCoroutine("IdleRoutine");
                 }
@@ -164,21 +181,13 @@ public class EnemyAI : MonoBehaviour
 
                     float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
 
-                    if (distanceFromPlayer < 20)
+                    if (distanceFromPlayer >= 20)
                     {
-                        _nearPlayer = true;
-                        Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
-                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotateTowardsPlayerSpeed * Time.deltaTime); //slowly turn to player
-
-                        if (distanceFromPlayer < _distanceToAttack)
-                        {
-                            _currentState = AIState.Attack;
-                        }
+                        _nearPlayer = false;
                     }
                     else
                     {
-                        _nearPlayer = false;
-                        _currentState = AIState.Walk;
+                        _nearPlayer = true;
                     }
                 }
                 break;
@@ -215,7 +224,7 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(2);
         _navmeshAgent.isStopped = false;
         _currentState = AIState.Walk;
-        _isWalking = true;
+        //_isWalking = true;
     }
 
     IEnumerator AttackRoutine()
@@ -228,6 +237,7 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         _navmeshAgent.isStopped = false;
+        _animator.SetBool("Walking", true);
         _navmeshAgent.ResetPath();
         _isAttacking = false;
         _isWalking = true;
@@ -264,9 +274,6 @@ public class EnemyAI : MonoBehaviour
     }
     private void DamagePlayer()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotateTowardsPlayerSpeed * Time.deltaTime);
-
         if (_randomAnim == 0)
         {
             if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * 0.4f, _playerMask))

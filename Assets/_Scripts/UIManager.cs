@@ -7,19 +7,21 @@ using UnityEngine.UI;
 
 public class UIManager : MonoSingleton<UIManager>
 {
-
+    [Header("Ammo")]
     [SerializeField] private TextMeshProUGUI _ammoCount;
     [SerializeField] private TextMeshProUGUI _ammoSubCount;
-    [SerializeField] private TextMeshProUGUI _health;
 
+    [Header("Health")]
+    [SerializeField] private TextMeshProUGUI _health;
     [SerializeField] private GameObject _heart, _heartBroken;
     [SerializeField] private GameObject _skull;
 
+    [Header("Score")]
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private int _score;
 
+    [Header("Text")]
     [SerializeField] private GameObject _proveYourWorthText;
-
     [SerializeField] private TextMeshProUGUI _dialogueText;
     [SerializeField] private GameObject _dialogueBox;
     private float _textSpeed = 0.06f;

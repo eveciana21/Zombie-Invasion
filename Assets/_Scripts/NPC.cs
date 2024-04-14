@@ -10,6 +10,8 @@ public class NPC : MonoBehaviour
     private int _currentPos;
 
     private bool _isWalking;
+    private bool _nearPlayer;
+    private bool _dialogueTextOnScreen;
 
     private float _rotateTowardsPlayerSpeed = 3f;
     private Player _player;
@@ -19,15 +21,10 @@ public class NPC : MonoBehaviour
     [SerializeField] private string _secondaryDialogueText;
     [SerializeField] private string _tertiaryDialogueText;
 
-    [SerializeField] private string _npcName;
-
-    private bool _nearPlayer;
-    private bool _dialogueTextOnScreen;
-
     [Space]
 
+    [SerializeField] private string _npcName;
     [SerializeField] private GameObject _gift;
-
 
     private enum AIState
     {
