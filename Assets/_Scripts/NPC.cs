@@ -23,6 +23,7 @@ public class NPC : MonoBehaviour
 
     [Space]
 
+    [SerializeField] private int _interactionDistance;
     [SerializeField] private string _npcName;
     [SerializeField] private GameObject _gift;
 
@@ -55,7 +56,7 @@ public class NPC : MonoBehaviour
         CurrentAIState();
 
         float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
-        if (distanceFromPlayer < 7f)
+        if (distanceFromPlayer < _interactionDistance)
         {
             _currentState = AIState.Talk;
         }
