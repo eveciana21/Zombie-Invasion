@@ -2958,9 +2958,9 @@ GameObject:
   - component: {fileID: 1711743537454583723}
   - component: {fileID: 1711743537454583700}
   - component: {fileID: 1711743537454583701}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Zombie Female
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

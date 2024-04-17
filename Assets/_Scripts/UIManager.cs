@@ -30,7 +30,7 @@ public class UIManager : MonoSingleton<UIManager>
     {
         {"NPC1", 2 },
         {"NPC2", 4 },
-        {"NPC3", 8 },
+        {"NPC3", 6 },
         {"NPC4", 8 }
     };
     private Dictionary<string, bool> _confirmedPlayerNotZombie = new Dictionary<string, bool>()
@@ -114,7 +114,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     IEnumerator ProveYourWorthRoutine()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         _proveYourWorthText.SetActive(true);
         yield return new WaitForSeconds(3);
         _proveYourWorthText.SetActive(false);

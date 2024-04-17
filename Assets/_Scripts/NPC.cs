@@ -24,8 +24,11 @@ public class NPC : MonoBehaviour
     [Space]
 
     [SerializeField] private int _interactionDistance;
+
     [SerializeField] private string _npcName;
     [SerializeField] private GameObject _gift;
+
+    [SerializeField] private List<EnemyAI> _enemyList = new List<EnemyAI>();
 
     private enum AIState
     {
@@ -42,7 +45,6 @@ public class NPC : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         _player = GameObject.Find("Player").GetComponentInChildren<Player>();
-
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.destination = _wayPoint[0].position;
 
@@ -59,6 +61,29 @@ public class NPC : MonoBehaviour
         if (distanceFromPlayer < _interactionDistance)
         {
             _currentState = AIState.Talk;
+            SlowEnemySpeed();
+            _player.isEngagingInDialogue(true);
+        }
+    }
+
+    public void AddEnemyToList(EnemyAI enemy)
+    {
+        _enemyList.Add(enemy);
+    }
+
+    private void SlowEnemySpeed()
+    {
+        foreach (var enemy in _enemyList)
+        {
+            enemy.PauseEnemyMovement(true);
+        }
+    }
+
+    private void ResumeEnemySpeed()
+    {
+        foreach (var enemy in _enemyList)
+        {
+            enemy.PauseEnemyMovement(false);
         }
     }
 
@@ -97,9 +122,10 @@ public class NPC : MonoBehaviour
                 {
                     UIManager.Instance.DialogueText(false, _npcName, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText);
                     _dialogueTextOnScreen = false;
+                    ResumeEnemySpeed();
+                    _player.isEngagingInDialogue(false);
                     _currentState = AIState.Idle;
                 }
-
                 UIManager.Instance.ActivateGift(_npcName, _gift);
 
                 break;
@@ -136,5 +162,7 @@ public class NPC : MonoBehaviour
             _animator.SetBool("Walking", true);
         }
     }
+
+
 }
 

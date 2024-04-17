@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject[] _bloodScreen;
 
+    private bool _isEngagingInDialogue;
+
     private void Start()
     {
         _input = GameObject.Find("PlayerCapsule").GetComponent<StarterAssetsInputs>();
@@ -61,7 +63,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Shoot();
+        if (!_isEngagingInDialogue)
+        {
+            Shoot();
+        }
 
         if (Keyboard.current.rKey.isPressed)
         {
@@ -242,5 +247,10 @@ public class Player : MonoBehaviour
         {
             _bloodScreen[i].SetActive(false);
         }
+    }
+
+    public void isEngagingInDialogue(bool value)
+    {
+        _isEngagingInDialogue = value;
     }
 }

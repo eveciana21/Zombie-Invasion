@@ -44,6 +44,8 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent _navmeshAgent;
     private Animator _animator;
     private Player _player;
+
+
     //private Collider _playerBody;
     private enum AIState
     {
@@ -129,7 +131,6 @@ public class EnemyAI : MonoBehaviour
             _isWalking = true;
             _animator.SetBool("Walking", true);
         }
-
     }
 
     private void MoveToWayPoint()
@@ -428,6 +429,19 @@ public class EnemyAI : MonoBehaviour
                 }
             }
 
+        }
+    }
+
+    public void PauseEnemyMovement(bool playerInDialogue)
+    {
+        if (playerInDialogue)
+        {
+            _navmeshAgent.speed = 0.1f;
+        }
+        else
+        {
+            //_currentState = AIState.Walk;
+            _navmeshAgent.speed = 1;
         }
     }
 

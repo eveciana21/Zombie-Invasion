@@ -5,6 +5,7 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     [SerializeField] private int _powerupID;
+    private bool _isVaccine;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,6 +28,7 @@ public class Powerup : MonoBehaviour
                         break;
                     case 2:
                         Debug.Log("You picked up a Vaccine Component!");
+                        _isVaccine = true;
                         break;
                 }
             }
@@ -35,7 +37,14 @@ public class Powerup : MonoBehaviour
                 Debug.LogError("Player is NULL");
             }
 
-            Destroy(this.gameObject);
+            if (!_isVaccine)
+            {
+                Destroy(this.gameObject, 0.5f);
+            }
+            else
+            {
+                Destroy(this.gameObject, 2f);
+            }
         }
     }
 }

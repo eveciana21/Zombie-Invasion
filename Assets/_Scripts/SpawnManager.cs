@@ -12,9 +12,16 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     [SerializeField] private GameObject _zombieContainer;
     [SerializeField] private int _enemiesInGame = 0;
 
+    private NPC _npc;
+
     public override void Init()
     {
         base.Init(); //Turns this class into a singleton
+    }
+
+    private void Start()
+    {
+        _npc = FindObjectOfType<NPC>();
     }
     public void SpawnEnemies()
     {
@@ -45,6 +52,11 @@ public class SpawnManager : MonoSingleton<SpawnManager>
             _zombie.transform.parent = _zombieContainer.transform;
             _zombie.SelectWayPoint(_wayPoint); //gives this individual zombie prefab a set of waypoints
 
+            if (_npc != null)
+            {
+                Debug.Log("Adding To List");
+                _npc.AddEnemyToList(_zombie.GetComponent<EnemyAI>());
+            }
             _enemiesInGame++;
             yield return new WaitForSeconds(3);
         }
