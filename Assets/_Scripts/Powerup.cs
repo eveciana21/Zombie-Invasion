@@ -43,7 +43,7 @@ public class Powerup : MonoBehaviour
             }
             else
             {
-                Destroy(this.gameObject, 2f);
+                Destroy(this.gameObject, 1f);
             }
         }
     }

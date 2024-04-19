@@ -1142,6 +1142,13 @@ MonoBehaviour:
   _wayPoint:
   - {fileID: 0}
   - {fileID: 0}
+  _dialogueText: 
+  _secondaryDialogueText: 
+  _tertiaryDialogueText: 
+  _interactionDistance: 0
+  _npcName: 
+  _gift: {fileID: 0}
+  _enemyList: []
   _currentState: 0
 --- !u!1 &3492042193763519388
 GameObject:

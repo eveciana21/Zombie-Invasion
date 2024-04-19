@@ -174,7 +174,7 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
-    public void ActivateGift(string npcName, GameObject gift)
+    public void ActivateGift(string npcName, GameObject gift, GameObject potionImage)
     {
         if (!_giftGivenDict[npcName] && _canGiveGiftDict[npcName])
         {
@@ -184,6 +184,10 @@ public class UIManager : MonoSingleton<UIManager>
                 _giftGivenDict[npcName] = true;
                 gift.SetActive(true);
                 gift.transform.parent = null;
+            }
+            if (potionImage != null)
+            {
+                potionImage.SetActive(true);
             }
         }
     }

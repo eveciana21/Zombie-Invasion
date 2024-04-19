@@ -440,7 +440,6 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            //_currentState = AIState.Walk;
             _navmeshAgent.speed = 1;
         }
     }

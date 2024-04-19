@@ -13,6 +13,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     [SerializeField] private int _enemiesInGame = 0;
 
     private NPC _npc;
+    [SerializeField] private List<NPC> _npcList;
 
     public override void Init()
     {
@@ -54,8 +55,10 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
             if (_npc != null)
             {
-                Debug.Log("Adding To List");
-                _npc.AddEnemyToList(_zombie.GetComponent<EnemyAI>());
+                foreach (NPC npc in _npcList)
+                {
+                    npc.AddEnemyToList(_zombie.GetComponent<EnemyAI>()); //add zombie to NPC list 
+                }
             }
             _enemiesInGame++;
             yield return new WaitForSeconds(3);
