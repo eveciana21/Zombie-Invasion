@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using StarterAssets;
+using UnityEngine.Rendering.PostProcessing;
 
 
 public class GameManager : MonoSingleton<GameManager>
@@ -11,7 +12,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     [SerializeField] private GameObject _quitGameButtons;
     private bool _gameStarted;
-    private bool _menuOnScreen;
+
+    [SerializeField] private PostProcessVolume _postProcessVolume;
+    private Vignette _vignette;
+    private ChromaticAberration _chromaticAberration;
 
     public override void Init()
     {
@@ -28,11 +32,11 @@ public class GameManager : MonoSingleton<GameManager>
                 Debug.LogError("Input is NULL");
         }
 
-
-        if (_gameStarted)
-        {
-            SpawnManager.Instance.SpawnEnemies();
-        }
+        if (_postProcessVolume == null)
+            Debug.LogError("Post Process Volume is NULL");
+        else
+            _postProcessVolume.profile.TryGetSettings(out _vignette);
+        _postProcessVolume.profile.TryGetSettings(out _chromaticAberration);
 
         Scene activeScene = SceneManager.GetActiveScene();
         if (activeScene.buildIndex == 1)
@@ -40,8 +44,15 @@ public class GameManager : MonoSingleton<GameManager>
             if (_input != null)
             {
                 _input.SetCursorVisible(false);
+                _gameStarted = true;
             }
         }
+        if (_gameStarted)
+        {
+            SpawnManager.Instance.SpawnEnemies();
+        }
+
+
     }
 
     private void Update()
@@ -49,7 +60,29 @@ public class GameManager : MonoSingleton<GameManager>
         if (_input != null && _input.escapeKey)
         {
             PauseGame();
+            VignetteIntensity(0.5f);
             _input.escapeKey = false;
+        }
+    }
+    public void IncreaseChromaticAberration(float targetIntensity, float speed)
+    {
+        // Set the chromatic aberration intensity of the post processing volume when sprinting
+        if (_chromaticAberration != null)
+        {           
+            //_chromaticAberration.intensity.value = Mathf.MoveTowards(_chromaticAberration.intensity.value, targetIntensity, Time.deltaTime);
+
+            float currentIntensity = _chromaticAberration.intensity.value;
+            float newIntensity = Mathf.Lerp(currentIntensity, targetIntensity, speed * Time.deltaTime);
+            _chromaticAberration.intensity.value = newIntensity;
+        }
+    }
+
+    private void VignetteIntensity(float intensity)
+    {
+        // Set the vignette intensity of the post processing volume
+        if (_vignette != null)
+        {
+            _vignette.intensity.value = intensity;
         }
     }
 
@@ -92,7 +125,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             _input.SetCursorVisible(false);
         }
-        Debug.Log("Continue Game");
+        VignetteIntensity(0.2f);
     }
 
     public void MainMenu()
@@ -106,7 +139,6 @@ public class GameManager : MonoSingleton<GameManager>
         {
             _input.SetCursorVisible(true);
         }
-        Debug.Log("Main Menu");
     }
 
     public void QuitGame()

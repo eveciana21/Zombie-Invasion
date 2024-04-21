@@ -14,6 +14,16 @@ public class Player : MonoBehaviour
     [SerializeField] private RectTransform _reticleTransform;
     [SerializeField] private Weapon _weapon;
 
+    [Header("Head Bob")]
+
+    [SerializeField] private Transform _headTransform;
+    [SerializeField] private float _headBobAmount;
+    [SerializeField] private float _headBobSpeed;
+
+    private Vector3 _initialHeadPosition;
+    private float _timer = 0f;
+
+
     [Header("Damage")]
 
     [SerializeField] private int _health = 100;
@@ -61,6 +71,9 @@ public class Player : MonoBehaviour
         {
             _bloodScreen[i].SetActive(false);
         }
+
+        _initialHeadPosition = _headTransform.localPosition;
+
     }
 
     private void Update()
@@ -70,6 +83,12 @@ public class Player : MonoBehaviour
             Shoot();
         }
 
+        Reload();
+        Sprint();
+    }
+
+    private void Reload()
+    {
         if (_input.reload)
         {
             if (_ammoSubCount <= 0)
@@ -92,6 +111,40 @@ public class Player : MonoBehaviour
                 }
             }
             _input.reload = false;
+        }
+    }
+
+    private void Sprint()
+    {
+        bool isMoving = (_input.move != Vector2.zero);
+
+        if (isMoving)
+        {
+            float bobSpeed;
+            float verticalBob;
+
+            if (_input.sprint)
+            {
+                GameManager.Instance.IncreaseChromaticAberration(0.4f, 4f);
+                bobSpeed = _headBobSpeed * 2f;
+            }
+            else
+            {
+                GameManager.Instance.IncreaseChromaticAberration(0f, 8f);
+                bobSpeed = _headBobSpeed * 1.25f;
+            }
+
+            verticalBob = Mathf.Cos(_timer * bobSpeed) * _headBobAmount * 0.5f;
+            Vector3 headPosition = _initialHeadPosition + Vector3.up * verticalBob;
+            _headTransform.localPosition = headPosition;
+
+            _timer += Time.deltaTime;
+        }
+        else
+        {
+            GameManager.Instance.IncreaseChromaticAberration(0f, 8f);
+            _headTransform.localPosition = _initialHeadPosition;
+            _timer = 0;
         }
     }
 

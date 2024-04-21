@@ -29,6 +29,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
         StartCoroutine(ZombieSpawner());
     }
 
+
     public IEnumerator ZombieSpawner()
     {
         while (_enemiesInGame <= 60)
