@@ -51,8 +51,6 @@ public class GameManager : MonoSingleton<GameManager>
         {
             SpawnManager.Instance.SpawnEnemies();
         }
-
-
     }
 
     private void Update()
@@ -68,7 +66,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         // Set the chromatic aberration intensity of the post processing volume when sprinting
         if (_chromaticAberration != null)
-        {           
+        {
             //_chromaticAberration.intensity.value = Mathf.MoveTowards(_chromaticAberration.intensity.value, targetIntensity, Time.deltaTime);
 
             float currentIntensity = _chromaticAberration.intensity.value;
@@ -117,10 +115,6 @@ public class GameManager : MonoSingleton<GameManager>
     {
         Time.timeScale = 1;
 
-        if (_quitGameButtons != null)
-        {
-            _quitGameButtons.SetActive(false);
-        }
         if (_input != null)
         {
             _input.SetCursorVisible(false);

@@ -26,6 +26,16 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject _dialogueBox;
     private float _textSpeed = 0.06f;
 
+    [Space]
+
+    [SerializeField] private Slider _sprintSlider;
+
+    private Image _sliderFillColor;
+    private Image _sliderBackgroundColor;
+    private float _fadeTimer = 0;
+    private float _fadeSpeed = 1f;
+    private bool _fadingOut;
+
     private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
     {
         {"NPC1", 2 },
@@ -54,6 +64,78 @@ public class UIManager : MonoSingleton<UIManager>
         {"NPC3", false },
         {"NPC4", false }
     };
+
+    private void Start()
+    {
+        _sprintSlider.value = 100f;
+
+        _sliderFillColor = _sprintSlider.fillRect.GetComponent<Image>();
+        _sliderBackgroundColor = _sprintSlider.GetComponentInChildren<Image>();
+    }
+
+    private void Update()
+    {
+        SliderFade();
+    }
+
+    private void SliderFade()
+    {
+        if (_fadingOut)
+        {
+            _fadeTimer += Time.deltaTime;
+
+            float alpha = Mathf.Clamp01(1f - _fadeTimer * _fadeSpeed);
+
+            SetSliderAlpha(alpha);
+
+            if (_fadeTimer >= 1f)
+            {
+                _sprintSlider.gameObject.SetActive(false);
+                _fadeTimer = 0;
+                _fadingOut = false;
+            }
+        }
+    }
+
+    private void SetSliderAlpha(float alpha)
+    {
+        if (_sliderFillColor != null && _sliderBackgroundColor != null)
+        {
+            Color fillColor = _sliderFillColor.color;
+            Color backgroundColor = _sliderBackgroundColor.color;
+
+            // Set the alpha value for both colors
+            fillColor.a = alpha;
+            backgroundColor.a = alpha;
+
+            // Set the colors back to the fill and background
+            _sliderFillColor.color = fillColor;
+            _sliderBackgroundColor.color = backgroundColor;
+        }
+        else
+        {
+            Debug.LogError("Slider Fill And/Or Slider Background is NULL");
+        }
+    }
+
+    private void FadeOutSlider()
+    {
+        if (!_fadingOut)
+        {
+            _fadingOut = true;
+        }
+    }
+
+    public void SliderInUse()
+    {
+        if (_fadingOut)
+        {
+            _fadingOut = false;
+        }
+        SetSliderAlpha(1f);
+        _sprintSlider.gameObject.SetActive(true);
+    }
+
 
     IEnumerator DialogueTextRoutine(string dialogue)
     {
@@ -173,7 +255,6 @@ public class UIManager : MonoSingleton<UIManager>
             }
         }
     }
-
     public void ActivateGift(string npcName, GameObject gift, GameObject potionImage)
     {
         if (!_giftGivenDict[npcName] && _canGiveGiftDict[npcName])
@@ -190,5 +271,21 @@ public class UIManager : MonoSingleton<UIManager>
                 potionImage.SetActive(true);
             }
         }
+    }
+
+    public void SprintSlider(float sprintPercentage)
+    {
+        _sprintSlider.value = sprintPercentage;
+
+        if (sprintPercentage >= 99)
+        {
+            FadeOutSlider();
+        }
+        else
+        {
+            SliderInUse();
+        }
+        _sprintSlider.maxValue = 100f;
+        _sprintSlider.minValue = 0f;
     }
 }

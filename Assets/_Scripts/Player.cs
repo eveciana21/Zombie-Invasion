@@ -19,10 +19,14 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _headTransform;
     [SerializeField] private float _headBobAmount;
     [SerializeField] private float _headBobSpeed;
-
     private Vector3 _initialHeadPosition;
     private float _timer = 0f;
 
+    [Space]
+
+    [SerializeField] private float _sprintRefuelSpeed;
+    private float _sprintRemaining;
+    private bool _canSprint = true;
 
     [Header("Damage")]
 
@@ -32,8 +36,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int _bodyShot = 10;
     [SerializeField] private int _playerScore;
 
-    private bool _barrelDestroyed;
-    private bool _playerIsAlive = true;
+
 
     [Header("Weapon Characteristics")]
 
@@ -43,16 +46,18 @@ public class Player : MonoBehaviour
     [SerializeField] private int _ammo = 30;
     [SerializeField] private int _ammoSubCount = 60;
     private int _maxAmmo = 30;
+    private int _killCount;
+    private float _canFire;
 
-    [SerializeField] private bool _ammoRemaining = true;
-    [SerializeField] private bool _canReload = true;
+
+    private bool _ammoRemaining = true;
+    private bool _canReload = true;
     private bool _isReloading;
     private bool _isEngagingInDialogue;
+    private bool _clipEmpty;
+    private bool _barrelDestroyed;
+    private bool _playerIsAlive = true;
 
-    private float _canFire;
-    [SerializeField] private bool _clipEmpty;
-
-    private int _killCount;
 
     [SerializeField] private GameObject[] _bloodScreen;
 
@@ -123,15 +128,19 @@ public class Player : MonoBehaviour
             float bobSpeed;
             float verticalBob;
 
-            if (_input.sprint)
+            if (_canSprint && _input.sprint)
             {
                 GameManager.Instance.IncreaseChromaticAberration(0.4f, 4f);
                 bobSpeed = _headBobSpeed * 2f;
+
+                SprintSliderDecrease();
             }
             else
             {
                 GameManager.Instance.IncreaseChromaticAberration(0f, 8f);
                 bobSpeed = _headBobSpeed * 1.25f;
+
+                SprintSliderIncrease();
             }
 
             verticalBob = Mathf.Cos(_timer * bobSpeed) * _headBobAmount * 0.5f;
@@ -145,8 +154,37 @@ public class Player : MonoBehaviour
             GameManager.Instance.IncreaseChromaticAberration(0f, 8f);
             _headTransform.localPosition = _initialHeadPosition;
             _timer = 0;
+
+            SprintSliderIncrease();
         }
     }
+
+    private void SprintSliderIncrease()
+    {
+        UIManager.Instance.SprintSlider(_sprintRemaining += Time.deltaTime * _sprintRefuelSpeed);
+        if (_sprintRemaining >= 100)
+        {
+            _sprintRemaining = 100;
+        }
+    }
+    private void SprintSliderDecrease()
+    {
+        UIManager.Instance.SprintSlider(_sprintRemaining -= Time.deltaTime * _sprintRefuelSpeed);
+        if (_sprintRemaining <= 0)
+        {
+            _sprintRemaining = 0;
+            _canSprint = false;
+            StartCoroutine(SprintCooldownRoutine());
+        }
+    }
+
+    IEnumerator SprintCooldownRoutine()
+    {
+        yield return new WaitForSeconds(1);
+        _canSprint = true;
+    }
+
+
 
     private void Shoot()
     {
