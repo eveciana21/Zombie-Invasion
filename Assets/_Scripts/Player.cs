@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (!_isEngagingInDialogue)
+        if (!_input.IsMenuOnScreen() && !_isEngagingInDialogue)
         {
             Shoot();
         }

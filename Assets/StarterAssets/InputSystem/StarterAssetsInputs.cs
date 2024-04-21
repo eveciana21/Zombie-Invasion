@@ -16,6 +16,7 @@ namespace StarterAssets
         public bool fire;
         public bool reload;
         public bool escapeKey;
+        private bool _menuOnScreen;
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -100,7 +101,7 @@ namespace StarterAssets
             sprint = newSprintState;
         }
 
-        private void OnApplicationFocus(bool hasFocus)
+        /*private void OnApplicationFocus(bool hasFocus)
         {
             SetCursorState(cursorLocked);
         }
@@ -108,7 +109,34 @@ namespace StarterAssets
         private void SetCursorState(bool newState)
         {
             Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+        }*/
+
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            if (!hasFocus)
+            {
+                // Game is not in focus, unlock cursor
+                SetCursorState(false);
+            }
+        }
+
+        public void SetCursorVisible(bool value)
+        {
+            _menuOnScreen = value;
+            // Update cursor state when the menu state changes
+            SetCursorState(!_menuOnScreen);
+        }
+
+        public bool IsMenuOnScreen()
+        {
+            return _menuOnScreen; //cannot shoot if menu is on screen
+        }
+
+        private void SetCursorState(bool newState)
+        {
+            Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.visible = !newState; // Show cursor if unlocked, hide cursor if locked
         }
     }
-
 }

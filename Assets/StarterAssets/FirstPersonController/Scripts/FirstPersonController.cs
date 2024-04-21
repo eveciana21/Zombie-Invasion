@@ -132,6 +132,11 @@ namespace StarterAssets
 
         private void CameraRotation()
         {
+            if (Time.timeScale == 0)
+            {
+                // If the game is paused, return without rotating the camera
+                return;
+            }
             // if there is an input
             if (_input.look.sqrMagnitude >= _threshold)
             {
