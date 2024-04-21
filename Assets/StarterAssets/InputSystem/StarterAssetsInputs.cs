@@ -14,6 +14,8 @@ namespace StarterAssets
         public bool sprint;
 
         public bool fire;
+        public bool reload;
+        public bool escapeKey;
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -51,10 +53,31 @@ namespace StarterAssets
         {
             FireInput(value.isPressed);
         }
+
+        public void OnReload(InputValue value)
+        {
+            ReloadInput(value.isPressed);
+        }
+
+        public void OnEscapeKey(InputValue value)
+        {
+            EscapeKeyInput(value.isPressed);
+        }
 #endif
+
+        public void EscapeKeyInput(bool newEscapeKey)
+        {
+            escapeKey = newEscapeKey;
+        }
+
         public void FireInput(bool newShootState)
         {
             fire = newShootState;
+        }
+
+        public void ReloadInput(bool newReloadState)
+        {
+            reload = newReloadState;
         }
 
         public void MoveInput(Vector2 newMoveDirection)

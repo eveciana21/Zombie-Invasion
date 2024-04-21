@@ -7,6 +7,7 @@ using StarterAssets;
 public class Player : MonoBehaviour
 {
     private StarterAssetsInputs _input;
+    [SerializeField] private Animator _animator;
 
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private GameObject _muzzleFlashTransform;
@@ -33,17 +34,18 @@ public class Player : MonoBehaviour
     [SerializeField] private int _ammoSubCount = 60;
     private int _maxAmmo = 30;
 
-    private bool _ammoRemaining = true;
-    private bool _canReload = true;
+    [SerializeField] private bool _ammoRemaining = true;
+    [SerializeField] private bool _canReload = true;
     private bool _isReloading;
+    private bool _isEngagingInDialogue;
 
     private float _canFire;
+    [SerializeField] private bool _clipEmpty;
 
     private int _killCount;
 
     [SerializeField] private GameObject[] _bloodScreen;
 
-    private bool _isEngagingInDialogue;
 
     private void Start()
     {
@@ -68,7 +70,7 @@ public class Player : MonoBehaviour
             Shoot();
         }
 
-        if (Keyboard.current.rKey.isPressed)
+        if (_input.reload)
         {
             if (_ammoSubCount <= 0)
             {
@@ -76,7 +78,10 @@ public class Player : MonoBehaviour
             }
             else
             {
-                _canReload = true;
+                if (_ammo < _maxAmmo)
+                {
+                    _canReload = true;
+                }
             }
 
             if (_canReload && !_isReloading)
@@ -86,6 +91,7 @@ public class Player : MonoBehaviour
                     StartCoroutine(ReloadAmmo());
                 }
             }
+            _input.reload = false;
         }
     }
 
@@ -102,12 +108,29 @@ public class Player : MonoBehaviour
                 if (_ammo <= 0)
                 {
                     _ammo = 0;
-                    if (!_isReloading)
+                    if (!_isReloading && _canReload && _ammoRemaining)
                     {
                         StartCoroutine(ReloadAmmo());
+                        _canReload = false;
+                    }
+                    else
+                    {
+                        _ammoRemaining = false;
+                        _clipEmpty = true;
                     }
                 }
                 _canFire = Time.time + _fireRate;
+            }
+        }
+        else
+        {
+            if (_clipEmpty && _input.fire)
+            {
+                if (Time.time > _canFire && !_isReloading)
+                {
+                    AudioManager.Instance.PlaySFX(3);
+                    _canFire = Time.time + 1f;
+                }
             }
         }
         UIManager.Instance.AmmoCount(_ammo);
@@ -117,31 +140,33 @@ public class Player : MonoBehaviour
     {
         _isReloading = true;
 
-        if (_canReload == true)
+        if (_ammoRemaining)
         {
-            Debug.Log("Reloading!");
+            _animator.SetBool("Reload", true);
+        }
+        _ammoRemaining = false;
 
-            _ammoRemaining = false;
+        AudioManager.Instance.PlaySFX(4);
+        yield return new WaitForSeconds(1.3f);
+        AudioManager.Instance.PlaySFX(5);
+        yield return new WaitForSeconds(0.7f);
 
-            yield return new WaitForSeconds(2);
+        int spaceLeftInChamber = _maxAmmo - _ammo;
+        if (spaceLeftInChamber > 0 && _ammoSubCount > 0)
+        {
+            int bulletsToReload = Mathf.Min(spaceLeftInChamber, _ammoSubCount);
+            _ammo += bulletsToReload;
+            _ammoSubCount -= bulletsToReload;
 
-            int spaceLeftInChamber = _maxAmmo - _ammo;
-            if (spaceLeftInChamber > 0 && _ammoSubCount > 0)
+            _ammoRemaining = true;
+            _clipEmpty = false;
+
+            if (_ammoSubCount > 0)
             {
-                int bulletsToReload = Mathf.Min(spaceLeftInChamber, _ammoSubCount);
-                _ammo += bulletsToReload;
-                _ammoSubCount -= bulletsToReload;
-
-                Debug.Log("Reloaded " + bulletsToReload + " bullets.");
-
-                _ammoRemaining = true;
+                _canReload = true;
             }
         }
-        else
-        {
-            _ammoRemaining = false;
-            Debug.Log("NO AMMO!");
-        }
+        _animator.SetBool("Reload", false);
 
         _isReloading = false;
 
@@ -184,6 +209,9 @@ public class Player : MonoBehaviour
         GameObject muzzleFlash = PoolManager.Instance.RequestMuzzleFlash(); //Muzzle Flash from gun
         muzzleFlash.transform.position = _muzzleFlashTransform.transform.position;
         muzzleFlash.transform.rotation = _muzzleFlashTransform.transform.rotation;
+
+        int randomGunAudio = Random.Range(0, 3);
+        AudioManager.Instance.PlaySFX(randomGunAudio);
     }
 
     IEnumerator BarrelDestroyedTimer()
@@ -228,6 +256,7 @@ public class Player : MonoBehaviour
         _ammoSubCount += 60;
 
         _canReload = true;
+        _clipEmpty = false;
         _ammoRemaining = true;
 
         if (_ammo <= 0 && !_isReloading)

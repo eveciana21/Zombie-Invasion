@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private List<Transform> _wayPoint;
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip[] _audioClip;
 
     [Header("Appearance")]
 
@@ -63,6 +65,7 @@ public class EnemyAI : MonoBehaviour
         _player = GameObject.Find("PlayerCapsule").GetComponent<Player>();
         _animator = GetComponent<Animator>();
         _navmeshAgent = GetComponent<NavMeshAgent>();
+        _audioSource = GetComponent<AudioSource>();
 
         if (_navmeshAgent == null)
             Debug.LogError("Enemy Navmesh is NULL");
@@ -330,6 +333,9 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
+            int randomSFX = Random.Range(0, _audioClip.Length);
+            _audioSource.clip = _audioClip[randomSFX];
+            _audioSource.Play();
             _animator.SetTrigger("Hit");
         }
     }
