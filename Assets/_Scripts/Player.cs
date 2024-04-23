@@ -7,7 +7,9 @@ using StarterAssets;
 public class Player : MonoBehaviour
 {
     private StarterAssetsInputs _input;
+    private FirstPersonController _fpsController;
     [SerializeField] private Animator _animator;
+    [SerializeField] private Animator _playerAnimator;
 
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private GameObject _muzzleFlashTransform;
@@ -24,7 +26,7 @@ public class Player : MonoBehaviour
 
     [Space]
 
-    [SerializeField] private float _sprintRefuelSpeed;
+    private float _sprintRefuelSpeed;
     private float _sprintRemaining;
     private bool _canSprint = true;
 
@@ -35,7 +37,6 @@ public class Player : MonoBehaviour
     [SerializeField] private int _headShot = 25;
     [SerializeField] private int _bodyShot = 10;
     [SerializeField] private int _playerScore;
-
 
 
     [Header("Weapon Characteristics")]
@@ -58,7 +59,6 @@ public class Player : MonoBehaviour
     private bool _barrelDestroyed;
     private bool _playerIsAlive = true;
 
-
     [SerializeField] private GameObject[] _bloodScreen;
 
 
@@ -79,17 +79,21 @@ public class Player : MonoBehaviour
 
         _initialHeadPosition = _headTransform.localPosition;
 
+        _sprintRemaining = 100f;
     }
 
     private void Update()
     {
-        if (!_input.IsMenuOnScreen() && !_isEngagingInDialogue)
+        if (_playerIsAlive)
         {
-            Shoot();
-        }
+            if (!_input.IsMenuOnScreen() && !_isEngagingInDialogue)
+            {
+                Shoot();
+            }
 
-        Reload();
-        Sprint();
+            Reload();
+            Sprint();
+        }
     }
 
     private void Reload()
@@ -133,14 +137,14 @@ public class Player : MonoBehaviour
                 GameManager.Instance.IncreaseChromaticAberration(0.4f, 4f);
                 bobSpeed = _headBobSpeed * 2f;
 
-                SprintSliderDecrease();
+                SprintSliderDecrease(35);
             }
             else
             {
                 GameManager.Instance.IncreaseChromaticAberration(0f, 8f);
                 bobSpeed = _headBobSpeed * 1.25f;
 
-                SprintSliderIncrease();
+                SprintSliderIncrease(15);
             }
 
             verticalBob = Mathf.Cos(_timer * bobSpeed) * _headBobAmount * 0.5f;
@@ -155,20 +159,23 @@ public class Player : MonoBehaviour
             _headTransform.localPosition = _initialHeadPosition;
             _timer = 0;
 
-            SprintSliderIncrease();
+            SprintSliderIncrease(20);
         }
     }
 
-    private void SprintSliderIncrease()
+    private void SprintSliderIncrease(float speed)
     {
+        _sprintRefuelSpeed = speed;
         UIManager.Instance.SprintSlider(_sprintRemaining += Time.deltaTime * _sprintRefuelSpeed);
         if (_sprintRemaining >= 100)
         {
             _sprintRemaining = 100;
         }
     }
-    private void SprintSliderDecrease()
+    private void SprintSliderDecrease(float speed)
     {
+        _sprintRefuelSpeed = speed;
+
         UIManager.Instance.SprintSlider(_sprintRemaining -= Time.deltaTime * _sprintRefuelSpeed);
         if (_sprintRemaining <= 0)
         {
@@ -183,8 +190,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1);
         _canSprint = true;
     }
-
-
 
     private void Shoot()
     {
@@ -337,6 +342,10 @@ public class Player : MonoBehaviour
             {
                 _health = 0;
                 _playerIsAlive = false;
+                _playerAnimator.SetBool("Death", true);
+                UIManager.Instance.IsPlayerAlive(false);
+                GameManager.Instance.PlayerDeadMenu(true);
+                _input.IsPlayerAlive(false);
             }
         }
         UIManager.Instance.HealthRemaining(_health);

@@ -29,12 +29,14 @@ public class UIManager : MonoSingleton<UIManager>
     [Space]
 
     [SerializeField] private Slider _sprintSlider;
+    [SerializeField] private Image _reticle;
 
     private Image _sliderFillColor;
     private Image _sliderBackgroundColor;
     private float _fadeTimer = 0;
     private float _fadeSpeed = 1f;
     private bool _fadingOut;
+    private bool _isPlayerAlive = true;
 
     private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
     {
@@ -67,15 +69,27 @@ public class UIManager : MonoSingleton<UIManager>
 
     private void Start()
     {
-        _sprintSlider.value = 100f;
+        if (_sprintSlider != null)
+        {
+            SprintSlider(100f);
+            _sprintSlider.gameObject.SetActive(false);
 
-        _sliderFillColor = _sprintSlider.fillRect.GetComponent<Image>();
-        _sliderBackgroundColor = _sprintSlider.GetComponentInChildren<Image>();
+            _sliderFillColor = _sprintSlider.fillRect.GetComponent<Image>();
+            _sliderBackgroundColor = _sprintSlider.GetComponentInChildren<Image>();
+        }
+
     }
 
     private void Update()
     {
         SliderFade();
+
+        if (!_isPlayerAlive)
+        {
+            _proveYourWorthText.SetActive(false);
+            _dialogueBox.SetActive(false);
+            _reticle.enabled = false;
+        }
     }
 
     private void SliderFade()
@@ -136,7 +150,6 @@ public class UIManager : MonoSingleton<UIManager>
         _sprintSlider.gameObject.SetActive(true);
     }
 
-
     IEnumerator DialogueTextRoutine(string dialogue)
     {
         _dialogueText.text = " ";
@@ -159,6 +172,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void DialogueText(bool nearPlayer, string npcName, string dialogue, string secondaryDialogue, string tertiaryDialogue)
     {
+
         if (nearPlayer)
         {
             _dialogueBox.SetActive(true);
@@ -194,6 +208,7 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
+
     IEnumerator ProveYourWorthRoutine()
     {
         yield return new WaitForSeconds(0.5f);
@@ -219,7 +234,15 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void HealthRemaining(int health)
     {
-        _health.text = health.ToString();
+        if (_isPlayerAlive)
+        {
+            _health.text = health.ToString();
+        }
+        else
+        {
+            _health.gameObject.SetActive(false);
+        }
+
 
         if (health <= 25)
         {
@@ -287,5 +310,18 @@ public class UIManager : MonoSingleton<UIManager>
         }
         _sprintSlider.maxValue = 100f;
         _sprintSlider.minValue = 0f;
+    }
+
+    public void DisableSlider()
+    {
+        if (_sprintSlider != null)
+        {
+            _sprintSlider.gameObject.SetActive(false);
+        }
+    }
+
+    public void IsPlayerAlive(bool isPlayerAlive)
+    {
+        _isPlayerAlive = isPlayerAlive;
     }
 }

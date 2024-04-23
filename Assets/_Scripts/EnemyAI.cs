@@ -47,8 +47,6 @@ public class EnemyAI : MonoBehaviour
     private Animator _animator;
     private Player _player;
 
-
-    //private Collider _playerBody;
     private enum AIState
     {
         Idle,
@@ -59,9 +57,6 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        //_player = GameObject.Find("Player").GetComponentInChildren<Player>();
-        //_playerBody = GameObject.Find("PlayerCapsule").GetComponent<Collider>();
-
         _player = GameObject.Find("PlayerCapsule").GetComponent<Player>();
         _animator = GetComponent<Animator>();
         _navmeshAgent = GetComponent<NavMeshAgent>();
@@ -73,14 +68,16 @@ public class EnemyAI : MonoBehaviour
         if (_animator == null)
             Debug.LogError("Enemy Animator is NULL");
 
+        if (_audioSource == null)
+            Debug.LogError("Enemy AudioSource is NULL");
+
+
         if (_player == null)
             Debug.LogError("Player is NULL");
 
         GenerateZombie();
 
         StartCoroutine(EmergingFromGround());
-
-        //_navmeshAgent.destination = _wayPoint[0].position; //<-- not sure if I need this yet
 
         _currentPos = 0;
     }
@@ -171,7 +168,6 @@ public class EnemyAI : MonoBehaviour
         switch (_currentState)
         {
             case AIState.Idle:
-                //if (_isWalking == false && !_isDead)
                 if (!_isDead)
                 {
                     StartCoroutine("IdleRoutine");
@@ -228,7 +224,6 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(2);
         _navmeshAgent.isStopped = false;
         _currentState = AIState.Walk;
-        //_isWalking = true;
     }
 
     IEnumerator AttackRoutine()
@@ -280,9 +275,9 @@ public class EnemyAI : MonoBehaviour
     {
         if (_randomAnim == 0)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * 0.4f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * 1.5f, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack * 0.4f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack * 1.5f), Color.red);
 
                 if (_isAttacking == false)
                 {
@@ -293,9 +288,9 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 1)
         {
-            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack * 0.4f, _playerMask))
+            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack * 1.5f, _playerMask))
             {
-                Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack * 0.4f), Color.red);
+                Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack * 1.5f), Color.red);
 
                 if (_isAttacking == false)
                 {
@@ -306,9 +301,9 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 2)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.up, _distanceToAttack * 0.6f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.up, _distanceToAttack * 3f, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.up * (_distanceToAttack * 0.6f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.up * (_distanceToAttack * 3f), Color.red);
 
                 if (_isAttacking == false)
                 {

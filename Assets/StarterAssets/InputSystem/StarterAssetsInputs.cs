@@ -25,24 +25,30 @@ namespace StarterAssets
         public bool cursorLocked = true;
         public bool cursorInputForLook = true;
 
+        private bool _isPlayerAlive = true;
+
 
 #if ENABLE_INPUT_SYSTEM
         public void OnMove(InputValue value)
         {
-            MoveInput(value.Get<Vector2>());
+            if (_isPlayerAlive)
+                MoveInput(value.Get<Vector2>());
         }
 
         public void OnLook(InputValue value)
         {
             if (cursorInputForLook)
             {
-                LookInput(value.Get<Vector2>());
+                if (_isPlayerAlive)
+
+                    LookInput(value.Get<Vector2>());
             }
         }
 
         public void OnJump(InputValue value)
         {
-            JumpInput(value.isPressed);
+            if (_isPlayerAlive)
+                JumpInput(value.isPressed);
         }
 
         public void OnSprint(InputValue value)
@@ -83,12 +89,12 @@ namespace StarterAssets
 
         public void MoveInput(Vector2 newMoveDirection)
         {
-            move = newMoveDirection;
+                move = newMoveDirection;
         }
 
         public void LookInput(Vector2 newLookDirection)
         {
-            look = newLookDirection;
+                look = newLookDirection;
         }
 
         public void JumpInput(bool newJumpState)
@@ -100,17 +106,6 @@ namespace StarterAssets
         {
             sprint = newSprintState;
         }
-
-        /*private void OnApplicationFocus(bool hasFocus)
-        {
-            SetCursorState(cursorLocked);
-        }
-
-        private void SetCursorState(bool newState)
-        {
-            Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
-        }*/
-
 
         private void OnApplicationFocus(bool hasFocus)
         {
@@ -137,6 +132,11 @@ namespace StarterAssets
         {
             Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
             Cursor.visible = !newState; // Show cursor if unlocked, hide cursor if locked
+        }
+
+        public void IsPlayerAlive(bool isPlayerAlive)
+        {
+            _isPlayerAlive = isPlayerAlive;
         }
     }
 }

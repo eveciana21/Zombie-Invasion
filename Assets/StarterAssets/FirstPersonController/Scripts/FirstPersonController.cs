@@ -72,6 +72,8 @@ namespace StarterAssets
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
 
+        private bool _isPlayerAlive = true;
+
         private const float _threshold = 0.01f;
 
         private bool IsCurrentDeviceMouse
@@ -108,19 +110,26 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
-
         }
 
         private void Update()
         {
-            JumpAndGravity();
-            GroundedCheck();
-            Move();
+            if (_isPlayerAlive)
+            {
+                JumpAndGravity();
+                GroundedCheck();
+                Move();
+            }
         }
 
         private void LateUpdate()
         {
             CameraRotation();
+        }
+
+        public void IsPlayerAlive(bool isPlayerAlive)
+        {
+            _isPlayerAlive = isPlayerAlive;
         }
 
         private void GroundedCheck()

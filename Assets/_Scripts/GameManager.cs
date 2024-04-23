@@ -10,12 +10,17 @@ public class GameManager : MonoSingleton<GameManager>
 {
     private StarterAssetsInputs _input;
 
+    private ChromaticAberration _chromaticAberration;
+    private Vignette _vignette;
+
     [SerializeField] private GameObject _quitGameButtons;
+    [SerializeField] private PostProcessVolume _postProcessVolume;
     private bool _gameStarted;
 
-    [SerializeField] private PostProcessVolume _postProcessVolume;
-    private Vignette _vignette;
-    private ChromaticAberration _chromaticAberration;
+    [SerializeField] private GameObject _deathMenu;
+    [SerializeField] private GameObject _skullsParticle;
+    [SerializeField] private GameObject _reticle;
+    private bool _playerDead;
 
     public override void Init()
     {
@@ -55,11 +60,16 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void Update()
     {
-        if (_input != null && _input.escapeKey)
+        if (_input != null && !_playerDead && _input.escapeKey)
         {
             PauseGame();
             VignetteIntensity(0.5f);
             _input.escapeKey = false;
+        }
+
+        if (_playerDead)
+        {
+            FadeVignette(0.9f);
         }
     }
     public void IncreaseChromaticAberration(float targetIntensity, float speed)
@@ -67,8 +77,6 @@ public class GameManager : MonoSingleton<GameManager>
         // Set the chromatic aberration intensity of the post processing volume when sprinting
         if (_chromaticAberration != null)
         {
-            //_chromaticAberration.intensity.value = Mathf.MoveTowards(_chromaticAberration.intensity.value, targetIntensity, Time.deltaTime);
-
             float currentIntensity = _chromaticAberration.intensity.value;
             float newIntensity = Mathf.Lerp(currentIntensity, targetIntensity, speed * Time.deltaTime);
             _chromaticAberration.intensity.value = newIntensity;
@@ -82,6 +90,14 @@ public class GameManager : MonoSingleton<GameManager>
         {
             _vignette.intensity.value = intensity;
         }
+    }
+
+    private void FadeVignette(float intensity)
+    {
+        _vignette.color.value = Color.red;
+
+        float newIntensity = Mathf.Lerp(_vignette.intensity.value, intensity, 0.2f * Time.deltaTime);
+        _vignette.intensity.value = newIntensity;
     }
 
     public void StartGame()
@@ -99,6 +115,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void PauseGame()
     {
+
         Time.timeScale = 0;
 
         if (_quitGameButtons != null)
@@ -134,6 +151,21 @@ public class GameManager : MonoSingleton<GameManager>
             _input.SetCursorVisible(true);
         }
     }
+
+    public void PlayerDeadMenu(bool playerDead)
+    {
+        _playerDead = playerDead;
+        _skullsParticle.SetActive(true);
+        _input.SetCursorVisible(true);
+        StartCoroutine(DeathMenuDelay());
+    }
+
+    IEnumerator DeathMenuDelay()
+    {
+        yield return new WaitForSeconds(4);
+        _deathMenu.SetActive(true);
+    }
+
 
     public void QuitGame()
     {
