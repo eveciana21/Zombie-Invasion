@@ -275,9 +275,9 @@ public class EnemyAI : MonoBehaviour
     {
         if (_randomAnim == 0)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * 1.5f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack * 1.5f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack), Color.red);
 
                 if (_isAttacking == false)
                 {
@@ -288,9 +288,9 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 1)
         {
-            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack * 1.5f, _playerMask))
+            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack, _playerMask))
             {
-                Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack * 1.5f), Color.red);
+                Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack), Color.red);
 
                 if (_isAttacking == false)
                 {
@@ -301,9 +301,9 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 2)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.up, _distanceToAttack * 3f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.forward, _distanceToAttack * 2f, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.up * (_distanceToAttack * 3f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.forward * (_distanceToAttack * 2f), Color.red);
 
                 if (_isAttacking == false)
                 {
@@ -382,7 +382,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         int chanceOfHavingWeapon = Random.Range(0, 101);
-        if (chanceOfHavingWeapon > 10)
+        if (chanceOfHavingWeapon > 80) // change to 10
         {
             _randomAnim = Random.Range(0, 2);
         }
