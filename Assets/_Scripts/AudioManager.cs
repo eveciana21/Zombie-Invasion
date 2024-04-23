@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AudioManager : MonoSingleton<AudioManager>
 {
-    [SerializeField] private AudioSource _sfxAudio;
+    [SerializeField] private AudioSource _sfxAudioSource;
     [SerializeField] private AudioClip[] _audioClip;
 
     public override void Init()
@@ -20,12 +20,12 @@ public class AudioManager : MonoSingleton<AudioManager>
             return;
         }
 
-        _sfxAudio.clip = _audioClip[clipIndex];
-        _sfxAudio.Play();
+        _sfxAudioSource.clip = _audioClip[clipIndex];
+        _sfxAudioSource.Play();
     }
 
     public void StopAudio()
     {
-        _sfxAudio.Stop();
+        _sfxAudioSource.Stop();
     }
 }

@@ -382,7 +382,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         int chanceOfHavingWeapon = Random.Range(0, 101);
-        if (chanceOfHavingWeapon > 80) // change to 10
+        if (chanceOfHavingWeapon > 10)
         {
             _randomAnim = Random.Range(0, 2);
         }

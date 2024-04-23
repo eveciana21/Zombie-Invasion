@@ -127,10 +127,10 @@ namespace StarterAssets
             CameraRotation();
         }
 
-        public void IsPlayerAlive(bool isPlayerAlive)
-        {
-            _isPlayerAlive = isPlayerAlive;
-        }
+        /* public void IsPlayerAlive(bool isPlayerAlive)
+         {
+             _isPlayerAlive = isPlayerAlive;
+         }*/
 
         private void GroundedCheck()
         {

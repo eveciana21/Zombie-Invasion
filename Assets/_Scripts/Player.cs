@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 
     private float _sprintRefuelSpeed;
     private float _sprintRemaining;
-    private bool _canSprint = true;
+    [SerializeField] private bool _canSprint = true;
 
     [Header("Damage")]
 
@@ -132,6 +132,7 @@ public class Player : MonoBehaviour
             float bobSpeed;
             float verticalBob;
 
+
             if (_canSprint && _input.sprint)
             {
                 GameManager.Instance.IncreaseChromaticAberration(0.4f, 4f);
@@ -143,7 +144,7 @@ public class Player : MonoBehaviour
             {
                 GameManager.Instance.IncreaseChromaticAberration(0f, 8f);
                 bobSpeed = _headBobSpeed * 1.25f;
-
+                _input.sprint = false;
                 SprintSliderIncrease(15);
             }
 
@@ -166,6 +167,7 @@ public class Player : MonoBehaviour
     private void SprintSliderIncrease(float speed)
     {
         _sprintRefuelSpeed = speed;
+
         UIManager.Instance.SprintSlider(_sprintRemaining += Time.deltaTime * _sprintRefuelSpeed);
         if (_sprintRemaining >= 100)
         {
