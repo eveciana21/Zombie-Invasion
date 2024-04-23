@@ -9,17 +9,18 @@ using UnityEngine.Rendering.PostProcessing;
 public class GameManager : MonoSingleton<GameManager>
 {
     private StarterAssetsInputs _input;
+    private Player _player;
 
+    [SerializeField] private PostProcessVolume _postProcessVolume;
     private ChromaticAberration _chromaticAberration;
     private Vignette _vignette;
 
     [SerializeField] private GameObject _quitGameButtons;
-    [SerializeField] private PostProcessVolume _postProcessVolume;
-    private bool _gameStarted;
-
     [SerializeField] private GameObject _deathMenu;
     [SerializeField] private GameObject _skullsParticle;
     [SerializeField] private GameObject _reticle;
+
+    private bool _gameStarted;
     private bool _playerDead;
 
     public override void Init()
@@ -35,6 +36,9 @@ public class GameManager : MonoSingleton<GameManager>
             _input = player.GetComponent<StarterAssetsInputs>();
             if (_input == null)
                 Debug.LogError("Input is NULL");
+            _player = player.GetComponent<Player>();
+            if (_player == null)
+                Debug.LogError("Player is NULL");
         }
 
         if (_postProcessVolume == null)
@@ -52,7 +56,7 @@ public class GameManager : MonoSingleton<GameManager>
                 _gameStarted = true;
             }
         }
-        if (_gameStarted)
+        if (_gameStarted && !_playerDead)
         {
             SpawnManager.Instance.SpawnEnemies();
         }
@@ -74,7 +78,6 @@ public class GameManager : MonoSingleton<GameManager>
     }
     public void IncreaseChromaticAberration(float targetIntensity, float speed)
     {
-        // Set the chromatic aberration intensity of the post processing volume when sprinting
         if (_chromaticAberration != null)
         {
             float currentIntensity = _chromaticAberration.intensity.value;
@@ -92,7 +95,7 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    private void FadeVignette(float intensity)
+    public void FadeVignette(float intensity)
     {
         _vignette.color.value = Color.red;
 
@@ -115,7 +118,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void PauseGame()
     {
-
         Time.timeScale = 0;
 
         if (_quitGameButtons != null)
@@ -165,7 +167,6 @@ public class GameManager : MonoSingleton<GameManager>
         yield return new WaitForSeconds(4);
         _deathMenu.SetActive(true);
     }
-
 
     public void QuitGame()
     {

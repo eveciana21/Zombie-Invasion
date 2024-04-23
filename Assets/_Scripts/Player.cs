@@ -132,7 +132,6 @@ public class Player : MonoBehaviour
             float bobSpeed;
             float verticalBob;
 
-
             if (_canSprint && _input.sprint)
             {
                 GameManager.Instance.IncreaseChromaticAberration(0.4f, 4f);
@@ -142,7 +141,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.IncreaseChromaticAberration(0f, 8f);
+                GameManager.Instance.IncreaseChromaticAberration(0f, 6f);
                 bobSpeed = _headBobSpeed * 1.25f;
                 _input.sprint = false;
                 SprintSliderIncrease(15);
@@ -350,8 +349,20 @@ public class Player : MonoBehaviour
                 _input.IsPlayerAlive(false);
             }
         }
+
         UIManager.Instance.HealthRemaining(_health);
     }
+
+    /*public void IsPlayerAlive(bool isPlayerAlive)
+    {
+        _playerIsAlive = isPlayerAlive;
+        _health = 0;
+        _playerAnimator.SetBool("Death", true);
+        UIManager.Instance.IsPlayerAlive(false);
+        GameManager.Instance.PlayerDeadMenu(true);
+
+        _input.IsPlayerAlive(false);
+    }*/
 
     public void AmmoPickup()
     {
@@ -384,4 +395,5 @@ public class Player : MonoBehaviour
     {
         _isEngagingInDialogue = value;
     }
+
 }

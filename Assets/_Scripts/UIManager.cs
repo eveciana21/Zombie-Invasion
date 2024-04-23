@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Text;
+using System;
 using UnityEngine.UI;
 
 public class UIManager : MonoSingleton<UIManager>
@@ -25,6 +26,11 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private TextMeshProUGUI _dialogueText;
     [SerializeField] private GameObject _dialogueBox;
     private float _textSpeed = 0.06f;
+
+    private bool _timerActive = true;
+    private float _currentTime;
+    [SerializeField] private int _startMinutes;
+    [SerializeField] private TMP_Text _timerText;
 
     [Space]
 
@@ -78,11 +84,13 @@ public class UIManager : MonoSingleton<UIManager>
             _sliderBackgroundColor = _sprintSlider.GetComponentInChildren<Image>();
         }
 
+        _currentTime = _startMinutes * 10;
     }
 
     private void Update()
     {
         SliderFade();
+        Timer();
 
         if (!_isPlayerAlive)
         {
@@ -90,6 +98,31 @@ public class UIManager : MonoSingleton<UIManager>
             _dialogueBox.SetActive(false);
             _reticle.enabled = false;
         }
+
+    }
+
+    private void Timer()
+    {
+        if (_timerActive)
+        {
+            _currentTime = _currentTime - Time.deltaTime;
+            if (_currentTime <= 0)
+            {
+                _timerActive = false;
+                _isPlayerAlive = false;
+                _timerText.gameObject.SetActive(false);
+                GameManager.Instance.PlayerDeadMenu(true);
+                Start();
+            }
+        }
+
+        TimeSpan time = TimeSpan.FromSeconds(_currentTime);
+        _timerText.text = time.Minutes.ToString("00") + " : " + time.Seconds.ToString("00");
+    }
+
+    private void AddTime(float secondsToAdd)
+    {
+        _currentTime += secondsToAdd;
     }
 
     private void SliderFade()
@@ -240,6 +273,7 @@ public class UIManager : MonoSingleton<UIManager>
         }
         else
         {
+            health = 0;
             _health.gameObject.SetActive(false);
         }
 
@@ -288,6 +322,7 @@ public class UIManager : MonoSingleton<UIManager>
                 _giftGivenDict[npcName] = true;
                 gift.SetActive(true);
                 gift.transform.parent = null;
+                AddTime(30);
             }
             if (potionImage != null)
             {
@@ -295,6 +330,7 @@ public class UIManager : MonoSingleton<UIManager>
             }
         }
     }
+
 
     public void SprintSlider(float sprintPercentage)
     {
