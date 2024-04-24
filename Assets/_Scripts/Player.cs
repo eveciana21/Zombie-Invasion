@@ -61,7 +61,6 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject[] _bloodScreen;
 
-
     private void Start()
     {
         _input = GameObject.Find("PlayerCapsule").GetComponent<StarterAssetsInputs>();
@@ -342,27 +341,22 @@ public class Player : MonoBehaviour
             if (_health <= 0)
             {
                 _health = 0;
-                _playerIsAlive = false;
                 _playerAnimator.SetBool("Death", true);
-                UIManager.Instance.IsPlayerAlive(false);
-                GameManager.Instance.PlayerDeadMenu(true);
                 _input.IsPlayerAlive(false);
+                IsPlayerAlive(false);
             }
         }
 
         UIManager.Instance.HealthRemaining(_health);
     }
 
-    /*public void IsPlayerAlive(bool isPlayerAlive)
+    public void IsPlayerAlive(bool isPlayerAlive)
     {
         _playerIsAlive = isPlayerAlive;
-        _health = 0;
         _playerAnimator.SetBool("Death", true);
-        UIManager.Instance.IsPlayerAlive(false);
-        GameManager.Instance.PlayerDeadMenu(true);
 
         _input.IsPlayerAlive(false);
-    }*/
+    }
 
     public void AmmoPickup()
     {
@@ -395,5 +389,4 @@ public class Player : MonoBehaviour
     {
         _isEngagingInDialogue = value;
     }
-
 }

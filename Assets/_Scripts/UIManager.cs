@@ -84,7 +84,7 @@ public class UIManager : MonoSingleton<UIManager>
             _sliderBackgroundColor = _sprintSlider.GetComponentInChildren<Image>();
         }
 
-        _currentTime = _startMinutes * 10;
+        _currentTime = _startMinutes * 10; // < -------- change this to 60 
     }
 
     private void Update()
@@ -98,7 +98,6 @@ public class UIManager : MonoSingleton<UIManager>
             _dialogueBox.SetActive(false);
             _reticle.enabled = false;
         }
-
     }
 
     private void Timer()
@@ -106,16 +105,14 @@ public class UIManager : MonoSingleton<UIManager>
         if (_timerActive)
         {
             _currentTime = _currentTime - Time.deltaTime;
-            if (_currentTime <= 0)
+            if (_timerText != null && _currentTime <= 0)
             {
-                _timerActive = false;
-                _isPlayerAlive = false;
                 _timerText.gameObject.SetActive(false);
-                GameManager.Instance.PlayerDeadMenu(true);
-                Start();
+                IsPlayerAlive(false);
+                _timerActive = false;
+                //Start();
             }
         }
-
         TimeSpan time = TimeSpan.FromSeconds(_currentTime);
         _timerText.text = time.Minutes.ToString("00") + " : " + time.Seconds.ToString("00");
     }
@@ -209,6 +206,8 @@ public class UIManager : MonoSingleton<UIManager>
         if (nearPlayer)
         {
             _dialogueBox.SetActive(true);
+            _proveYourWorthText.SetActive(false);
+            StopCoroutine("ProveYourWorthRoutine");
 
             if (_confirmedPlayerNotZombie[npcName] == true)
             {
@@ -224,7 +223,6 @@ public class UIManager : MonoSingleton<UIManager>
             else
             {
                 StartCoroutine(DialogueTextRoutine(dialogue));
-                StopCoroutine("ProveYourWorthRoutine");
                 _proveYourWorthText.SetActive(false);
             }
         }
@@ -359,5 +357,9 @@ public class UIManager : MonoSingleton<UIManager>
     public void IsPlayerAlive(bool isPlayerAlive)
     {
         _isPlayerAlive = isPlayerAlive;
+        if (!_isPlayerAlive)
+        {
+            GameManager.Instance.PlayerDeadMenu();
+        }
     }
 }

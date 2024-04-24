@@ -29,7 +29,6 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] private AIState _currentState;
 
-    [SerializeField] private bool _isWalking = true;
     [SerializeField] private bool _isDead;
     [SerializeField] private bool _nearPlayer;
     [SerializeField] private bool _canAttack = true;
@@ -128,7 +127,6 @@ public class EnemyAI : MonoBehaviour
         {
             _navmeshAgent.SetDestination(_player.transform.position); // set new destination to player position
 
-            _isWalking = true;
             _animator.SetBool("Walking", true);
         }
     }
@@ -137,7 +135,6 @@ public class EnemyAI : MonoBehaviour
     {
         if (_navmeshAgent.remainingDistance <= 1)
         {
-            _isWalking = false;
             _animator.SetBool("Walking", false);
 
             if (_inReverse == true)
@@ -156,7 +153,6 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            _isWalking = true;
             _animator.SetBool("Walking", true);
         }
 
@@ -205,7 +201,6 @@ public class EnemyAI : MonoBehaviour
                 break;
 
             case AIState.Death:
-                _isWalking = false;
                 _canAttack = false;
 
                 if (!_isDead)
@@ -228,7 +223,6 @@ public class EnemyAI : MonoBehaviour
 
     IEnumerator AttackRoutine()
     {
-        _isWalking = false;
         _animator.SetTrigger("Attack");
         _animator.SetBool("Walking", false);
         _navmeshAgent.isStopped = true;
@@ -239,7 +233,6 @@ public class EnemyAI : MonoBehaviour
         _animator.SetBool("Walking", true);
         _navmeshAgent.ResetPath();
         _isAttacking = false;
-        _isWalking = true;
         _canAttack = true;
 
         _currentState = AIState.Walk;
@@ -264,7 +257,6 @@ public class EnemyAI : MonoBehaviour
 
         _navmeshAgent.isStopped = false;
         _enemyHasFallen = false;
-        _isWalking = true;
         _canAttack = true;
         _isDead = false;
         _health = 100;

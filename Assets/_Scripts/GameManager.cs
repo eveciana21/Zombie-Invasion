@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using StarterAssets;
 using UnityEngine.Rendering.PostProcessing;
-
+using System;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -30,6 +30,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     void Start()
     {
+        //Player player = FindObjectOfType<Player>();
         GameObject player = GameObject.Find("PlayerCapsule");
         if (player != null)
         {
@@ -154,17 +155,18 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    public void PlayerDeadMenu(bool playerDead)
+    public void PlayerDeadMenu()
     {
-        _playerDead = playerDead;
+        _playerDead = true;
+        _player.IsPlayerAlive(false);
         _skullsParticle.SetActive(true);
-        _input.SetCursorVisible(true);
         StartCoroutine(DeathMenuDelay());
     }
 
     IEnumerator DeathMenuDelay()
     {
         yield return new WaitForSeconds(4);
+        _input.SetCursorVisible(true);
         _deathMenu.SetActive(true);
     }
 
