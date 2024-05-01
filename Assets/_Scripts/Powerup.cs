@@ -26,10 +26,6 @@ public class Powerup : MonoBehaviour
                         Debug.Log("You Picked Up Health!");
                         player.HealthPickup();
                         break;
-                    case 2:
-                        Debug.Log("You picked up a Vaccine Component!");
-                        _isVaccine = true;
-                        break;
                 }
             }
             else
@@ -37,14 +33,8 @@ public class Powerup : MonoBehaviour
                 Debug.LogError("Player is NULL");
             }
 
-            if (!_isVaccine)
-            {
-                Destroy(this.gameObject, 0.5f);
-            }
-            else
-            {
-                Destroy(this.gameObject, 1f);
-            }
+            Destroy(this.gameObject, 0.3f);
         }
     }
 }
+
