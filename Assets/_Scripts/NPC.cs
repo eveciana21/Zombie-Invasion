@@ -62,7 +62,7 @@ public class NPC : MonoBehaviour
         CurrentAIState();
 
         float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
-        if (distanceFromPlayer < _interactionDistance)
+        if (distanceFromPlayer <= _interactionDistance)
         {
             _currentState = AIState.Talk;
             SlowEnemySpeed();
@@ -122,7 +122,7 @@ public class NPC : MonoBehaviour
                 }
 
                 float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
-                if (distanceFromPlayer > 7)
+                if (distanceFromPlayer >= _interactionDistance)
                 {
                     UIManager.Instance.DialogueText(false, _npcName, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText);
                     _dialogueTextOnScreen = false;

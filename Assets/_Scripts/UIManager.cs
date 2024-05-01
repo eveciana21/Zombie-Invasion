@@ -43,7 +43,7 @@ public class UIManager : MonoSingleton<UIManager>
     private float _fadeSpeed = 1f;
     private bool _fadingOut;
     private bool _isPlayerAlive = true;
-    //private bool _interactedWithNpc;
+    private bool _interactedWithPlayer;
 
     private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
     {
@@ -73,13 +73,13 @@ public class UIManager : MonoSingleton<UIManager>
         {"NPC3", false },
         {"NPC4", false }
     };
-    private Dictionary<string, bool> _interactedWithPlayer = new Dictionary<string, bool>()
+    /*private Dictionary<string, bool> _interactedWithPlayer = new Dictionary<string, bool>()
     {
         {"NPC1", false },
         {"NPC2", false },
         {"NPC3", false },
         {"NPC4", false }
-    };
+    };*/
 
 
     private void Start()
@@ -108,11 +108,6 @@ public class UIManager : MonoSingleton<UIManager>
             _reticle.enabled = false;
         }
     }
-
-    /*public void InteractWithNPC()
-    {
-        _interactedWithNpc = true;
-    }*/
 
     private void Timer()
     {
@@ -216,9 +211,10 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void DialogueText(bool nearPlayer, string npcName, string dialogue, string secondaryDialogue, string tertiaryDialogue)
     {
+        _dialogueBox.SetActive(nearPlayer);
+
         if (nearPlayer)
         {
-            _dialogueBox.SetActive(true);
             _proveYourWorthText.SetActive(false);
             StopCoroutine("ProveYourWorthRoutine");
 
@@ -232,22 +228,22 @@ public class UIManager : MonoSingleton<UIManager>
                 {
                     StartCoroutine(TertiaryDialogueRoutine(tertiaryDialogue));
                 }
+                _interactedWithPlayer = true;
             }
             else
             {
                 StartCoroutine(DialogueTextRoutine(dialogue));
-                _proveYourWorthText.SetActive(false);
+                _interactedWithPlayer = false;
             }
         }
         else
         {
-            _dialogueBox.SetActive(false);
             StopAllCoroutines();
 
-            if (_confirmedPlayerNotZombie[npcName] == false && _interactedWithPlayer[npcName] == false) // <---- working on this
+            if (_confirmedPlayerNotZombie[npcName] == false && _interactedWithPlayer == false)
             {
-                StopCoroutine("ProveYourWorthRoutine");
                 StartCoroutine(ProveYourWorthRoutine());
+                _interactedWithPlayer = true;
             }
             else
             {
@@ -259,7 +255,6 @@ public class UIManager : MonoSingleton<UIManager>
 
     IEnumerator ProveYourWorthRoutine()
     {
-        //yield return new WaitForSeconds(0.5f);
         _proveYourWorthText.SetActive(true);
         yield return new WaitForSeconds(3);
         _proveYourWorthText.SetActive(false);
@@ -291,7 +286,6 @@ public class UIManager : MonoSingleton<UIManager>
             health = 0;
             _health.gameObject.SetActive(false);
         }
-
 
         if (health <= 25)
         {

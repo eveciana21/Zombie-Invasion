@@ -19,12 +19,17 @@ public class Powerup : MonoBehaviour
                 {
                     case 0:
                         Debug.Log("You Picked Up Ammo!");
-                        player.AmmoPickup();
+                        player.AmmoPickup(60);
                         break;
 
                     case 1:
                         Debug.Log("You Picked Up Health!");
                         player.HealthPickup();
+                        break;
+
+                    case 2:
+                        Debug.Log("You Picked Up Small Ammo!");
+                        player.AmmoPickup(10);
                         break;
                 }
             }

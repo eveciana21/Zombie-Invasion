@@ -46,6 +46,8 @@ public class EnemyAI : MonoBehaviour
     private Animator _animator;
     private Player _player;
 
+    [SerializeField] private GameObject _ammoPickup;
+
     private enum AIState
     {
         Idle,
@@ -315,16 +317,29 @@ public class EnemyAI : MonoBehaviour
             if (!_isDead)
             {
                 _currentState = AIState.Death;
+                int random = Random.Range(0, 101);
+                if (random <= 30)
+                {
+                    Instantiate(_ammoPickup, transform.position, Quaternion.identity);
+                }
+                int randomSFX = Random.Range(0, _audioClip.Length);
+                PlaySFX(randomSFX);
                 _player.AddToScore(50);
             }
         }
         else
         {
+            //_audioSource.clip = _audioClip[randomSFX];
+            //_audioSource.Play();
             int randomSFX = Random.Range(0, _audioClip.Length);
-            _audioSource.clip = _audioClip[randomSFX];
-            _audioSource.Play();
+            PlaySFX(randomSFX);
             _animator.SetTrigger("Hit");
         }
+    }
+
+    private void PlaySFX(int audioclip)
+    {
+        AudioManager.Instance.PlaySFX(_audioSource, _audioClip[audioclip]);
     }
 
     private void Reverse()
@@ -441,7 +456,6 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.tag == "Explosion")
         {
-            print("Died");
             _currentState = AIState.Death;
             _health = 0;
         }

@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     [SerializeField] private RectTransform _reticleTransform;
     [SerializeField] private Weapon _weapon;
 
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip[] _audioClip;
+
     [Header("Head Bob")]
 
     [SerializeField] private Transform _headTransform;
@@ -224,7 +227,8 @@ public class Player : MonoBehaviour
             {
                 if (Time.time > _canFire && !_isReloading)
                 {
-                    AudioManager.Instance.PlaySFX(3);
+                    //AudioManager.Instance.PlaySFX(3);
+                    PlaySFX(3); // empty clip
                     _canFire = Time.time + 1f;
                 }
             }
@@ -242,9 +246,11 @@ public class Player : MonoBehaviour
         }
         _ammoRemaining = false;
 
-        AudioManager.Instance.PlaySFX(4);
+        //AudioManager.Instance.PlaySFX(4);
+        PlaySFX(4); //reload audio
         yield return new WaitForSeconds(1.3f);
-        AudioManager.Instance.PlaySFX(5);
+        PlaySFX(5); // reload audio
+        //AudioManager.Instance.PlaySFX(5);
         yield return new WaitForSeconds(0.7f);
 
         int spaceLeftInChamber = _maxAmmo - _ammo;
@@ -307,7 +313,8 @@ public class Player : MonoBehaviour
         muzzleFlash.transform.rotation = _muzzleFlashTransform.transform.rotation;
 
         int randomGunAudio = Random.Range(0, 3);
-        AudioManager.Instance.PlaySFX(randomGunAudio);
+        //AudioManager.Instance.PlaySFX(randomGunAudio);
+        PlaySFX(randomGunAudio);
     }
 
     IEnumerator BarrelDestroyedTimer()
@@ -358,9 +365,9 @@ public class Player : MonoBehaviour
         _input.IsPlayerAlive(false);
     }
 
-    public void AmmoPickup()
+    public void AmmoPickup(int ammoQuantity)
     {
-        _ammoSubCount += 60;
+        _ammoSubCount += ammoQuantity;
 
         _canReload = true;
         _clipEmpty = false;
@@ -383,6 +390,11 @@ public class Player : MonoBehaviour
         {
             _bloodScreen[i].SetActive(false);
         }
+    }
+
+    private void PlaySFX(int audioclip)
+    {
+        AudioManager.Instance.PlaySFX(_audioSource, _audioClip[audioclip]);
     }
 
     public void isEngagingInDialogue(bool value)
