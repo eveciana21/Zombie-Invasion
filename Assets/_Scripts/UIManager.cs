@@ -119,11 +119,13 @@ public class UIManager : MonoSingleton<UIManager>
                 _timerText.gameObject.SetActive(false);
                 IsPlayerAlive(false);
                 _timerActive = false;
-                //Start();
             }
         }
         TimeSpan time = TimeSpan.FromSeconds(_currentTime);
-        _timerText.text = time.Minutes.ToString("00") + " : " + time.Seconds.ToString("00");
+        if (_timerText != null)
+        {
+            _timerText.text = time.Minutes.ToString("00") + " : " + time.Seconds.ToString("00");
+        }
     }
 
     private void AddTime(float secondsToAdd)
