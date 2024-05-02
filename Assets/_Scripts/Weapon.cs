@@ -20,7 +20,6 @@ public class Weapon : MonoBehaviour
     private Vector3 _originalReticlePos;
     private Vector3 _recoil;
 
-
     void Start()
     {
         _originalPos = transform.localPosition;

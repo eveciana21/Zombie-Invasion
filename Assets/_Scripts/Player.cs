@@ -7,14 +7,10 @@ using StarterAssets;
 public class Player : MonoBehaviour
 {
     private StarterAssetsInputs _input;
-    private FirstPersonController _fpsController;
+    [SerializeField] private LayerMask _layerMask;
     [SerializeField] private Animator _animator;
     [SerializeField] private Animator _playerAnimator;
-
-    [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private GameObject _muzzleFlashTransform;
-    [SerializeField] private RectTransform _reticleTransform;
-    [SerializeField] private Weapon _weapon;
+    [SerializeField] private GameObject[] _bloodScreen;
 
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip[] _audioClip;
@@ -31,7 +27,7 @@ public class Player : MonoBehaviour
 
     private float _sprintRefuelSpeed;
     private float _sprintRemaining;
-    [SerializeField] private bool _canSprint = true;
+    private bool _canSprint = true;
 
     [Header("Damage")]
 
@@ -39,8 +35,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private int _headShot = 25;
     [SerializeField] private int _bodyShot = 10;
-    [SerializeField] private int _playerScore;
-
+    private int _playerScore;
 
     [Header("Weapon Characteristics")]
 
@@ -49,10 +44,14 @@ public class Player : MonoBehaviour
 
     [SerializeField] private int _ammo = 30;
     [SerializeField] private int _ammoSubCount = 60;
+
+    [SerializeField] private GameObject _muzzleFlashTransform;
+    [SerializeField] private RectTransform _reticleTransform;
+    [SerializeField] private Weapon _weapon;
+
     private int _maxAmmo = 30;
     private int _killCount;
     private float _canFire;
-
 
     private bool _ammoRemaining = true;
     private bool _canReload = true;
@@ -62,7 +61,6 @@ public class Player : MonoBehaviour
     private bool _barrelDestroyed;
     private bool _playerIsAlive = true;
 
-    [SerializeField] private GameObject[] _bloodScreen;
 
     private void Start()
     {
@@ -227,7 +225,6 @@ public class Player : MonoBehaviour
             {
                 if (Time.time > _canFire && !_isReloading)
                 {
-                    //AudioManager.Instance.PlaySFX(3);
                     PlaySFX(3); // empty clip
                     _canFire = Time.time + 1f;
                 }
@@ -246,11 +243,9 @@ public class Player : MonoBehaviour
         }
         _ammoRemaining = false;
 
-        //AudioManager.Instance.PlaySFX(4);
         PlaySFX(4); //reload audio
         yield return new WaitForSeconds(1.3f);
         PlaySFX(5); // reload audio
-        //AudioManager.Instance.PlaySFX(5);
         yield return new WaitForSeconds(0.7f);
 
         int spaceLeftInChamber = _maxAmmo - _ammo;
@@ -313,7 +308,6 @@ public class Player : MonoBehaviour
         muzzleFlash.transform.rotation = _muzzleFlashTransform.transform.rotation;
 
         int randomGunAudio = Random.Range(0, 3);
-        //AudioManager.Instance.PlaySFX(randomGunAudio);
         PlaySFX(randomGunAudio);
     }
 
@@ -336,6 +330,9 @@ public class Player : MonoBehaviour
         {
             _health -= health;
 
+            int randomSFX = Random.Range(6, _audioClip.Length);
+            PlaySFX(randomSFX); //player hurt sfx
+
             int random = Random.Range(0, _bloodScreen.Length);
 
             while (_bloodScreen[random].activeInHierarchy)
@@ -351,6 +348,8 @@ public class Player : MonoBehaviour
                 _playerAnimator.SetBool("Death", true);
                 _input.IsPlayerAlive(false);
                 IsPlayerAlive(false);
+                UIManager.Instance.IsPlayerAlive(false);
+                AudioManager.Instance.SFX(1);
             }
         }
 

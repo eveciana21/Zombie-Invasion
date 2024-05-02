@@ -342,7 +342,6 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
-
     public void SprintSlider(float sprintPercentage)
     {
         _sprintSlider.value = sprintPercentage;

@@ -7,6 +7,7 @@ public class Potion : MonoBehaviour
     [SerializeField] private GameObject _poofParticle;
     void Start()
     {
+        AudioManager.Instance.SFX(2);
         StartCoroutine(DestroyRoutine());
     }
 

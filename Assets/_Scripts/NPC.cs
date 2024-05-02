@@ -10,7 +10,6 @@ public class NPC : MonoBehaviour
     private int _currentPos;
 
     private bool _isWalking;
-    private bool _nearPlayer;
     private bool _dialogueTextOnScreen;
 
     private float _rotateTowardsPlayerSpeed = 3f;
@@ -31,7 +30,6 @@ public class NPC : MonoBehaviour
 
     [SerializeField] private List<EnemyAI> _enemyList = new List<EnemyAI>();
 
-
     private enum AIState
     {
         Idle,
@@ -41,12 +39,14 @@ public class NPC : MonoBehaviour
 
     [SerializeField] private AIState _currentState;
 
-
     void Start()
     {
         _animator = GetComponent<Animator>();
 
         _player = GameObject.Find("Player").GetComponentInChildren<Player>();
+        if (_player == null)
+            Debug.LogError("Player is NULL");
+
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.destination = _wayPoint[0].position;
 
@@ -54,8 +54,6 @@ public class NPC : MonoBehaviour
 
         _currentState = AIState.Idle;
     }
-
-
 
     void Update()
     {
