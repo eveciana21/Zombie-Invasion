@@ -72,7 +72,7 @@ namespace StarterAssets
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
 
-        private bool _isPlayerAlive = true;
+        public bool _isPlayerAlive = true;
 
         private const float _threshold = 0.01f;
 
@@ -120,6 +120,7 @@ namespace StarterAssets
                 GroundedCheck();
                 Move();
             }
+            
         }
 
         private void LateUpdate()
@@ -127,10 +128,10 @@ namespace StarterAssets
             CameraRotation();
         }
 
-        /* public void IsPlayerAlive(bool isPlayerAlive)
-         {
-             _isPlayerAlive = isPlayerAlive;
-         }*/
+        public void IsPlayerAlive(bool isPlayerAlive)
+        {
+            _isPlayerAlive = isPlayerAlive;
+        }
 
         private void GroundedCheck()
         {

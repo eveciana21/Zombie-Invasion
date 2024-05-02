@@ -21,7 +21,6 @@ public class ZombieMM : MonoBehaviour
         _currentPos = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
         MoveToWayPoint();

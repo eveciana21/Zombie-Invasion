@@ -89,12 +89,12 @@ namespace StarterAssets
 
         public void MoveInput(Vector2 newMoveDirection)
         {
-                move = newMoveDirection;
+            move = newMoveDirection;
         }
 
         public void LookInput(Vector2 newLookDirection)
         {
-                look = newLookDirection;
+            look = newLookDirection;
         }
 
         public void JumpInput(bool newJumpState)

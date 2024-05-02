@@ -7,6 +7,8 @@ using StarterAssets;
 public class Player : MonoBehaviour
 {
     private StarterAssetsInputs _input;
+    private FirstPersonController _fpsController;
+
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private Animator _animator;
     [SerializeField] private Animator _playerAnimator;
@@ -64,7 +66,15 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        _input = GameObject.Find("PlayerCapsule").GetComponent<StarterAssetsInputs>();
+        GameObject playerCapsule = GameObject.Find("PlayerCapsule");
+        if (playerCapsule == null)
+            Debug.LogError("playerCapsule is NULL");
+
+        _fpsController = playerCapsule.GetComponent<FirstPersonController>();
+        if (_fpsController == null)
+            Debug.LogError("FPS Controller is NULL");
+
+        _input = playerCapsule.GetComponent<StarterAssetsInputs>();
         if (_input == null)
             Debug.LogError("Input is NULL");
 
@@ -137,7 +147,7 @@ public class Player : MonoBehaviour
                 GameManager.Instance.IncreaseChromaticAberration(0.4f, 4f);
                 bobSpeed = _headBobSpeed * 2f;
 
-                SprintSliderDecrease(35);
+                SprintSliderDecrease(30);
             }
             else
             {
@@ -275,10 +285,14 @@ public class Player : MonoBehaviour
         Ray rayOrigin = Camera.main.ScreenPointToRay(_reticleTransform.position);
         RaycastHit hit;
 
+        bool hitEnemy = false; // prevents shooting through enemy to hit barrel
+
         if (Physics.Raycast(rayOrigin, out hit, _firingDistance))
         {
             if (hit.collider.tag == "Enemy")
             {
+                hitEnemy = true;
+
                 if (hit.collider.gameObject.name == "Head Collider") // headshot damage
                 {
                     hit.collider.GetComponentInParent<EnemyAI>().SendMessage("EnemyDeath", _headShot, SendMessageOptions.DontRequireReceiver);
@@ -293,7 +307,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Physics.Raycast(rayOrigin, out hit, _firingDistance, _layerMask))
+        if (!hitEnemy && Physics.Raycast(rayOrigin, out hit, _firingDistance, _layerMask))
         {
             if (_barrelDestroyed == false)
             {
@@ -313,7 +327,7 @@ public class Player : MonoBehaviour
 
     IEnumerator BarrelDestroyedTimer()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         _barrelDestroyed = false;
     }
 
@@ -345,11 +359,8 @@ public class Player : MonoBehaviour
             if (_health <= 0)
             {
                 _health = 0;
-                _playerAnimator.SetBool("Death", true);
-                _input.IsPlayerAlive(false);
                 IsPlayerAlive(false);
                 UIManager.Instance.IsPlayerAlive(false);
-                AudioManager.Instance.SFX(1);
             }
         }
 
@@ -360,7 +371,7 @@ public class Player : MonoBehaviour
     {
         _playerIsAlive = isPlayerAlive;
         _playerAnimator.SetBool("Death", true);
-
+        _fpsController.IsPlayerAlive(false);
         _input.IsPlayerAlive(false);
     }
 

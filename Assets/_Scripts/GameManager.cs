@@ -160,6 +160,7 @@ public class GameManager : MonoSingleton<GameManager>
         _playerDead = true;
         _player.IsPlayerAlive(false);
         _skullsParticle.SetActive(true);
+        AudioManager.Instance.SFX(1);
         StartCoroutine(DeathMenuDelay());
     }
 

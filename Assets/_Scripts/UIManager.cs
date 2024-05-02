@@ -9,17 +9,17 @@ using UnityEngine.UI;
 public class UIManager : MonoSingleton<UIManager>
 {
     [Header("Ammo")]
+    [SerializeField] private GameObject _ammoGO;
     [SerializeField] private TextMeshProUGUI _ammoCount;
     [SerializeField] private TextMeshProUGUI _ammoSubCount;
 
     [Header("Health")]
+    [SerializeField] private GameObject _healthGO;
     [SerializeField] private TextMeshProUGUI _health;
     [SerializeField] private GameObject _heart, _heartBroken;
-    [SerializeField] private GameObject _skull;
 
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI _scoreText;
-    [SerializeField] private int _score;
 
     [Header("Text")]
     [SerializeField] private GameObject _proveYourWorthText;
@@ -73,13 +73,6 @@ public class UIManager : MonoSingleton<UIManager>
         {"NPC3", false },
         {"NPC4", false }
     };
-    /*private Dictionary<string, bool> _interactedWithPlayer = new Dictionary<string, bool>()
-    {
-        {"NPC1", false },
-        {"NPC2", false },
-        {"NPC3", false },
-        {"NPC4", false }
-    };*/
 
 
     private void Start()
@@ -111,21 +104,29 @@ public class UIManager : MonoSingleton<UIManager>
 
     private void Timer()
     {
-        if (_timerActive)
+        if (_timerText != null && _timerActive)
         {
             _currentTime = _currentTime - Time.deltaTime;
-            if (_timerText != null && _currentTime <= 0)
+
+            if (_currentTime <= 0)
             {
                 _timerText.gameObject.SetActive(false);
                 IsPlayerAlive(false);
                 _timerActive = false;
             }
-        }
-        TimeSpan time = TimeSpan.FromSeconds(_currentTime);
-        if (_timerText != null)
-        {
+
+            if (_currentTime < 11 && _currentTime > 0)
+            {
+                if (Mathf.FloorToInt(_currentTime) != Mathf.FloorToInt(_currentTime + Time.deltaTime))
+                {
+                    AudioManager.Instance.SFX(3);
+                    _timerText.color = Color.red;
+                }
+            }
+            TimeSpan time = TimeSpan.FromSeconds(_currentTime);
             _timerText.text = time.Minutes.ToString("00") + " : " + time.Seconds.ToString("00");
         }
+
     }
 
     private void AddTime(float secondsToAdd)
@@ -254,7 +255,6 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
-
     IEnumerator ProveYourWorthRoutine()
     {
         _proveYourWorthText.SetActive(true);
@@ -289,19 +289,12 @@ public class UIManager : MonoSingleton<UIManager>
             _health.gameObject.SetActive(false);
         }
 
-        if (health <= 25)
+        if (health <= 30)
         {
             _heartBroken.SetActive(true);
             _heart.SetActive(false);
-
-            if (health <= 0)
-            {
-                _heartBroken.SetActive(false);
-                _heart.SetActive(false);
-                _skull.SetActive(true);
-            }
         }
-        if (health > 25)
+        if (health > 30)
         {
             _heartBroken.SetActive(false);
             _heart.SetActive(true);
@@ -371,7 +364,18 @@ public class UIManager : MonoSingleton<UIManager>
         _isPlayerAlive = isPlayerAlive;
         if (!_isPlayerAlive)
         {
+            DisableUI(false);
             GameManager.Instance.PlayerDeadMenu();
         }
+    }
+
+    private void DisableUI(bool value)
+    {
+        _ammoGO.SetActive(value);
+        _healthGO.SetActive(value);
+        _sprintSlider.enabled = value;
+        _dialogueBox.SetActive(value);
+        _proveYourWorthText.SetActive(value);
+        _reticle.enabled = value;
     }
 }
