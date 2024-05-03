@@ -295,11 +295,11 @@ public class Player : MonoBehaviour
 
                 if (hit.collider.gameObject.name == "Head Collider") // headshot damage
                 {
-                    hit.collider.GetComponentInParent<EnemyAI>().SendMessage("EnemyDeath", _headShot, SendMessageOptions.DontRequireReceiver);
+                    hit.collider.GetComponentInParent<EnemyAI>().SendMessage("EnemyDamage", _headShot, SendMessageOptions.DontRequireReceiver);
                 }
                 if (hit.collider.gameObject.name == "Body Collider") // bodyshot damage
                 {
-                    hit.collider.GetComponentInParent<EnemyAI>().SendMessage("EnemyDeath", _bodyShot, SendMessageOptions.DontRequireReceiver);
+                    hit.collider.GetComponentInParent<EnemyAI>().SendMessage("EnemyDamage", _bodyShot, SendMessageOptions.DontRequireReceiver);
                 }
                 GameObject blood = PoolManager.Instance.RequestBlood(); //instantiate blood when hitting enemy
                 blood.transform.position = hit.point + new Vector3(0, 0, 0.05f);

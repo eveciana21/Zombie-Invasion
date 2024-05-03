@@ -11,7 +11,7 @@ public class BarrelExplosion : MonoBehaviour
 
     private void Start()
     {
-        _player = GameObject.Find("PlayerCapsule").GetComponent<Player>();
+       // _player = GameObject.Find("PlayerCapsule").GetComponent<Player>();
     }
 
     public void DestroyBarrel()
@@ -22,7 +22,7 @@ public class BarrelExplosion : MonoBehaviour
     IEnumerator DestroySequence()
     {
         _explosion.SetActive(true);
-        _player.AddToScore(50);
+       // _player.AddToScore(50);
         yield return new WaitForSeconds(0.5f);
         _explosionCollider.SetActive(true);
         _barrel.SetActive(false);

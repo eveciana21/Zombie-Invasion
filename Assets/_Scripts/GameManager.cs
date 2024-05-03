@@ -171,6 +171,7 @@ public class GameManager : MonoSingleton<GameManager>
         _deathMenu.SetActive(true);
     }
 
+
     public void QuitGame()
     {
         Application.Quit();

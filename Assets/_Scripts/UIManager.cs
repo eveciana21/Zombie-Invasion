@@ -45,6 +45,8 @@ public class UIManager : MonoSingleton<UIManager>
     private bool _isPlayerAlive = true;
     private bool _interactedWithPlayer;
 
+    private int _potionCount;
+
     private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
     {
         {"NPC1", 2 },
@@ -316,13 +318,13 @@ public class UIManager : MonoSingleton<UIManager>
             }
         }
     }
+
     public void ActivateGift(string npcName, GameObject gift, GameObject potionImage)
     {
         if (!_giftGivenDict[npcName] && _canGiveGiftDict[npcName])
         {
             if (gift != null)
             {
-                Debug.Log("Gift Given");
                 _giftGivenDict[npcName] = true;
                 gift.SetActive(true);
                 gift.transform.parent = null;
@@ -331,6 +333,11 @@ public class UIManager : MonoSingleton<UIManager>
             if (potionImage != null)
             {
                 potionImage.SetActive(true);
+                _potionCount+=4;
+                if (_potionCount == 4)
+                {
+                    SpawnManager.Instance.SpawnBoss();
+                }
             }
         }
     }
@@ -378,4 +385,6 @@ public class UIManager : MonoSingleton<UIManager>
         _proveYourWorthText.SetActive(value);
         _reticle.enabled = value;
     }
+
+
 }

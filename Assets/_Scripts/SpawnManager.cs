@@ -15,6 +15,9 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     private NPC _npc;
     [SerializeField] private List<NPC> _npcList;
 
+    [SerializeField] private GameObject _zombieBoss;
+    [SerializeField] private Transform _spawnBossPos;
+
     public override void Init()
     {
         base.Init(); //Turns this class into a singleton
@@ -67,6 +70,31 @@ public class SpawnManager : MonoSingleton<SpawnManager>
         if (_enemiesInGame == 60)
         {
             Debug.Log("Enemy Count has reached max");
+        }
+    }
+
+    public void SpawnBoss()
+    {
+        _waypointParent = GameObject.Find("Other Waypoints").transform;
+        Transform bossWaypoints = _waypointParent.GetChild(0);
+
+        _wayPoint.Clear();
+
+
+        for (int i = 0; i < bossWaypoints.childCount; i++)
+        {
+            Transform waypointChild = bossWaypoints.GetChild(i);
+            _wayPoint.Add(waypointChild); //adds the waypoint children to the list
+        }
+        _zombie = Instantiate(_zombieBoss, _spawnBossPos.position, Quaternion.identity).GetComponent<EnemyAI>();
+        _zombie.SelectWayPoint(_wayPoint);
+
+        if (_npc != null)
+        {
+            foreach (NPC npc in _npcList)
+            {
+                npc.AddEnemyToList(_zombie.GetComponent<EnemyAI>()); //add zombie to NPC list 
+            }
         }
     }
 }

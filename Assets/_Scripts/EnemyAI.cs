@@ -17,9 +17,11 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Characteristics")]
 
+    [SerializeField] private int _enemyID;
     [SerializeField] private float _rotateTowardsPlayerSpeed = 3;
     [SerializeField] private int _health = 100;
-    private float _distanceToAttack = 2f;
+    [SerializeField] private float _distanceToFollowPlayer = 25;
+    [SerializeField] private float _distanceToAttack = 2f;
     private int _currentPos;
 
     private bool _inReverse;
@@ -38,8 +40,10 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private GameObject _fallDetector;
     [SerializeField] private GameObject _enemyRightFist, _enemyLeftFist;
     [SerializeField] private GameObject _smokeCloud;
+    [SerializeField] private GameObject _puddleOfBlood;
 
     private bool _isAttacking;
+    private bool _hitByExplosion;
     private int _randomAnim;
 
     private NavMeshAgent _navmeshAgent;
@@ -71,7 +75,6 @@ public class EnemyAI : MonoBehaviour
 
         if (_audioSource == null)
             Debug.LogError("Enemy AudioSource is NULL");
-
 
         if (_player == null)
             Debug.LogError("Player is NULL");
@@ -179,7 +182,7 @@ public class EnemyAI : MonoBehaviour
 
                     float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
 
-                    if (distanceFromPlayer >= 20)
+                    if (distanceFromPlayer >= _distanceToFollowPlayer)
                     {
                         _nearPlayer = false;
                     }
@@ -248,28 +251,33 @@ public class EnemyAI : MonoBehaviour
 
         yield return new WaitForSeconds(Random.Range(4, 6));
 
-        _animator.SetBool("Emerge", true);
+        if (_enemyID == 0)
+        {
+            _animator.SetBool("Emerge", true);
 
-        yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(3);
 
-        _animator.SetBool("Death", false);
-        _animator.SetBool("Emerge", false);
 
-        _navmeshAgent.ResetPath(); //Reset back to waypoint path
+            _animator.SetBool("Death", false);
+            _animator.SetBool("Emerge", false);
 
-        _navmeshAgent.isStopped = false;
-        _enemyHasFallen = false;
-        _canAttack = true;
-        _isDead = false;
-        _health = 100;
+            _navmeshAgent.ResetPath(); //Reset back to waypoint path
 
-        _currentState = AIState.Walk;
+            _navmeshAgent.isStopped = false;
+            _enemyHasFallen = false;
+            _canAttack = true;
+            _hitByExplosion = false;
+            _isDead = false;
+            _health = 100;
+
+            _currentState = AIState.Walk;
+        }
     }
     private void DamagePlayer()
     {
         if (_randomAnim == 0)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * 1.25f, _playerMask))
             {
                 Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack), Color.red);
 
@@ -282,7 +290,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 1)
         {
-            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack, _playerMask))
+            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack * 1.25f, _playerMask))
             {
                 Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack), Color.red);
 
@@ -308,7 +316,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void EnemyDeath(int damageTaken) //called from player
+    public void EnemyDamage(int damageTaken) //called from player
     {
         _health -= damageTaken;
 
@@ -318,7 +326,7 @@ public class EnemyAI : MonoBehaviour
             {
                 _currentState = AIState.Death;
                 int random = Random.Range(0, 101);
-                if (random <= 30)
+                if (_enemyID == 0 && random <= 30)
                 {
                     Instantiate(_ammoPickup, transform.position, Quaternion.identity);
                 }
@@ -329,8 +337,6 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            //_audioSource.clip = _audioClip[randomSFX];
-            //_audioSource.Play();
             int randomSFX = Random.Range(0, _audioClip.Length);
             PlaySFX(randomSFX);
             _animator.SetTrigger("Hit");
@@ -404,6 +410,13 @@ public class EnemyAI : MonoBehaviour
         {
             _animator.SetLayerWeight(i, (_randomAnim == i) ? 1 : 0); //chooses animation layer at random
         }
+
+        if (_enemyID == 0)
+        {
+            float randomSpeed = Random.Range(1f, 2f);
+            _navmeshAgent.speed = randomSpeed;
+        }
+
     }
     private void PuddleOfBlood()
     {
@@ -416,9 +429,20 @@ public class EnemyAI : MonoBehaviour
                 {
                     if (_isDead)
                     {
-                        GameObject puddleOfBlood = PoolManager.Instance.RequestPuddleOfBlood();
-                        puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.07f, 0);
-                        puddleOfBlood.transform.rotation = Quaternion.LookRotation(hit.normal);
+                        if (_enemyID == 0)
+                        {
+                            GameObject puddleOfBlood = PoolManager.Instance.RequestPuddleOfBlood();
+                            puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.07f, 0);
+                            puddleOfBlood.transform.rotation = Quaternion.LookRotation(hit.normal);
+                        }
+
+                        else if (_enemyID == 1)
+                        {
+                            Instantiate(_smokeCloud, hit.point + new Vector3(0, 0.07f, 0), Quaternion.identity);
+                            Instantiate(_puddleOfBlood, hit.point + new Vector3(0, 0.08f, 0), Quaternion.LookRotation(hit.normal));
+                            Debug.Log("Random Variant: " + _randomAnim);
+                            Debug.Break();
+                        }
                         _enemyHasFallen = true;
                     }
                 }
@@ -429,35 +453,52 @@ public class EnemyAI : MonoBehaviour
                 {
                     if (_isDead)
                     {
-                        GameObject puddleOfBlood = PoolManager.Instance.RequestPuddleOfBlood();
-                        puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.07f, 0);
-                        puddleOfBlood.transform.rotation = Quaternion.LookRotation(hit.normal);
+                        if (_enemyID == 0)
+                        {
+                            GameObject puddleOfBlood = PoolManager.Instance.RequestPuddleOfBlood();
+                            puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.07f, 0);
+                            puddleOfBlood.transform.rotation = Quaternion.LookRotation(hit.normal);
+                        }
+
+                        else if (_enemyID == 1)
+                        {
+                            Instantiate(_smokeCloud, hit.point + new Vector3(0, 0.07f, 0), Quaternion.identity);
+                            Instantiate(_puddleOfBlood, hit.point + new Vector3(0, 0.08f, 0), Quaternion.LookRotation(hit.normal));
+                            Debug.Log("Random Variant: " + _randomAnim); // <-- doesnt work
+                            Debug.Break();
+                        }
                         _enemyHasFallen = true;
                     }
                 }
             }
-
         }
     }
 
     public void PauseEnemyMovement(bool playerInDialogue)
     {
-        if (playerInDialogue)
+        if (_navmeshAgent != null)
         {
-            _navmeshAgent.speed = 0.1f;
+            if (playerInDialogue)
+            {
+                _navmeshAgent.speed = 0.1f;
+            }
+            else
+            {
+                _navmeshAgent.speed = 1;
+            }
         }
-        else
-        {
-            _navmeshAgent.speed = 1;
-        }
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Explosion")
         {
-            _currentState = AIState.Death;
-            _health = 0;
+            if (!_hitByExplosion)
+            {
+                EnemyDamage(100);
+                _hitByExplosion = true;
+            }
         }
     }
 }
