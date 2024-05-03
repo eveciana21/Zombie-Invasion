@@ -5,7 +5,6 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     [SerializeField] private int _powerupID;
-    private bool _isVaccine;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -41,7 +40,7 @@ public class Powerup : MonoBehaviour
                 Debug.LogError("Player is NULL");
             }
 
-            Destroy(this.gameObject, 0.3f);
+            Destroy(this.gameObject, 0.2f);
         }
     }
 }

@@ -3201,7 +3201,7 @@ MonoBehaviour:
   _enemyRightFist: {fileID: 1711743537454421120}
   _enemyLeftFist: {fileID: 1711743537454380822}
   _smokeCloud: {fileID: 1889253293493771229, guid: 541335bcf6abce74fbee3e3341136f81, type: 3}
-  _puddleOfBlood: {fileID: 0}
+  _puddleOfBlood: {fileID: 100000, guid: f422b2625e331fd498d1bf3396f4c4d1, type: 3}
   _ammoPickup: {fileID: 2164455362972016094, guid: 94173957cbbad8a4b89105803c99bd43, type: 3}
 --- !u!1 &1711743537454435164
 GameObject:

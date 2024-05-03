@@ -257,7 +257,6 @@ public class EnemyAI : MonoBehaviour
 
             yield return new WaitForSeconds(3);
 
-
             _animator.SetBool("Death", false);
             _animator.SetBool("Emerge", false);
 
@@ -326,7 +325,7 @@ public class EnemyAI : MonoBehaviour
             {
                 _currentState = AIState.Death;
                 int random = Random.Range(0, 101);
-                if (_enemyID == 0 && random <= 30)
+                if (_enemyID == 0 && random <= 50)
                 {
                     Instantiate(_ammoPickup, transform.position, Quaternion.identity);
                 }
@@ -432,7 +431,7 @@ public class EnemyAI : MonoBehaviour
                         if (_enemyID == 0)
                         {
                             GameObject puddleOfBlood = PoolManager.Instance.RequestPuddleOfBlood();
-                            puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.07f, 0);
+                            puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.05f, 0);
                             puddleOfBlood.transform.rotation = Quaternion.LookRotation(hit.normal);
                         }
 
@@ -440,8 +439,6 @@ public class EnemyAI : MonoBehaviour
                         {
                             Instantiate(_smokeCloud, hit.point + new Vector3(0, 0.07f, 0), Quaternion.identity);
                             Instantiate(_puddleOfBlood, hit.point + new Vector3(0, 0.08f, 0), Quaternion.LookRotation(hit.normal));
-                            Debug.Log("Random Variant: " + _randomAnim);
-                            Debug.Break();
                         }
                         _enemyHasFallen = true;
                     }
@@ -449,14 +446,14 @@ public class EnemyAI : MonoBehaviour
             }
             else if (_randomAnim == 1)
             {
-                if (Physics.Raycast(_fallDetector.transform.position, -_fallDetector.transform.forward, out hit, 0.5f, _floorMask))
+                if (Physics.Raycast(_fallDetector.transform.position, -_fallDetector.transform.forward, out hit, 1f, _floorMask))
                 {
                     if (_isDead)
                     {
                         if (_enemyID == 0)
                         {
                             GameObject puddleOfBlood = PoolManager.Instance.RequestPuddleOfBlood();
-                            puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.07f, 0);
+                            puddleOfBlood.transform.position = hit.point + new Vector3(0, 0.05f, 0);
                             puddleOfBlood.transform.rotation = Quaternion.LookRotation(hit.normal);
                         }
 
@@ -464,8 +461,6 @@ public class EnemyAI : MonoBehaviour
                         {
                             Instantiate(_smokeCloud, hit.point + new Vector3(0, 0.07f, 0), Quaternion.identity);
                             Instantiate(_puddleOfBlood, hit.point + new Vector3(0, 0.08f, 0), Quaternion.LookRotation(hit.normal));
-                            Debug.Log("Random Variant: " + _randomAnim); // <-- doesnt work
-                            Debug.Break();
                         }
                         _enemyHasFallen = true;
                     }
@@ -487,7 +482,6 @@ public class EnemyAI : MonoBehaviour
                 _navmeshAgent.speed = 1;
             }
         }
-
     }
 
     private void OnTriggerEnter(Collider other)

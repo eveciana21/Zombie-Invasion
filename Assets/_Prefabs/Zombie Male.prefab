@@ -4193,7 +4193,6 @@ MonoBehaviour:
   - {fileID: 1884282908527850886}
   - {fileID: 1884282908528073958}
   - {fileID: 1884282908527826908}
-  - {fileID: 1884282908527847406}
   - {fileID: 1884282908527864048}
   - {fileID: 1884282908527871750}
   _enemyWeapon:
@@ -4203,8 +4202,11 @@ MonoBehaviour:
   - {fileID: 1884282908527830448}
   - {fileID: 1884282908527842688}
   - {fileID: 1884282908527883980}
+  _enemyID: 0
   _rotateTowardsPlayerSpeed: 3
   _health: 100
+  _distanceToFollowPlayer: 25
+  _distanceToAttack: 2
   _currentState: 1
   _isDead: 0
   _nearPlayer: 0
@@ -4219,6 +4221,7 @@ MonoBehaviour:
   _enemyRightFist: {fileID: 1884282908528078304}
   _enemyLeftFist: {fileID: 1884282908528070396}
   _smokeCloud: {fileID: 1889253293493771229, guid: 541335bcf6abce74fbee3e3341136f81, type: 3}
+  _puddleOfBlood: {fileID: 100000, guid: f422b2625e331fd498d1bf3396f4c4d1, type: 3}
   _ammoPickup: {fileID: 2164455362972016094, guid: 94173957cbbad8a4b89105803c99bd43, type: 3}
 --- !u!1 &1884282908527889962
 GameObject:

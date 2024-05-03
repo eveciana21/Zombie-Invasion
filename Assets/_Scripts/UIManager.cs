@@ -47,6 +47,8 @@ public class UIManager : MonoSingleton<UIManager>
 
     private int _potionCount;
 
+    private Color _originalTimerTextColor;
+
     private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
     {
         {"NPC1", 2 },
@@ -89,19 +91,14 @@ public class UIManager : MonoSingleton<UIManager>
         }
 
         _currentTime = _startMinutes * 60;
+
+        _originalTimerTextColor = _timerText.color;
     }
 
     private void Update()
     {
         SliderFade();
         Timer();
-
-        if (!_isPlayerAlive)
-        {
-            _proveYourWorthText.SetActive(false);
-            _dialogueBox.SetActive(false);
-            _reticle.enabled = false;
-        }
     }
 
     private void Timer()
@@ -125,10 +122,13 @@ public class UIManager : MonoSingleton<UIManager>
                     _timerText.color = Color.red;
                 }
             }
+            else
+            {
+                _timerText.color = _originalTimerTextColor;
+            }
             TimeSpan time = TimeSpan.FromSeconds(_currentTime);
             _timerText.text = time.Minutes.ToString("00") + " : " + time.Seconds.ToString("00");
         }
-
     }
 
     private void AddTime(float secondsToAdd)
@@ -191,7 +191,14 @@ public class UIManager : MonoSingleton<UIManager>
             _fadingOut = false;
         }
         SetSliderAlpha(1f);
-        _sprintSlider.gameObject.SetActive(true);
+        if (_isPlayerAlive)
+        {
+            _sprintSlider.gameObject.SetActive(true);
+        }
+        else
+        {
+            _sprintSlider.gameObject.SetActive(false);
+        }
     }
 
     IEnumerator DialogueTextRoutine(string dialogue)
@@ -333,7 +340,7 @@ public class UIManager : MonoSingleton<UIManager>
             if (potionImage != null)
             {
                 potionImage.SetActive(true);
-                _potionCount+=4;
+                _potionCount += 4;
                 if (_potionCount == 4)
                 {
                     SpawnManager.Instance.SpawnBoss();
@@ -380,11 +387,11 @@ public class UIManager : MonoSingleton<UIManager>
     {
         _ammoGO.SetActive(value);
         _healthGO.SetActive(value);
-        _sprintSlider.enabled = value;
+        _sprintSlider.gameObject.SetActive(value);
         _dialogueBox.SetActive(value);
         _proveYourWorthText.SetActive(value);
         _reticle.enabled = value;
+        _timerText.gameObject.SetActive(false);
+        _timerActive = false;
     }
-
-
 }

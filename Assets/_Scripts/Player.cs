@@ -204,42 +204,35 @@ public class Player : MonoBehaviour
 
     private void Shoot()
     {
-        if (_ammoRemaining && _input.fire)
+        if (_ammoRemaining && _input.fire && Time.time > _canFire)
         {
-            if (Time.time > _canFire)
-            {
-                Fire();
-                _weapon.WeaponRecoil();
-                _ammo--;
+            Fire();
+            _weapon.WeaponRecoil();
+            _ammo--;
 
-                if (_ammo <= 0)
-                {
-                    _ammo = 0;
-                    if (!_isReloading && _canReload && _ammoRemaining)
-                    {
-                        StartCoroutine(ReloadAmmo());
-                        _canReload = false;
-                    }
-                    else
-                    {
-                        _ammoRemaining = false;
-                        _clipEmpty = true;
-                    }
-                }
-                _canFire = Time.time + _fireRate;
-            }
-        }
-        else
-        {
-            if (_clipEmpty && _input.fire)
+            if (_ammo <= 0)
             {
-                if (Time.time > _canFire && !_isReloading)
+                _ammo = 0;
+                if (!_isReloading && _canReload && _ammoRemaining)
                 {
-                    PlaySFX(3); // empty clip
-                    _canFire = Time.time + 1f;
+                    StartCoroutine(ReloadAmmo());
+                    _canReload = false;
+                }
+                else
+                {
+                    _ammoRemaining = false;
+                    _clipEmpty = true;
                 }
             }
+            _canFire = Time.time + _fireRate;
         }
+
+        else if (_clipEmpty && _input.fire && Time.time > _canFire && !_isReloading)
+        {
+            PlaySFX(3); // empty clip
+            _canFire = Time.time + 1f;
+        }
+
         UIManager.Instance.AmmoCount(_ammo);
     }
 
@@ -253,6 +246,7 @@ public class Player : MonoBehaviour
         }
         _ammoRemaining = false;
 
+        yield return new WaitForSeconds(0.2f);
         PlaySFX(4); //reload audio
         yield return new WaitForSeconds(1.3f);
         PlaySFX(5); // reload audio
@@ -272,6 +266,14 @@ public class Player : MonoBehaviour
             {
                 _canReload = true;
             }
+            else
+            {
+                _canReload = false;
+            }
+        }
+        else
+        {
+            _canReload = false;
         }
         _animator.SetBool("Reload", false);
 
