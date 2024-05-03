@@ -92,7 +92,10 @@ public class UIManager : MonoSingleton<UIManager>
 
         _currentTime = _startMinutes * 60;
 
-        _originalTimerTextColor = _timerText.color;
+        if (_timerText != null)
+        {
+            _originalTimerTextColor = _timerText.color;
+        }
     }
 
     private void Update()

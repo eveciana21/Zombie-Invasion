@@ -23,7 +23,7 @@ TagManager:
   - UI
   - 
   - Player
-  - 
+  - Environment
   - Floor
   - 
   - Hand
@@ -42,7 +42,7 @@ TagManager:
   - 
   - Block
   - 
-  - 
+  - MiniMap
   - 
   - 
   - 
