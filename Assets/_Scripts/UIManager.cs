@@ -27,15 +27,17 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject _dialogueBox;
     [SerializeField] private float _textSpeed = 0.075f;
 
-    private bool _timerActive = true;
-    private float _currentTime;
     [SerializeField] private int _startMinutes;
     [SerializeField] private TMP_Text _timerText;
+    private bool _timerActive = true;
+    private float _currentTime;
+
 
     [Space]
 
     [SerializeField] private Slider _sprintSlider;
     [SerializeField] private Image _reticle;
+    [SerializeField] private GameObject _miniMap;
 
     private Image _sliderFillColor;
     private Image _sliderBackgroundColor;
@@ -329,7 +331,7 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
-    public void ActivateGift(string npcName, GameObject gift, GameObject potionImage)
+    public void ActivateGift(string npcName, GameObject gift, GameObject potionImage, GameObject minimapPotionIcon)
     {
         if (!_giftGivenDict[npcName] && _canGiveGiftDict[npcName])
         {
@@ -348,6 +350,10 @@ public class UIManager : MonoSingleton<UIManager>
                 {
                     SpawnManager.Instance.SpawnBoss();
                 }
+            }
+            if (minimapPotionIcon != null)
+            {
+                minimapPotionIcon.SetActive(false);
             }
         }
     }
@@ -394,7 +400,8 @@ public class UIManager : MonoSingleton<UIManager>
         _dialogueBox.SetActive(value);
         _proveYourWorthText.SetActive(value);
         _reticle.enabled = value;
-        _timerText.gameObject.SetActive(false);
-        _timerActive = false;
+        _timerText.gameObject.SetActive(value);
+        _timerActive = value;
+        _miniMap.SetActive(value);
     }
 }

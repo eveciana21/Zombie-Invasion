@@ -49,6 +49,7 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent _navmeshAgent;
     private Animator _animator;
     private Player _player;
+    private float _originalSpeed;
 
     [SerializeField] private GameObject _ammoPickup;
 
@@ -80,6 +81,8 @@ public class EnemyAI : MonoBehaviour
             Debug.LogError("Player is NULL");
 
         GenerateZombie();
+
+        _originalSpeed = _navmeshAgent.speed;
 
         StartCoroutine(EmergingFromGround());
 
@@ -412,7 +415,7 @@ public class EnemyAI : MonoBehaviour
 
         if (_enemyID == 0)
         {
-            float randomSpeed = Random.Range(1f, 2f);
+            float randomSpeed = Random.Range(0.75f, 2f);
             _navmeshAgent.speed = randomSpeed;
         }
 
@@ -479,7 +482,7 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                _navmeshAgent.speed = 1;
+                _navmeshAgent.speed = _originalSpeed;
             }
         }
     }

@@ -27,6 +27,7 @@ public class NPC : MonoBehaviour
     [SerializeField] private string _npcName;
     [SerializeField] private GameObject _gift;
     [SerializeField] private GameObject _potionImage;
+    [SerializeField] private GameObject _potionMiniMapIcon;
 
     [SerializeField] private List<EnemyAI> _enemyList = new List<EnemyAI>();
 
@@ -128,7 +129,7 @@ public class NPC : MonoBehaviour
                     _player.isEngagingInDialogue(false);
                     _currentState = AIState.Idle;
                 }
-                UIManager.Instance.ActivateGift(_npcName, _gift, _potionImage);
+                UIManager.Instance.ActivateGift(_npcName, _gift, _potionImage, _potionMiniMapIcon);
 
                 break;
         }
