@@ -54,7 +54,7 @@ public class UIManager : MonoSingleton<UIManager>
     private bool _endGame;
     [SerializeField] private GameObject _endGameTrigger;
     [SerializeField] private GameObject _helicopterIcon;
-
+   
     private Color _originalTimerTextColor;
 
     private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
@@ -156,13 +156,11 @@ public class UIManager : MonoSingleton<UIManager>
     {
         if (_lastHoorah && _currentTime < 90 && _currentTime > 30)
         {
-            _timeline.Play();
             _helicopterIcon.SetActive(true);
         }
-        else if (_lastHoorah && _currentTime <= 30)
+       if (_lastHoorah && _currentTime <= 115)
         {
             _endGameTrigger.SetActive(true);
-            _timerActive = false;
         }
     }
 
@@ -171,6 +169,12 @@ public class UIManager : MonoSingleton<UIManager>
         if (_lastHoorah)
         {
             _endGame = value;
+            if (value == true)
+            {
+                _timeline.Play();
+                CameraManager.Instance.SetMasterCam(1);
+                _timerActive = false;
+            }
         }
         Debug.Log("end game bool = " + _endGame);
     }

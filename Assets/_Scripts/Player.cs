@@ -51,6 +51,9 @@ public class Player : MonoBehaviour
     [SerializeField] private RectTransform _reticleTransform;
     [SerializeField] private Weapon _weapon;
 
+    [SerializeField] private MeshRenderer _weaponMesh;
+    [SerializeField] private SkinnedMeshRenderer _soldierMesh;
+
     private int _maxAmmo = 30;
     private int _killCount;
     private float _canFire;
@@ -419,9 +422,13 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "End Game Trigger")
         {
+            Debug.Log("End Game Trigger Hit!");
             _canTakeDamage = false;
             UIManager.Instance.CanEndGame(true);
             GameManager.Instance.YouWinScreen();
+            _soldierMesh.enabled = false;
+            _weaponMesh.enabled = false;
+            _input.FireInput(false);
         }
     }
 }
