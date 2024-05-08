@@ -42,6 +42,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private GameObject _smokeCloud;
     [SerializeField] private GameObject _puddleOfBlood;
 
+    private GameObject _attackTarget;
+
     private bool _isAttacking;
     private bool _hitByExplosion;
     private int _randomAnim;

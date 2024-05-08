@@ -67,6 +67,7 @@ public class NPC : MonoBehaviour
             SlowEnemySpeed();
             _player.isEngagingInDialogue(true);
         }
+
     }
 
     public void AddEnemyToList(EnemyAI enemy)

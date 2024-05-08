@@ -5,6 +5,7 @@ using TMPro;
 using System.Text;
 using System;
 using UnityEngine.UI;
+using UnityEngine.Playables;
 
 public class UIManager : MonoSingleton<UIManager>
 {
@@ -32,12 +33,12 @@ public class UIManager : MonoSingleton<UIManager>
     private bool _timerActive = true;
     private float _currentTime;
 
-
     [Space]
 
     [SerializeField] private Slider _sprintSlider;
     [SerializeField] private Image _reticle;
     [SerializeField] private GameObject _miniMap;
+    [SerializeField] private PlayableDirector _timeline;
 
     private Image _sliderFillColor;
     private Image _sliderBackgroundColor;
@@ -46,6 +47,8 @@ public class UIManager : MonoSingleton<UIManager>
     private bool _fadingOut;
     private bool _isPlayerAlive = true;
     private bool _interactedWithPlayer;
+    private bool _allPotionsCollected;
+    private bool _lastHoorah;
 
     private int _potionCount;
 
@@ -131,8 +134,30 @@ public class UIManager : MonoSingleton<UIManager>
             {
                 _timerText.color = _originalTimerTextColor;
             }
+
+            LastHoorah();
+
             TimeSpan time = TimeSpan.FromSeconds(_currentTime);
             _timerText.text = time.Minutes.ToString("00") + " : " + time.Seconds.ToString("00");
+        }
+
+        if (_allPotionsCollected)
+        {
+            _currentTime = 120;
+            _lastHoorah = true;
+            _allPotionsCollected = false;
+        }
+
+
+
+    }
+
+    private void LastHoorah() //ending scene 
+    {
+        if (_lastHoorah && _currentTime < 20)
+        {
+            _timeline.Play();
+            _lastHoorah = false;
         }
     }
 
@@ -349,6 +374,7 @@ public class UIManager : MonoSingleton<UIManager>
                 if (_potionCount == 4)
                 {
                     SpawnManager.Instance.SpawnBoss();
+                    _allPotionsCollected = true;
                 }
             }
             if (minimapPotionIcon != null)

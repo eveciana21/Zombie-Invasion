@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using StarterAssets;
 using UnityEngine.Rendering.PostProcessing;
-using System;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -170,7 +169,6 @@ public class GameManager : MonoSingleton<GameManager>
         _input.SetCursorVisible(true);
         _deathMenu.SetActive(true);
     }
-
 
     public void QuitGame()
     {
