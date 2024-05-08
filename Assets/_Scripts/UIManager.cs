@@ -51,6 +51,9 @@ public class UIManager : MonoSingleton<UIManager>
     private bool _lastHoorah;
 
     private int _potionCount;
+    private bool _endGame;
+    [SerializeField] private GameObject _endGameTrigger;
+    [SerializeField] private GameObject _helicopterIcon;
 
     private Color _originalTimerTextColor;
 
@@ -147,18 +150,29 @@ public class UIManager : MonoSingleton<UIManager>
             _lastHoorah = true;
             _allPotionsCollected = false;
         }
-
-
-
     }
 
     private void LastHoorah() //ending scene 
     {
-        if (_lastHoorah && _currentTime < 20)
+        if (_lastHoorah && _currentTime < 90 && _currentTime > 30)
         {
             _timeline.Play();
-            _lastHoorah = false;
+            _helicopterIcon.SetActive(true);
         }
+        else if (_lastHoorah && _currentTime <= 30)
+        {
+            _endGameTrigger.SetActive(true);
+            _timerActive = false;
+        }
+    }
+
+    public void CanEndGame(bool value)
+    {
+        if (_lastHoorah)
+        {
+            _endGame = value;
+        }
+        Debug.Log("end game bool = " + _endGame);
     }
 
     private void AddTime(float secondsToAdd)

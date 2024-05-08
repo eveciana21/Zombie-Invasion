@@ -22,6 +22,7 @@ public class GameManager : MonoSingleton<GameManager>
     private bool _gameStarted;
     private bool _playerDead;
 
+
     public override void Init()
     {
         base.Init(); // Turns this class into a singleton
@@ -173,5 +174,10 @@ public class GameManager : MonoSingleton<GameManager>
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void YouWinScreen()
+    {
+        Debug.Log("You Win");
     }
 }

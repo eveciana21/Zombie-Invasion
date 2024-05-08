@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
     private bool _clipEmpty;
     private bool _barrelDestroyed;
     private bool _playerIsAlive = true;
+    private bool _canTakeDamage = true;
 
 
     private void Start()
@@ -342,7 +343,7 @@ public class Player : MonoBehaviour
 
     public void DamagePlayer(int health)
     {
-        if (_playerIsAlive)
+        if (_canTakeDamage && _playerIsAlive)
         {
             _health -= health;
 
@@ -412,5 +413,15 @@ public class Player : MonoBehaviour
     public void isEngagingInDialogue(bool value)
     {
         _isEngagingInDialogue = value;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "End Game Trigger")
+        {
+            _canTakeDamage = false;
+            UIManager.Instance.CanEndGame(true);
+            GameManager.Instance.YouWinScreen();
+        }
     }
 }

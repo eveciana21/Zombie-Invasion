@@ -15,6 +15,7 @@ TagManager:
   - Barrel
   - Explosion
   - NPC
+  - End Game Trigger
   layers:
   - Default
   - TransparentFX

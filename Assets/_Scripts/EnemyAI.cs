@@ -22,6 +22,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private int _health = 100;
     [SerializeField] private float _distanceToFollowPlayer = 25;
     [SerializeField] private float _distanceToAttack = 2f;
+    [SerializeField] private float _distanceToAttackMultiplier = 4;
     private int _currentPos;
 
     private bool _inReverse;
@@ -42,7 +43,6 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private GameObject _smokeCloud;
     [SerializeField] private GameObject _puddleOfBlood;
 
-    private GameObject _attackTarget;
 
     private bool _isAttacking;
     private bool _hitByExplosion;
@@ -186,7 +186,6 @@ public class EnemyAI : MonoBehaviour
                     CalculateMovement();
 
                     float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
-
                     if (distanceFromPlayer >= _distanceToFollowPlayer)
                     {
                         _nearPlayer = false;
@@ -281,7 +280,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (_randomAnim == 0)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * 1.25f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * _distanceToAttackMultiplier, _playerMask))
             {
                 Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack), Color.red);
 
@@ -294,7 +293,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 1)
         {
-            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack * 1.25f, _playerMask))
+            if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack * _distanceToAttackMultiplier, _playerMask))
             {
                 Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack), Color.red);
 
@@ -307,9 +306,9 @@ public class EnemyAI : MonoBehaviour
         }
         else if (_randomAnim == 2)
         {
-            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.forward, _distanceToAttack * 2f, _playerMask))
+            if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.forward, _distanceToAttack * _distanceToAttackMultiplier, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.forward * (_distanceToAttack * 2f), Color.red);
+                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.forward * (_distanceToAttack * _distanceToAttackMultiplier), Color.red);
 
                 if (_isAttacking == false)
                 {
@@ -419,8 +418,20 @@ public class EnemyAI : MonoBehaviour
         {
             float randomSpeed = Random.Range(0.75f, 2f);
             _navmeshAgent.speed = randomSpeed;
-        }
 
+            if (_randomAnim == 0 || _randomAnim == 1)
+            {
+                _distanceToAttackMultiplier = 1.25f;
+            }
+            else if (_randomAnim == 2)
+            {
+                _distanceToAttackMultiplier = 2f;
+            }
+        }
+        else if (_enemyID == 1)
+        {
+            _distanceToAttackMultiplier = 4f;
+        }
     }
     private void PuddleOfBlood()
     {
