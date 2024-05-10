@@ -58,16 +58,18 @@ public class NPC : MonoBehaviour
 
     void Update()
     {
-        CurrentAIState();
-
-        float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
-        if (distanceFromPlayer <= _interactionDistance)
+        if (_player != null)
         {
-            _currentState = AIState.Talk;
-            SlowEnemySpeed();
-            _player.isEngagingInDialogue(true);
+            CurrentAIState();
+   
+            float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
+            if (distanceFromPlayer <= _interactionDistance)
+            {
+                _currentState = AIState.Talk;
+                SlowEnemySpeed();
+                _player.isEngagingInDialogue(true);
+            }
         }
-
     }
 
     public void AddEnemyToList(EnemyAI enemy)

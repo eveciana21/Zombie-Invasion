@@ -21,6 +21,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private GameObject _scoreGO;
 
     [Header("Text")]
     [SerializeField] private GameObject _proveYourWorthText;
@@ -39,6 +40,7 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private Image _reticle;
     [SerializeField] private GameObject _miniMap;
     [SerializeField] private PlayableDirector _timeline;
+    [SerializeField] private GameObject _potions;
 
     private Image _sliderFillColor;
     private Image _sliderBackgroundColor;
@@ -54,7 +56,7 @@ public class UIManager : MonoSingleton<UIManager>
     private bool _endGame;
     [SerializeField] private GameObject _endGameTrigger;
     [SerializeField] private GameObject _helicopterIcon;
-   
+
     private Color _originalTimerTextColor;
 
     private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
@@ -85,7 +87,6 @@ public class UIManager : MonoSingleton<UIManager>
         {"NPC3", false },
         {"NPC4", false }
     };
-
 
     private void Start()
     {
@@ -158,7 +159,7 @@ public class UIManager : MonoSingleton<UIManager>
         {
             _helicopterIcon.SetActive(true);
         }
-       if (_lastHoorah && _currentTime <= 115)
+        if (_lastHoorah && _currentTime <= 115)
         {
             _endGameTrigger.SetActive(true);
         }
@@ -172,11 +173,10 @@ public class UIManager : MonoSingleton<UIManager>
             if (value == true)
             {
                 _timeline.Play();
-                CameraManager.Instance.SetMasterCam(1);
+                DisableUI(false);
                 _timerActive = false;
             }
         }
-        Debug.Log("end game bool = " + _endGame);
     }
 
     private void AddTime(float secondsToAdd)
@@ -368,7 +368,6 @@ public class UIManager : MonoSingleton<UIManager>
                 if (!_giftGivenDict[npc])
                 {
                     _confirmedPlayerNotZombie[npc] = true;
-                    Debug.Log(npc + " Kill Count Confirmed!");
                 }
             }
         }
@@ -447,5 +446,11 @@ public class UIManager : MonoSingleton<UIManager>
         _timerText.gameObject.SetActive(value);
         _timerActive = value;
         _miniMap.SetActive(value);
+
+        if (_endGame)
+        {
+            _potions.SetActive(value);
+            _scoreGO.SetActive(value);
+        }
     }
 }

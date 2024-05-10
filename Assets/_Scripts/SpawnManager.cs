@@ -65,9 +65,9 @@ public class SpawnManager : MonoSingleton<SpawnManager>
                 }
             }
             _enemiesInGame++;
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1);
         }
-        if (_enemiesInGame == 60)
+        if (_enemiesInGame >= 60)
         {
             Debug.Log("Enemy Count has reached max");
         }
@@ -79,7 +79,6 @@ public class SpawnManager : MonoSingleton<SpawnManager>
         Transform bossWaypoints = _waypointParent.GetChild(0);
 
         _wayPoint.Clear();
-
 
         for (int i = 0; i < bossWaypoints.childCount; i++)
         {

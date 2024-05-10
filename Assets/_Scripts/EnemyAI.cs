@@ -125,19 +125,22 @@ public class EnemyAI : MonoBehaviour
 
     private void MoveTowardsPlayer()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotateTowardsPlayerSpeed * Time.deltaTime); //slowly turn to player
-
-        float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
-        if (distanceFromPlayer <= _distanceToAttack)
+        if (_player != null)
         {
-            _currentState = AIState.Attack;
-        }
-        else
-        {
-            _navmeshAgent.SetDestination(_player.transform.position); // set new destination to player position
+            Quaternion targetRotation = Quaternion.LookRotation(_player.transform.position - transform.position, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotateTowardsPlayerSpeed * Time.deltaTime); //slowly turn to player
 
-            _animator.SetBool("Walking", true);
+            float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
+            if (distanceFromPlayer <= _distanceToAttack)
+            {
+                _currentState = AIState.Attack;
+            }
+            else
+            {
+                _navmeshAgent.SetDestination(_player.transform.position); // set new destination to player position
+
+                _animator.SetBool("Walking", true);
+            }
         }
     }
 
@@ -181,7 +184,7 @@ public class EnemyAI : MonoBehaviour
                 break;
 
             case AIState.Walk:
-                if (!_isDead)
+                if (_player != null && !_isDead)
                 {
                     CalculateMovement();
 
@@ -284,7 +287,7 @@ public class EnemyAI : MonoBehaviour
             {
                 Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack), Color.red);
 
-                if (_isAttacking == false)
+                if (_player != null && _isAttacking == false)
                 {
                     _player.DamagePlayer(10);
                     _isAttacking = true;
@@ -297,7 +300,7 @@ public class EnemyAI : MonoBehaviour
             {
                 Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack), Color.red);
 
-                if (_isAttacking == false)
+                if (_player != null && _isAttacking == false)
                 {
                     _player.DamagePlayer(10);
                     _isAttacking = true;
@@ -310,7 +313,7 @@ public class EnemyAI : MonoBehaviour
             {
                 Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.forward * (_distanceToAttack * _distanceToAttackMultiplier), Color.red);
 
-                if (_isAttacking == false)
+                if (_player != null && _isAttacking == false)
                 {
                     _player.DamagePlayer(30);
                     _isAttacking = true;
@@ -325,7 +328,7 @@ public class EnemyAI : MonoBehaviour
 
         if (_health <= 0)
         {
-            if (!_isDead)
+            if (_player != null && !_isDead)
             {
                 _currentState = AIState.Death;
                 int random = Random.Range(0, 101);

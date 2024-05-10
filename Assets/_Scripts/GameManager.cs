@@ -22,7 +22,6 @@ public class GameManager : MonoSingleton<GameManager>
     private bool _gameStarted;
     private bool _playerDead;
 
-
     public override void Init()
     {
         base.Init(); // Turns this class into a singleton
@@ -30,7 +29,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     void Start()
     {
-        //Player player = FindObjectOfType<Player>();
         GameObject player = GameObject.Find("PlayerCapsule");
         if (player != null)
         {
@@ -157,18 +155,24 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void PlayerDeadMenu()
     {
-        _playerDead = true;
-        _player.IsPlayerAlive(false);
-        _skullsParticle.SetActive(true);
-        AudioManager.Instance.SFX(1);
-        StartCoroutine(DeathMenuDelay());
+        if (_player != null)
+        {
+            _playerDead = true;
+            _player.IsPlayerAlive(false);
+            _skullsParticle.SetActive(true);
+            AudioManager.Instance.SFX(1);
+            StartCoroutine(DeathMenuDelay());
+        }
     }
 
     IEnumerator DeathMenuDelay()
     {
-        yield return new WaitForSeconds(4);
-        _input.SetCursorVisible(true);
-        _deathMenu.SetActive(true);
+        if (_input != null)
+        {
+            yield return new WaitForSeconds(4);
+            _input.SetCursorVisible(true);
+            _deathMenu.SetActive(true);
+        }
     }
 
     public void QuitGame()

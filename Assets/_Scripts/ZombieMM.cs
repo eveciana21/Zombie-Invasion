@@ -44,7 +44,6 @@ public class ZombieMM : MonoBehaviour
         _navmeshAgent.SetDestination(_wayPoint[_currentPos].position); //move enemy to the next destination waypoint
     }
 
-
     private void Reverse()
     {
         if (_currentPos == 0)
