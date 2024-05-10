@@ -19,6 +19,9 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private GameObject _skullsParticle;
     [SerializeField] private GameObject _reticle;
 
+    [SerializeField] private GameObject _sensitivitySlider;
+    [SerializeField] private GameObject _dayNightSlider;
+
     private bool _gameStarted;
     private bool _playerDead;
 
@@ -59,6 +62,8 @@ public class GameManager : MonoSingleton<GameManager>
         {
             SpawnManager.Instance.SpawnEnemies();
         }
+
+        VignetteIntensity(0.3f);
     }
 
     private void Update()
@@ -123,6 +128,14 @@ public class GameManager : MonoSingleton<GameManager>
         {
             _quitGameButtons.SetActive(true);
         }
+        if (_sensitivitySlider != null)
+        {
+            _sensitivitySlider.SetActive(true);
+        }
+        if (_dayNightSlider != null)
+        {
+            _dayNightSlider.SetActive(true);
+        }
         if (_input != null)
         {
             _input.SetCursorVisible(true);
@@ -137,6 +150,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             _input.SetCursorVisible(false);
         }
+
         VignetteIntensity(0.2f);
     }
 

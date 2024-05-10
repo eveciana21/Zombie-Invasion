@@ -119,7 +119,6 @@ public class EnemyAI : MonoBehaviour
         else
         {
             MoveTowardsPlayer();
-            Debug.Log("Player within Range");
         }
     }
 

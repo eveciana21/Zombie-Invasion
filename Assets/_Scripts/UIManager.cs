@@ -18,6 +18,7 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject _healthGO;
     [SerializeField] private TextMeshProUGUI _health;
     [SerializeField] private GameObject _heart, _heartBroken;
+    [SerializeField] private GameObject _screenBlood;
 
     [Header("Score")]
     [SerializeField] private TextMeshProUGUI _scoreText;
@@ -37,9 +38,11 @@ public class UIManager : MonoSingleton<UIManager>
     [Space]
 
     [SerializeField] private Slider _sprintSlider;
+    [SerializeField] private Slider _sensitivitySlider;
+    [SerializeField] private TMP_Text _sensitivityText;
     [SerializeField] private Image _reticle;
     [SerializeField] private GameObject _miniMap;
-    [SerializeField] private PlayableDirector _timeline;
+    [SerializeField] private PlayableDirector _endSceneTimeline, _helicopterEnterSceneTimeline;
     [SerializeField] private GameObject _potions;
 
     private Image _sliderFillColor;
@@ -56,6 +59,8 @@ public class UIManager : MonoSingleton<UIManager>
     private bool _endGame;
     [SerializeField] private GameObject _endGameTrigger;
     [SerializeField] private GameObject _helicopterIcon;
+    [SerializeField] private GameObject _helicopter;
+    [SerializeField] private GameObject _helicopterNPCs;
 
     private Color _originalTimerTextColor;
 
@@ -147,8 +152,11 @@ public class UIManager : MonoSingleton<UIManager>
 
         if (_allPotionsCollected)
         {
-            _currentTime = 120;
+            _currentTime = 60;
             _lastHoorah = true;
+            _helicopter.SetActive(true);
+            _helicopterNPCs.SetActive(false);
+            _helicopterEnterSceneTimeline.Play();
             _allPotionsCollected = false;
         }
     }
@@ -159,7 +167,7 @@ public class UIManager : MonoSingleton<UIManager>
         {
             _helicopterIcon.SetActive(true);
         }
-        if (_lastHoorah && _currentTime <= 115)
+        if (_lastHoorah && _currentTime <= 30)
         {
             _endGameTrigger.SetActive(true);
         }
@@ -172,8 +180,9 @@ public class UIManager : MonoSingleton<UIManager>
             _endGame = value;
             if (value == true)
             {
-                _timeline.Play();
                 DisableUI(false);
+                _helicopterNPCs.SetActive(true);
+                _endSceneTimeline.Play();
                 _timerActive = false;
             }
         }
@@ -417,6 +426,18 @@ public class UIManager : MonoSingleton<UIManager>
         _sprintSlider.minValue = 0f;
     }
 
+    public void SensitivitySlider(float rotationSpeed)
+    {
+        _sensitivitySlider.maxValue = 1f;
+        _sensitivitySlider.minValue = 0.1f;
+
+        float roundedValue = Mathf.Round(rotationSpeed * 10) / 10;
+
+        _sensitivitySlider.value = roundedValue;
+
+        _sensitivityText.text = roundedValue.ToString("F1");
+    }
+
     public void DisableSlider()
     {
         if (_sprintSlider != null)
@@ -447,10 +468,12 @@ public class UIManager : MonoSingleton<UIManager>
         _timerActive = value;
         _miniMap.SetActive(value);
 
+
         if (_endGame)
         {
             _potions.SetActive(value);
             _scoreGO.SetActive(value);
+            _screenBlood.SetActive(value);
         }
     }
 }

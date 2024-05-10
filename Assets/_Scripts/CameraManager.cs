@@ -11,11 +11,6 @@ public class CameraManager : MonoSingleton<CameraManager>
         base.Init(); //Turns this class into a singleton
     }
 
-    public void ResetCamera()
-    {
-
-    }
-
     public void SetMasterCam(int camSelected)
     {
         foreach (var cam in _camera)

@@ -351,14 +351,17 @@ public class Player : MonoBehaviour
             int randomSFX = Random.Range(6, _audioClip.Length);
             PlaySFX(randomSFX); //player hurt sfx
 
-            int random = Random.Range(0, _bloodScreen.Length);
-
-            while (_bloodScreen[random].activeInHierarchy)
+            if (_bloodScreen != null)
             {
-                Debug.Log("Reroll. Value = " + random);
-                random = Random.Range(0, _bloodScreen.Length);
+                int random = Random.Range(0, _bloodScreen.Length);
+
+                while (_bloodScreen[random].activeInHierarchy)
+                {
+                    Debug.Log("Reroll. Value = " + random);
+                    random = Random.Range(0, _bloodScreen.Length);
+                }
+                _bloodScreen[random].SetActive(true);
             }
-            _bloodScreen[random].SetActive(true);
 
             if (_health <= 0)
             {
@@ -400,9 +403,12 @@ public class Player : MonoBehaviour
         _health = 100;
         UIManager.Instance.HealthRemaining(_health);
 
-        for (int i = 0; i < _bloodScreen.Length; i++)
+        if (_bloodScreen != null)
         {
-            _bloodScreen[i].SetActive(false);
+            for (int i = 0; i < _bloodScreen.Length; i++)
+            {
+                _bloodScreen[i].SetActive(false);
+            }
         }
     }
 
