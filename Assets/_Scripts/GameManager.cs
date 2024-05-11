@@ -4,11 +4,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using StarterAssets;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Playables;
 
 public class GameManager : MonoSingleton<GameManager>
 {
     private StarterAssetsInputs _input;
     private Player _player;
+
+    [Header("Slider")]
+
+    [SerializeField] private GameObject _sensitivitySlider;
+    [SerializeField] private GameObject _dayNightSlider;
+
+    [Header("TimeLine")]
+
+    [SerializeField] private PlayableDirector _mainToOptionsTimeline;
+    [SerializeField] private PlayableDirector _optionsToMainTimeline;
+    [SerializeField] private PlayableDirector _optionsToControlsTimeline;
+    [SerializeField] private PlayableDirector _controlsToMainMenuTimeline;
+
+    [Space]
 
     [SerializeField] private PostProcessVolume _postProcessVolume;
     private ChromaticAberration _chromaticAberration;
@@ -19,11 +34,14 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private GameObject _skullsParticle;
     [SerializeField] private GameObject _reticle;
 
-    [SerializeField] private GameObject _sensitivitySlider;
-    [SerializeField] private GameObject _dayNightSlider;
+    [SerializeField] private GameObject _optionsScreen;
+    [SerializeField] private GameObject _mainMenuScreen;
+    [SerializeField] private GameObject _controlsScreen;
 
     private bool _gameStarted;
     private bool _playerDead;
+
+
 
     public override void Init()
     {
@@ -64,6 +82,9 @@ public class GameManager : MonoSingleton<GameManager>
         }
 
         VignetteIntensity(0.3f);
+
+        UIManager.Instance.LoadSensitivitySetting();
+        UIManager.Instance.LoadDayNightSetting();
     }
 
     private void Update()
@@ -118,6 +139,7 @@ public class GameManager : MonoSingleton<GameManager>
             _input.SetCursorVisible(false);
         }
         _gameStarted = true;
+
     }
 
     public void PauseGame()
@@ -166,6 +188,63 @@ public class GameManager : MonoSingleton<GameManager>
             _input.SetCursorVisible(true);
         }
     }
+
+    public void MainMenuToOptions()
+    {
+        _mainToOptionsTimeline.Play();
+        StartCoroutine(MainMenuToOptionsScreenDelay());
+    }
+
+    IEnumerator MainMenuToOptionsScreenDelay()
+    {
+        _mainMenuScreen.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        _optionsScreen.SetActive(true);
+        _optionsToMainTimeline.Stop();
+        _controlsToMainMenuTimeline.Stop();
+    }
+
+    public void OptionsToMainMenu()
+    {
+        _optionsToMainTimeline.Play();
+        StartCoroutine(OptionsToMainMenuDelay());
+    }
+
+    IEnumerator OptionsToMainMenuDelay()
+    {
+        _optionsScreen.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        _mainMenuScreen.SetActive(true);
+        _mainToOptionsTimeline.Stop();
+    }
+
+    public void OptionsToControls()
+    {
+        _optionsToControlsTimeline.Play();
+        StartCoroutine(OptionsToControlsDelay());
+    }
+    IEnumerator OptionsToControlsDelay()
+    {
+        _optionsScreen.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        _controlsScreen.SetActive(true);
+        _mainToOptionsTimeline.Stop();
+    }
+
+    public void ControlsToMainMenu()
+    {
+        _controlsToMainMenuTimeline.Play();
+        StartCoroutine(ControlsToMainMenuDelay());
+    }
+
+    IEnumerator ControlsToMainMenuDelay()
+    {
+        _controlsScreen.SetActive(false);
+        yield return new WaitForSeconds(2);
+        _mainMenuScreen.SetActive(true);
+        _optionsToControlsTimeline.Stop();
+    }
+
 
     public void PlayerDeadMenu()
     {

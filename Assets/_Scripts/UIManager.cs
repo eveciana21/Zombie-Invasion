@@ -35,15 +35,28 @@ public class UIManager : MonoSingleton<UIManager>
     private bool _timerActive = true;
     private float _currentTime;
 
-    [Space]
+    [Header("Sliders")]
 
     [SerializeField] private Slider _sprintSlider;
+    [SerializeField] private Slider _dayNightSlider;
     [SerializeField] private Slider _sensitivitySlider;
     [SerializeField] private TMP_Text _sensitivityText;
+
+    [Header("TimeLine")]
+
+    [SerializeField] private PlayableDirector _endSceneTimeline;
+    [SerializeField] private PlayableDirector _helicopterEnterSceneTimeline;
+
+    [Header("Other")]
+
     [SerializeField] private Image _reticle;
     [SerializeField] private GameObject _miniMap;
-    [SerializeField] private PlayableDirector _endSceneTimeline, _helicopterEnterSceneTimeline;
     [SerializeField] private GameObject _potions;
+
+    [SerializeField] private GameObject _endGameTrigger;
+    [SerializeField] private GameObject _helicopterIcon;
+    [SerializeField] private GameObject _helicopter;
+    [SerializeField] private GameObject _helicopterNPCs;
 
     private Image _sliderFillColor;
     private Image _sliderBackgroundColor;
@@ -57,10 +70,6 @@ public class UIManager : MonoSingleton<UIManager>
 
     private int _potionCount;
     private bool _endGame;
-    [SerializeField] private GameObject _endGameTrigger;
-    [SerializeField] private GameObject _helicopterIcon;
-    [SerializeField] private GameObject _helicopter;
-    [SerializeField] private GameObject _helicopterNPCs;
 
     private Color _originalTimerTextColor;
 
@@ -436,7 +445,44 @@ public class UIManager : MonoSingleton<UIManager>
         _sensitivitySlider.value = roundedValue;
 
         _sensitivityText.text = roundedValue.ToString("F1");
+
+        PlayerPrefs.SetFloat("RotationSpeed", roundedValue);
+        PlayerPrefs.Save();
     }
+
+    public void LoadSensitivitySetting()
+    {
+        if (PlayerPrefs.HasKey("RotationSpeed"))
+        {
+            // Retrieve the rotation speed value from PlayerPrefs
+            float rotationSpeed = PlayerPrefs.GetFloat("RotationSpeed");
+
+            // Set the rotation speed slider value
+            SensitivitySlider(rotationSpeed);
+        }
+    }
+
+    public void DayNightSlider(float daylightAmount)
+    {
+        _dayNightSlider.maxValue = 1.25f;
+        _dayNightSlider.minValue = 0f;
+
+        _dayNightSlider.value = daylightAmount;
+
+        PlayerPrefs.SetFloat("DayLight", daylightAmount);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadDayNightSetting()
+    {
+        if (PlayerPrefs.HasKey("DayLight"))
+        {
+            float dayNightAmount = PlayerPrefs.GetFloat("DayLight");
+
+            DayNightSlider(dayNightAmount);
+        }
+    }
+
 
     public void DisableSlider()
     {
