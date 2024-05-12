@@ -377,6 +377,7 @@ public class Player : MonoBehaviour
     public void IsPlayerAlive(bool isPlayerAlive)
     {
         _playerIsAlive = isPlayerAlive;
+        _playerAnimator.applyRootMotion = false;
         _playerAnimator.SetBool("Death", true);
         _fpsController.IsPlayerAlive(false);
         _input.IsPlayerAlive(false);

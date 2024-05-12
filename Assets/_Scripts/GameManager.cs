@@ -22,6 +22,7 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private PlayableDirector _optionsToMainTimeline;
     [SerializeField] private PlayableDirector _optionsToControlsTimeline;
     [SerializeField] private PlayableDirector _controlsToMainMenuTimeline;
+    [SerializeField] private PlayableDirector _controlsToOptionsTimeline;
 
     [Space]
 
@@ -40,8 +41,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     private bool _gameStarted;
     private bool _playerDead;
-
-
 
     public override void Init()
     {
@@ -162,6 +161,10 @@ public class GameManager : MonoSingleton<GameManager>
         {
             _input.SetCursorVisible(true);
         }
+        if (_reticle != null)
+        {
+            _reticle.SetActive(false);
+        }
     }
 
     public void ContinueGame()
@@ -171,6 +174,10 @@ public class GameManager : MonoSingleton<GameManager>
         if (_input != null)
         {
             _input.SetCursorVisible(false);
+        }
+        if (_reticle != null)
+        {
+            _reticle.SetActive(true);
         }
 
         VignetteIntensity(0.2f);
@@ -229,6 +236,7 @@ public class GameManager : MonoSingleton<GameManager>
         yield return new WaitForSeconds(2f);
         _controlsScreen.SetActive(true);
         _mainToOptionsTimeline.Stop();
+        _controlsToOptionsTimeline.Stop();
     }
 
     public void ControlsToMainMenu()
@@ -242,6 +250,20 @@ public class GameManager : MonoSingleton<GameManager>
         _controlsScreen.SetActive(false);
         yield return new WaitForSeconds(2);
         _mainMenuScreen.SetActive(true);
+        _optionsToControlsTimeline.Stop();
+    }
+
+    public void ControlsToOptions()
+    {
+        _controlsToOptionsTimeline.Play();
+        StartCoroutine(ControlsToOptionsDelay());
+    }
+
+    IEnumerator ControlsToOptionsDelay()
+    {
+        _controlsScreen.SetActive(false);
+        yield return new WaitForSeconds(2);
+        _optionsScreen.SetActive(true);
         _optionsToControlsTimeline.Stop();
     }
 

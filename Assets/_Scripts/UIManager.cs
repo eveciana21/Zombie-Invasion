@@ -57,6 +57,7 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject _helicopterIcon;
     [SerializeField] private GameObject _helicopter;
     [SerializeField] private GameObject _helicopterNPCs;
+    [SerializeField] private GameObject _poisonGas;
 
     private Image _sliderFillColor;
     private Image _sliderBackgroundColor;
@@ -151,6 +152,11 @@ public class UIManager : MonoSingleton<UIManager>
             else
             {
                 _timerText.color = _originalTimerTextColor;
+            }
+
+            if (_currentTime <= 3)
+            {
+                _poisonGas.SetActive(true);
             }
 
             LastHoorah();
