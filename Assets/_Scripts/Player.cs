@@ -92,6 +92,7 @@ public class Player : MonoBehaviour
 
         _sprintRemaining = 100f;
         _input.enabled = true;
+        _playerAnimator.applyRootMotion = true;
     }
 
     private void Update()

@@ -46,6 +46,8 @@ public class UIManager : MonoSingleton<UIManager>
 
     [SerializeField] private PlayableDirector _endSceneTimeline;
     [SerializeField] private PlayableDirector _helicopterEnterSceneTimeline;
+    [SerializeField] private PlayableDirector _introSceneTimeline;
+    [SerializeField] private PlayableDirector _playerRopeTimeline;
 
     [Header("Other")]
 
@@ -58,6 +60,8 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject _helicopter;
     [SerializeField] private GameObject _helicopterNPCs;
     [SerializeField] private GameObject _poisonGas;
+
+    [SerializeField] private GameObject _okayButton;
 
     private Image _sliderFillColor;
     private Image _sliderBackgroundColor;
@@ -154,7 +158,7 @@ public class UIManager : MonoSingleton<UIManager>
                 _timerText.color = _originalTimerTextColor;
             }
 
-            if (_currentTime <= 3)
+            if (_currentTime <= 4)
             {
                 _poisonGas.SetActive(true);
             }
@@ -460,10 +464,8 @@ public class UIManager : MonoSingleton<UIManager>
     {
         if (PlayerPrefs.HasKey("RotationSpeed"))
         {
-            // Retrieve the rotation speed value from PlayerPrefs
             float rotationSpeed = PlayerPrefs.GetFloat("RotationSpeed");
 
-            // Set the rotation speed slider value
             SensitivitySlider(rotationSpeed);
         }
     }
@@ -527,5 +529,15 @@ public class UIManager : MonoSingleton<UIManager>
             _scoreGO.SetActive(value);
             _screenBlood.SetActive(value);
         }
+    }
+
+    public void DisplayPlayGameButton() //displays button saying "Okay" after cutscene
+    {
+        _okayButton.SetActive(true);
+    }
+
+    public void PlayerSlideDownRopeScene()
+    {
+        _playerRopeTimeline.Play();
     }
 }
