@@ -65,7 +65,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
                 }
             }
             _enemiesInGame++;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
         }
         if (_enemiesInGame >= 60)
         {

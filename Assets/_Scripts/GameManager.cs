@@ -23,6 +23,9 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private PlayableDirector _optionsToControlsTimeline;
     [SerializeField] private PlayableDirector _controlsToMainMenuTimeline;
     [SerializeField] private PlayableDirector _controlsToOptionsTimeline;
+    [SerializeField] private PlayableDirector _introSceneTimeline;
+    [SerializeField] private PlayableDirector _playerRopeTimeline;
+    [SerializeField] private PlayableDirector _helicopterExitingIntro;
 
     [Space]
 
@@ -35,9 +38,12 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private GameObject _skullsParticle;
     [SerializeField] private GameObject _reticle;
 
+    [SerializeField] private GameObject _uiGO;
+
     [SerializeField] private GameObject _optionsScreen;
     [SerializeField] private GameObject _mainMenuScreen;
     [SerializeField] private GameObject _controlsScreen;
+    [SerializeField] private GameObject _assaultRifle;
 
     private bool _gameStarted;
     private bool _playerDead;
@@ -75,10 +81,11 @@ public class GameManager : MonoSingleton<GameManager>
                 _gameStarted = true;
             }
         }
-        if (_gameStarted && !_playerDead)
+        else if (activeScene.buildIndex == 0)
         {
-            SpawnManager.Instance.SpawnEnemies();
+            _input.SetCursorVisible(true);
         }
+
 
         VignetteIntensity(0.3f);
 
@@ -139,6 +146,52 @@ public class GameManager : MonoSingleton<GameManager>
         }
         _gameStarted = true;
 
+        if (_uiGO != null)
+        {
+            _uiGO.SetActive(false);
+        }
+        if (_assaultRifle != null)
+        {
+            _assaultRifle.SetActive(false);
+        }
+    }
+
+    public void RestartGame() //same as start but will not play intro scene
+    {
+        SceneManager.LoadScene(1);
+        _introSceneTimeline.Stop();
+
+        Time.timeScale = 1;
+
+        if (_input != null)
+        {
+            _input.SetCursorVisible(false);
+            _input.CanPlayerMove(true);
+        }
+
+        if (_assaultRifle != null)
+        {
+            _assaultRifle.SetActive(true);
+        }
+
+        _gameStarted = true;
+
+        //_uiGO.SetActive(true);
+
+        UIManager.Instance.ActivateTimer(true);
+
+        if (_gameStarted && !_playerDead)
+        {
+            SpawnManager.Instance.SpawnEnemies();
+        }
+    }
+
+    public void EnableAssaultRifle() // called on signal emitter in timeline
+    {
+        if (_assaultRifle != null)
+        {
+            _assaultRifle.SetActive(true);
+        }
     }
 
     public void PauseGame()
@@ -293,6 +346,30 @@ public class GameManager : MonoSingleton<GameManager>
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void PlayerSlideDownRopeScene()
+    {
+        StartCoroutine(IntroTimelineStartGameDelay());
+    }
+
+    IEnumerator IntroTimelineStartGameDelay()
+    {
+        _playerRopeTimeline.Play();
+        _input.SetCursorVisible(false);
+        yield return new WaitForSeconds(10);
+        UIManager.Instance.ActivateTimer(true);
+        _helicopterExitingIntro.Play();
+
+        if (_gameStarted && !_playerDead)
+        {
+            SpawnManager.Instance.SpawnEnemies();
+        }
+    }
+
+    public void DisplayCursor()
+    {
+        _input.SetCursorVisible(true);
     }
 
     public void YouWinScreen()

@@ -64,7 +64,6 @@ public class Player : MonoBehaviour
     private bool _playerIsAlive = true;
     private bool _canTakeDamage = true;
 
-
     private void Start()
     {
         GameObject playerCapsule = GameObject.Find("PlayerCapsule");
@@ -382,6 +381,7 @@ public class Player : MonoBehaviour
         _playerAnimator.SetBool("Death", true);
         _fpsController.IsPlayerAlive(false);
         _input.IsPlayerAlive(false);
+        _input.CanPlayerMove(false);
     }
 
     public void AmmoPickup(int ammoQuantity)

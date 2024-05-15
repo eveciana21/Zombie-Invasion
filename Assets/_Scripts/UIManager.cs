@@ -27,12 +27,15 @@ public class UIManager : MonoSingleton<UIManager>
     [Header("Text")]
     [SerializeField] private GameObject _proveYourWorthText;
     [SerializeField] private TextMeshProUGUI _dialogueText;
+    [SerializeField] private TextMeshProUGUI _introDialogueText;
+    [SerializeField] private GameObject _introDialogBox;
+    [SerializeField] private GameObject _okayButton;
     [SerializeField] private GameObject _dialogueBox;
     [SerializeField] private float _textSpeed = 0.075f;
 
     [SerializeField] private int _startMinutes;
     [SerializeField] private TMP_Text _timerText;
-    private bool _timerActive = true;
+    private bool _timerActive;
     private float _currentTime;
 
     [Header("Sliders")]
@@ -61,7 +64,6 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject _helicopterNPCs;
     [SerializeField] private GameObject _poisonGas;
 
-    [SerializeField] private GameObject _okayButton;
 
     private Image _sliderFillColor;
     private Image _sliderBackgroundColor;
@@ -190,6 +192,11 @@ public class UIManager : MonoSingleton<UIManager>
         {
             _endGameTrigger.SetActive(true);
         }
+    }
+
+    public void ActivateTimer(bool value)
+    {
+        _timerActive = value;
     }
 
     public void CanEndGame(bool value)
@@ -522,7 +529,6 @@ public class UIManager : MonoSingleton<UIManager>
         _timerActive = value;
         _miniMap.SetActive(value);
 
-
         if (_endGame)
         {
             _potions.SetActive(value);
@@ -531,13 +537,27 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
-    public void DisplayPlayGameButton() //displays button saying "Okay" after cutscene
+    public void IntroDialogueText()
     {
-        _okayButton.SetActive(true);
+        if (_introDialogBox != null)
+        {
+            StartCoroutine(IntroDialogText(_introDialogueText.text));
+        }
     }
 
-    public void PlayerSlideDownRopeScene()
+
+    IEnumerator IntroDialogText(string dialogue)
     {
-        _playerRopeTimeline.Play();
+        _introDialogueText.text = " ";
+        for (int i = 0; i <= dialogue.Length; i++)
+        {
+            _introDialogueText.text = dialogue.Substring(0, i);
+            yield return new WaitForSeconds(_textSpeed);
+        }
+        _okayButton.SetActive(true);
+
+
     }
+
 }
+

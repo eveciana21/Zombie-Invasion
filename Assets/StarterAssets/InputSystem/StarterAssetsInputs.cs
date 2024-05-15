@@ -26,12 +26,13 @@ namespace StarterAssets
         public bool cursorInputForLook = true;
 
         private bool _isPlayerAlive = true;
+        private bool _canPlayerMove;
 
 
 #if ENABLE_INPUT_SYSTEM
         public void OnMove(InputValue value)
         {
-            if (_isPlayerAlive)
+            if (_isPlayerAlive && _canPlayerMove)
                 MoveInput(value.Get<Vector2>());
         }
 
@@ -39,7 +40,7 @@ namespace StarterAssets
         {
             if (cursorInputForLook)
             {
-                if (_isPlayerAlive)
+                if (_isPlayerAlive && _canPlayerMove)
 
                     LookInput(value.Get<Vector2>());
             }
@@ -58,7 +59,10 @@ namespace StarterAssets
 
         public void OnFire(InputValue value)
         {
-            FireInput(value.isPressed);
+            if (_canPlayerMove) // <--left off here
+            {
+                FireInput(value.isPressed);
+            }
         }
 
         public void OnReload(InputValue value)
@@ -137,6 +141,11 @@ namespace StarterAssets
         public void IsPlayerAlive(bool isPlayerAlive)
         {
             _isPlayerAlive = isPlayerAlive;
+        }
+
+        public void CanPlayerMove(bool canPlayerMove) //called on signal receiver on timeline
+        {
+            _canPlayerMove = canPlayerMove;
         }
     }
 }

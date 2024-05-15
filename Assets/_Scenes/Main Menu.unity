@@ -32518,14 +32518,18 @@ MonoBehaviour:
   _optionsToControlsTimeline: {fileID: 1305117188}
   _controlsToMainMenuTimeline: {fileID: 391697547}
   _controlsToOptionsTimeline: {fileID: 1136421984}
+  _introSceneTimeline: {fileID: 0}
+  _playerRopeTimeline: {fileID: 0}
   _postProcessVolume: {fileID: 906595121}
   _quitGameButtons: {fileID: 0}
   _deathMenu: {fileID: 0}
   _skullsParticle: {fileID: 0}
   _reticle: {fileID: 0}
+  _uiGO: {fileID: 0}
   _optionsScreen: {fileID: 963024785}
   _mainMenuScreen: {fileID: 690974119}
   _controlsScreen: {fileID: 2099722748}
+  _assaultRifle: {fileID: 0}
 --- !u!4 &953927329
 Transform:
   m_ObjectHideFlags: 0
@@ -54065,6 +54069,9 @@ MonoBehaviour:
   _scoreGO: {fileID: 0}
   _proveYourWorthText: {fileID: 0}
   _dialogueText: {fileID: 0}
+  _introDialogueText: {fileID: 0}
+  _introDialogBox: {fileID: 0}
+  _okayButton: {fileID: 0}
   _dialogueBox: {fileID: 0}
   _textSpeed: 0.075
   _startMinutes: 0
@@ -54075,6 +54082,8 @@ MonoBehaviour:
   _sensitivityText: {fileID: 1556983760}
   _endSceneTimeline: {fileID: 0}
   _helicopterEnterSceneTimeline: {fileID: 0}
+  _introSceneTimeline: {fileID: 0}
+  _playerRopeTimeline: {fileID: 0}
   _reticle: {fileID: 0}
   _miniMap: {fileID: 0}
   _potions: {fileID: 0}
@@ -54082,6 +54091,7 @@ MonoBehaviour:
   _helicopterIcon: {fileID: 0}
   _helicopter: {fileID: 0}
   _helicopterNPCs: {fileID: 0}
+  _poisonGas: {fileID: 0}
 --- !u!4 &1528035988
 Transform:
   m_ObjectHideFlags: 0
