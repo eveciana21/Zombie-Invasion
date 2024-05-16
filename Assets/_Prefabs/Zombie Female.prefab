@@ -3186,8 +3186,9 @@ MonoBehaviour:
   _enemyID: 0
   _rotateTowardsPlayerSpeed: 3
   _health: 100
-  _distanceToFollowPlayer: 25
+  _distanceToFollowPlayer: 30
   _distanceToAttack: 2
+  _distanceToAttackMultiplier: 4
   _currentState: 1
   _isDead: 0
   _nearPlayer: 0

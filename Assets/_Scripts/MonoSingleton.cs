@@ -27,3 +27,5 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
         //optional to override and convert overriden manager into singleton
     }
 }
+
+

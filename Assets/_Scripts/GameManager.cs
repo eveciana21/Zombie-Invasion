@@ -86,7 +86,6 @@ public class GameManager : MonoSingleton<GameManager>
             _input.SetCursorVisible(true);
         }
 
-
         VignetteIntensity(0.3f);
 
         UIManager.Instance.LoadSensitivitySetting();
@@ -107,6 +106,8 @@ public class GameManager : MonoSingleton<GameManager>
             FadeVignette(0.9f);
         }
     }
+
+
     public void IncreaseChromaticAberration(float targetIntensity, float speed)
     {
         if (_chromaticAberration != null)
@@ -159,7 +160,6 @@ public class GameManager : MonoSingleton<GameManager>
     public void RestartGame() //same as start but will not play intro scene
     {
         SceneManager.LoadScene(1);
-        _introSceneTimeline.Stop();
 
         Time.timeScale = 1;
 
@@ -175,8 +175,6 @@ public class GameManager : MonoSingleton<GameManager>
         }
 
         _gameStarted = true;
-
-        //_uiGO.SetActive(true);
 
         UIManager.Instance.ActivateTimer(true);
 
@@ -320,7 +318,6 @@ public class GameManager : MonoSingleton<GameManager>
         _optionsToControlsTimeline.Stop();
     }
 
-
     public void PlayerDeadMenu()
     {
         if (_player != null)
@@ -358,6 +355,7 @@ public class GameManager : MonoSingleton<GameManager>
         _playerRopeTimeline.Play();
         _input.SetCursorVisible(false);
         yield return new WaitForSeconds(10);
+        _input.CanPressEscapeKey(true); // <-- need to alter if cutscene not loading on restart
         UIManager.Instance.ActivateTimer(true);
         _helicopterExitingIntro.Play();
 
@@ -370,10 +368,5 @@ public class GameManager : MonoSingleton<GameManager>
     public void DisplayCursor()
     {
         _input.SetCursorVisible(true);
-    }
-
-    public void YouWinScreen()
-    {
-        Debug.Log("You Win");
     }
 }

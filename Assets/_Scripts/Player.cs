@@ -355,9 +355,8 @@ public class Player : MonoBehaviour
             {
                 int random = Random.Range(0, _bloodScreen.Length);
 
-                while (_bloodScreen[random].activeInHierarchy)
+                while (_bloodScreen[random].activeInHierarchy) // will "reroll" if _bloodScreen is already active, until it finds one that is inactive
                 {
-                    Debug.Log("Reroll. Value = " + random);
                     random = Random.Range(0, _bloodScreen.Length);
                 }
                 _bloodScreen[random].SetActive(true);
@@ -431,7 +430,6 @@ public class Player : MonoBehaviour
             _canTakeDamage = false;
             _input.enabled = false;
             UIManager.Instance.CanEndGame(true);
-            GameManager.Instance.YouWinScreen();
         }
     }
 }

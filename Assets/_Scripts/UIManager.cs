@@ -82,10 +82,10 @@ public class UIManager : MonoSingleton<UIManager>
 
     private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
     {
-        {"NPC1", 2 },
-        {"NPC2", 4 },
-        {"NPC3", 6 },
-        {"NPC4", 8 }
+        {"NPC1", 10 },
+        {"NPC2", 20 },
+        {"NPC3", 30 },
+        {"NPC4", 40 }
     };
     private Dictionary<string, bool> _confirmedPlayerNotZombie = new Dictionary<string, bool>()
     {
@@ -108,6 +108,10 @@ public class UIManager : MonoSingleton<UIManager>
         {"NPC3", false },
         {"NPC4", false }
     };
+    public override void Init()
+    {
+        base.Init(); //Turns this class into a singleton
+    }
 
     private void Start()
     {
@@ -354,10 +358,6 @@ public class UIManager : MonoSingleton<UIManager>
         _proveYourWorthText.SetActive(false);
     }
 
-    public override void Init()
-    {
-        base.Init(); //Turns this class into a singleton
-    }
 
     public void AmmoCount(int currentAmmo)
     {
@@ -417,12 +417,12 @@ public class UIManager : MonoSingleton<UIManager>
                 _giftGivenDict[npcName] = true;
                 gift.SetActive(true);
                 gift.transform.parent = null;
-                AddTime(30);
+                AddTime(15);
             }
             if (potionImage != null)
             {
                 potionImage.SetActive(true);
-                _potionCount += 4;
+                _potionCount ++;
                 if (_potionCount == 4)
                 {
                     SpawnManager.Instance.SpawnBoss();
@@ -498,7 +498,6 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
-
     public void DisableSlider()
     {
         if (_sprintSlider != null)
@@ -545,7 +544,6 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
-
     IEnumerator IntroDialogText(string dialogue)
     {
         _introDialogueText.text = " ";
@@ -555,9 +553,5 @@ public class UIManager : MonoSingleton<UIManager>
             yield return new WaitForSeconds(_textSpeed);
         }
         _okayButton.SetActive(true);
-
-
     }
-
 }
-

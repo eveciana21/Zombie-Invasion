@@ -27,6 +27,7 @@ namespace StarterAssets
 
         private bool _isPlayerAlive = true;
         private bool _canPlayerMove;
+        private bool _canPressEscapeKey;
 
 
 #if ENABLE_INPUT_SYSTEM
@@ -59,7 +60,7 @@ namespace StarterAssets
 
         public void OnFire(InputValue value)
         {
-            if (_canPlayerMove) // <--left off here
+            if (_canPlayerMove)
             {
                 FireInput(value.isPressed);
             }
@@ -72,7 +73,8 @@ namespace StarterAssets
 
         public void OnEscapeKey(InputValue value)
         {
-            EscapeKeyInput(value.isPressed);
+            if (_canPressEscapeKey)
+                EscapeKeyInput(value.isPressed);
         }
 #endif
 
@@ -137,7 +139,6 @@ namespace StarterAssets
             Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
             Cursor.visible = !newState; // Show cursor if unlocked, hide cursor if locked
         }
-
         public void IsPlayerAlive(bool isPlayerAlive)
         {
             _isPlayerAlive = isPlayerAlive;
@@ -146,6 +147,10 @@ namespace StarterAssets
         public void CanPlayerMove(bool canPlayerMove) //called on signal receiver on timeline
         {
             _canPlayerMove = canPlayerMove;
+        }
+        public void CanPressEscapeKey(bool canPressEscapeKey)
+        {
+            _canPressEscapeKey = canPressEscapeKey;
         }
     }
 }
