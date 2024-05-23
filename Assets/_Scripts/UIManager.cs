@@ -31,7 +31,9 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject _introDialogBox;
     [SerializeField] private GameObject _okayButton;
     [SerializeField] private GameObject _dialogueBox;
-    [SerializeField] private float _textSpeed = 0.075f;
+    [SerializeField] private GameObject _getToTheChopperDialogueBox;
+    [SerializeField] private TextMeshProUGUI _getToTheChopperText;
+    [SerializeField] private float _textSpeed = 0.06f;
 
     [SerializeField] private int _startMinutes;
     [SerializeField] private TMP_Text _timerText;
@@ -77,15 +79,17 @@ public class UIManager : MonoSingleton<UIManager>
 
     private int _potionCount;
     private bool _endGame;
+    private bool _isOnLastScene;
+    private bool _isGameOver;
 
     private Color _originalTimerTextColor;
 
     private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
     {
-        {"NPC1", 10 },
-        {"NPC2", 20 },
-        {"NPC3", 30 },
-        {"NPC4", 40 }
+        {"NPC1", 1 },
+        {"NPC2", 2 },
+        {"NPC3", 3 },
+        {"NPC4", 4 }
     };
     private Dictionary<string, bool> _confirmedPlayerNotZombie = new Dictionary<string, bool>()
     {
@@ -179,7 +183,6 @@ public class UIManager : MonoSingleton<UIManager>
         {
             _currentTime = 60;
             _lastHoorah = true;
-            _helicopter.SetActive(true);
             _helicopterNPCs.SetActive(false);
             _helicopterEnterSceneTimeline.Play();
             _allPotionsCollected = false;
@@ -188,11 +191,12 @@ public class UIManager : MonoSingleton<UIManager>
 
     private void LastHoorah() //ending scene 
     {
-        if (_lastHoorah && _currentTime < 90 && _currentTime > 30)
+        if (_lastHoorah && _currentTime < 90 && _currentTime > 25)
         {
             _helicopterIcon.SetActive(true);
+            _isOnLastScene = true;
         }
-        if (_lastHoorah && _currentTime <= 30)
+        if (_lastHoorah && _currentTime <= 25)
         {
             _endGameTrigger.SetActive(true);
         }
@@ -308,45 +312,60 @@ public class UIManager : MonoSingleton<UIManager>
         yield return DialogueTextRoutine(dialogue);
     }
 
-    public void DialogueText(bool nearPlayer, string npcName, string dialogue, string secondaryDialogue, string tertiaryDialogue)
+    public void DialogueText(bool nearPlayer, string npcName, string dialogue, string secondaryDialogue, string tertiaryDialogue, string lastDialogue)
     {
         _dialogueBox.SetActive(nearPlayer);
 
-        if (nearPlayer)
+        if (!_isOnLastScene)
         {
-            _proveYourWorthText.SetActive(false);
-            StopCoroutine("ProveYourWorthRoutine");
-
-            if (_confirmedPlayerNotZombie[npcName] == true)
+            if (nearPlayer)
             {
-                if (!_giftGivenDict[npcName])
+                _proveYourWorthText.SetActive(false);
+                StopCoroutine("ProveYourWorthRoutine");
+
+                if (_confirmedPlayerNotZombie[npcName] == true)
                 {
-                    StartCoroutine(SecondaryDialogueRoutine(secondaryDialogue, npcName));
+                    if (!_giftGivenDict[npcName])
+                    {
+                        StartCoroutine(SecondaryDialogueRoutine(secondaryDialogue, npcName));
+                    }
+                    else
+                    {
+                        StartCoroutine(TertiaryDialogueRoutine(tertiaryDialogue));
+                    }
+                    _interactedWithPlayer = true;
                 }
                 else
                 {
-                    StartCoroutine(TertiaryDialogueRoutine(tertiaryDialogue));
+                    StartCoroutine(DialogueTextRoutine(dialogue));
+                    _interactedWithPlayer = false;
                 }
-                _interactedWithPlayer = true;
             }
             else
             {
-                StartCoroutine(DialogueTextRoutine(dialogue));
-                _interactedWithPlayer = false;
+                StopAllCoroutines();
+
+                if (_confirmedPlayerNotZombie[npcName] == false && _interactedWithPlayer == false)
+                {
+                    StartCoroutine(ProveYourWorthRoutine());
+                    _interactedWithPlayer = true;
+                }
+                else
+                {
+                    _proveYourWorthText.SetActive(false);
+                }
             }
         }
         else
         {
-            StopAllCoroutines();
-
-            if (_confirmedPlayerNotZombie[npcName] == false && _interactedWithPlayer == false)
+            if (nearPlayer && !_endGame)
             {
-                StartCoroutine(ProveYourWorthRoutine());
-                _interactedWithPlayer = true;
+                StartCoroutine(GetTotTheChopperTextRoutine(lastDialogue));
             }
             else
             {
-                _proveYourWorthText.SetActive(false);
+                _dialogueBox.SetActive(false);
+                StopCoroutine("GetTotTheChopperTextRoutine");
             }
         }
     }
@@ -422,10 +441,11 @@ public class UIManager : MonoSingleton<UIManager>
             if (potionImage != null)
             {
                 potionImage.SetActive(true);
-                _potionCount ++;
+                _potionCount++;
                 if (_potionCount == 4)
                 {
                     SpawnManager.Instance.SpawnBoss();
+                    StartCoroutine(PlayHelicopterVocal());
                     _allPotionsCollected = true;
                 }
             }
@@ -434,6 +454,12 @@ public class UIManager : MonoSingleton<UIManager>
                 minimapPotionIcon.SetActive(false);
             }
         }
+    }
+
+    IEnumerator PlayHelicopterVocal()
+    {
+        yield return new WaitForSeconds(5f);
+        AudioManager.Instance.Vocals(0);
     }
 
     public void SprintSlider(float sprintPercentage)
@@ -553,5 +579,16 @@ public class UIManager : MonoSingleton<UIManager>
             yield return new WaitForSeconds(_textSpeed);
         }
         _okayButton.SetActive(true);
+    }
+
+
+    IEnumerator GetTotTheChopperTextRoutine(string dialogue)
+    {
+        _dialogueText.text = " ";
+        for (int i = 0; i <= dialogue.Length; i++)
+        {
+            _dialogueText.text = dialogue.Substring(0, i);
+            yield return new WaitForSeconds(_textSpeed);
+        }
     }
 }

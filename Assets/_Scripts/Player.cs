@@ -231,7 +231,7 @@ public class Player : MonoBehaviour
 
         else if (_clipEmpty && _input.fire && Time.time > _canFire && !_isReloading)
         {
-            PlaySFX(3); // empty clip
+            PlaySFX(3); // empty clip audio
             _canFire = Time.time + 1f;
         }
 
@@ -377,10 +377,10 @@ public class Player : MonoBehaviour
     {
         _playerIsAlive = isPlayerAlive;
         _playerAnimator.applyRootMotion = false;
-        _playerAnimator.SetBool("Death", true);
         _fpsController.IsPlayerAlive(false);
         _input.IsPlayerAlive(false);
         _input.CanPlayerMove(false);
+        _playerAnimator.SetBool("Death", true);
     }
 
     public void AmmoPickup(int ammoQuantity)

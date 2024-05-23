@@ -32530,6 +32530,8 @@ MonoBehaviour:
   _mainMenuScreen: {fileID: 690974119}
   _controlsScreen: {fileID: 2099722748}
   _assaultRifle: {fileID: 0}
+  _gameStarted: 0
+  _playerDead: 0
 --- !u!4 &953927329
 Transform:
   m_ObjectHideFlags: 0
@@ -54073,6 +54075,8 @@ MonoBehaviour:
   _introDialogBox: {fileID: 0}
   _okayButton: {fileID: 0}
   _dialogueBox: {fileID: 0}
+  _getToTheChopperDialogueBox: {fileID: 0}
+  _getToTheChopperText: {fileID: 0}
   _textSpeed: 0.075
   _startMinutes: 0
   _timerText: {fileID: 0}
@@ -59008,7 +59012,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sfxAudioSource: {fileID: 0}
+  _vocalsAudioSource: {fileID: 0}
   _sxfAudioClip: []
+  _vocalsAudioClip: []
 --- !u!1 &1673060263 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5356486685249732412, guid: 9e6874235071f414ab1eee956c6dbe86, type: 3}
@@ -103942,6 +103948,7 @@ MonoBehaviour:
   _secondaryDialogueText: Shit! You tore through those zombies like a force of nature!
     Thank you... Here, take this. You've earned it.
   _tertiaryDialogueText: You make me proud. Now, KILL SOME FUCKING ZOMBIES!!!
+  _lastDialogueText: 
   _interactionDistance: 7
   _npcName: NPC1
   _gift: {fileID: 572218108}
@@ -106100,6 +106107,7 @@ MonoBehaviour:
     not. Here, take this as a token of my gratitude.
   _tertiaryDialogueText: Between me and you, this thing doesn't have any rounds in
     it. But hey, maybe it'll scare some of those pricks.
+  _lastDialogueText: 
   _interactionDistance: 10
   _npcName: NPC3
   _gift: {fileID: 1540177274}
@@ -107671,6 +107679,7 @@ MonoBehaviour:
     it, but it's no use to me.
   _tertiaryDialogueText: Keep up the good work out there! It's like music to my ears
     hearing those zombies go down.
+  _lastDialogueText: 
   _interactionDistance: 8
   _npcName: NPC2
   _gift: {fileID: 1905853861}
@@ -114553,6 +114562,7 @@ MonoBehaviour:
     still living! Here take this. You clearly want it...
   _tertiaryDialogueText: Color me impressed, partner. Someone must be looking out
     for you.
+  _lastDialogueText: 
   _interactionDistance: 7
   _npcName: NPC4
   _gift: {fileID: 1857291682}

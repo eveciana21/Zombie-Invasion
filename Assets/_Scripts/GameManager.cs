@@ -45,13 +45,17 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private GameObject _controlsScreen;
     [SerializeField] private GameObject _assaultRifle;
 
-    private bool _gameStarted;
-    private bool _playerDead;
+    [SerializeField] private bool _gameStarted;
+    [SerializeField] private bool _playerDead;
+
+    private const string CutscenePlayedKey = "CutscenePlayed";
+
 
     public override void Init()
     {
         base.Init(); // Turns this class into a singleton
     }
+
 
     void Start()
     {
@@ -90,6 +94,26 @@ public class GameManager : MonoSingleton<GameManager>
 
         UIManager.Instance.LoadSensitivitySetting();
         UIManager.Instance.LoadDayNightSetting();
+
+
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            // Check if the cutscene has been played before
+            if (!PlayerPrefs.HasKey(CutscenePlayedKey))
+            {
+                // If not, play the cutscene
+                StartCoroutine(PlayIntroCutscene());
+            }
+
+            // if it has been played already, skip to next timeline
+            else 
+            {
+                _gameStarted = true;
+                _helicopterExitingIntro.Play();
+                _input.CanPressEscapeKey(true);
+                SpawnManager.Instance.SpawnEnemies();
+            }
+        }
     }
 
     private void Update()
@@ -105,6 +129,24 @@ public class GameManager : MonoSingleton<GameManager>
         {
             FadeVignette(0.9f);
         }
+    }
+
+    private IEnumerator PlayIntroCutscene()
+    {
+        _introSceneTimeline.Play();
+
+        // Wait until the cutscene is finished
+        yield return new WaitForSeconds((float)_introSceneTimeline.duration);
+
+        // Set the PlayerPrefs value to indicate the cutscene has been played
+        PlayerPrefs.SetInt(CutscenePlayedKey, 1);
+        PlayerPrefs.Save();
+    }
+
+    public void ResetCutsceneFlag()
+    {
+        PlayerPrefs.DeleteKey(CutscenePlayedKey);
+        PlayerPrefs.Save();
     }
 
 
@@ -137,6 +179,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void StartGame()
     {
+        ResetCutsceneFlag();
+
         SceneManager.LoadScene(1);
 
         Time.timeScale = 1;
@@ -176,19 +220,9 @@ public class GameManager : MonoSingleton<GameManager>
 
         _gameStarted = true;
 
-        UIManager.Instance.ActivateTimer(true);
-
         if (_gameStarted && !_playerDead)
         {
             SpawnManager.Instance.SpawnEnemies();
-        }
-    }
-
-    public void EnableAssaultRifle() // called on signal emitter in timeline
-    {
-        if (_assaultRifle != null)
-        {
-            _assaultRifle.SetActive(true);
         }
     }
 
@@ -236,6 +270,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void MainMenu()
     {
+        ResetCutsceneFlag();
+
         _gameStarted = false;
         Time.timeScale = 1;
 
@@ -355,18 +391,12 @@ public class GameManager : MonoSingleton<GameManager>
         _playerRopeTimeline.Play();
         _input.SetCursorVisible(false);
         yield return new WaitForSeconds(10);
-        _input.CanPressEscapeKey(true); // <-- need to alter if cutscene not loading on restart
-        UIManager.Instance.ActivateTimer(true);
+        _input.CanPressEscapeKey(true);
         _helicopterExitingIntro.Play();
 
         if (_gameStarted && !_playerDead)
         {
             SpawnManager.Instance.SpawnEnemies();
         }
-    }
-
-    public void DisplayCursor()
-    {
-        _input.SetCursorVisible(true);
     }
 }

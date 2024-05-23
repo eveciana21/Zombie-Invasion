@@ -19,6 +19,7 @@ public class NPC : MonoBehaviour
     [SerializeField] private string _dialogueText;
     [SerializeField] private string _secondaryDialogueText;
     [SerializeField] private string _tertiaryDialogueText;
+    [SerializeField] private string _lastDialogueText;
 
     [Space]
 
@@ -115,7 +116,7 @@ public class NPC : MonoBehaviour
 
                 if (_dialogueTextOnScreen == false)
                 {
-                    UIManager.Instance.DialogueText(true, _npcName, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText);
+                    UIManager.Instance.DialogueText(true, _npcName, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText, _lastDialogueText);
                     StopCoroutine("IdleRoutine");
                     _animator.SetBool("Walking", false);
                     _navMeshAgent.isStopped = true;
@@ -126,7 +127,7 @@ public class NPC : MonoBehaviour
                 float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
                 if (distanceFromPlayer >= _interactionDistance)
                 {
-                    UIManager.Instance.DialogueText(false, _npcName, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText);
+                    UIManager.Instance.DialogueText(false, _npcName, _dialogueText, _secondaryDialogueText, _tertiaryDialogueText, _lastDialogueText);
                     _dialogueTextOnScreen = false;
                     ResumeEnemySpeed();
                     _player.isEngagingInDialogue(false);

@@ -65,8 +65,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
                 }
             }
             _enemiesInGame++;
-            float randomSpawnRate = Random.Range(2f, 3f);
-            yield return new WaitForSeconds(random);
+            yield return new WaitForSeconds(3f);
         }
         if (_enemiesInGame >= 60)
         {
