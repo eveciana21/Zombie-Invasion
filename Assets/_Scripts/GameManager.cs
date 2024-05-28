@@ -56,7 +56,6 @@ public class GameManager : MonoSingleton<GameManager>
         base.Init(); // Turns this class into a singleton
     }
 
-
     void Start()
     {
         GameObject player = GameObject.Find("PlayerCapsule");

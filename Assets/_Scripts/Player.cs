@@ -63,6 +63,9 @@ public class Player : MonoBehaviour
     private bool _barrelDestroyed;
     private bool _playerIsAlive = true;
     private bool _canTakeDamage = true;
+    private bool _hitByExplosion;
+
+    private int[] _milestone = { 500, 1000, 1500, 2000 };
 
     private void Start()
     {
@@ -206,6 +209,11 @@ public class Player : MonoBehaviour
 
     private void Shoot()
     {
+        if (_isReloading)
+        {
+            return;
+        }
+
         if (_ammoRemaining && _input.fire && Time.time > _canFire)
         {
             Fire();
@@ -333,6 +341,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         _barrelDestroyed = false;
+        _hitByExplosion = false;
     }
 
     public void AddToScore(int playerScore)
@@ -340,6 +349,20 @@ public class Player : MonoBehaviour
         _playerScore += playerScore;
         _killCount++;
         UIManager.Instance.Score(_playerScore, _killCount);
+
+        CheckMilestone();
+    }
+
+    private void CheckMilestone()
+    {
+        foreach (int milestone in _milestone)
+        {
+            if (_playerScore == milestone)
+            {
+                UIManager.Instance.WorthyText();
+                AudioManager.Instance.Vocals(1);
+            }
+        }
     }
 
     public void DamagePlayer(int health)
@@ -431,5 +454,15 @@ public class Player : MonoBehaviour
             _input.enabled = false;
             UIManager.Instance.CanEndGame(true);
         }
+        if (other.tag == "Explosion")
+        {
+            if (!_hitByExplosion)
+            {
+                DamagePlayer(10);
+                _hitByExplosion = true;
+            }
+        }
     }
+
+
 }

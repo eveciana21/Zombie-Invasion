@@ -52,6 +52,8 @@ public class EnemyAI : MonoBehaviour
     private Player _player;
     private float _originalSpeed;
 
+    private bool _gameOver;
+
     [SerializeField] private GameObject _ammoPickup;
 
     private enum AIState
@@ -111,6 +113,10 @@ public class EnemyAI : MonoBehaviour
 
     private void CalculateMovement()
     {
+       // UIManager.Instance.ReturnEnemyMovement(true); // <-- test this
+
+        //if (!_gameOver) // <-- Test this
+        //{
         if (_nearPlayer == false)
         {
             MoveToWayPoint();
@@ -119,7 +125,14 @@ public class EnemyAI : MonoBehaviour
         {
             MoveTowardsPlayer();
         }
+        //}
+        //else
+        // {
+        //     MoveToWayPoint();
+        // }
     }
+
+
 
     private void MoveTowardsPlayer()
     {
@@ -254,7 +267,7 @@ public class EnemyAI : MonoBehaviour
         _animator.SetBool("Death", true);
         _navmeshAgent.isStopped = true;
 
-        yield return new WaitForSeconds(Random.Range(4, 6));
+        yield return new WaitForSeconds(Random.Range(5f, 8f));
 
         if (_enemyID == 0)
         {
@@ -283,8 +296,6 @@ public class EnemyAI : MonoBehaviour
         {
             if (Physics.Raycast(_enemyRightFist.transform.position, _enemyRightFist.transform.up, _distanceToAttack * _distanceToAttackMultiplier, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, _enemyRightFist.transform.up * (_distanceToAttack), Color.red);
-
                 if (_player != null && _isAttacking == false)
                 {
                     _player.DamagePlayer(20);
@@ -296,8 +307,6 @@ public class EnemyAI : MonoBehaviour
         {
             if (Physics.Raycast(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up, _distanceToAttack * _distanceToAttackMultiplier, _playerMask))
             {
-                Debug.DrawRay(_enemyLeftFist.transform.position, _enemyLeftFist.transform.up * (_distanceToAttack), Color.red);
-
                 if (_player != null && _isAttacking == false)
                 {
                     _player.DamagePlayer(20);
@@ -309,8 +318,6 @@ public class EnemyAI : MonoBehaviour
         {
             if (Physics.Raycast(_enemyRightFist.transform.position, -_enemyRightFist.transform.forward, _distanceToAttack * _distanceToAttackMultiplier, _playerMask))
             {
-                Debug.DrawRay(_enemyRightFist.transform.position, -_enemyRightFist.transform.forward * (_distanceToAttack * _distanceToAttackMultiplier), Color.red);
-
                 if (_player != null && _isAttacking == false)
                 {
                     _player.DamagePlayer(30);

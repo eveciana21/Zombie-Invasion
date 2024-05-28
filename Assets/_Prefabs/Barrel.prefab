@@ -14309,7 +14309,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5815361945008942708}
   serializedVersion: 8
-  lengthInSec: 0.4
+  lengthInSec: 0.1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 1
@@ -14455,7 +14455,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.741, g: 0.741, b: 0.741, a: 1}
+      maxColor: {r: 0.49056602, g: 0.18265948, b: 0, a: 0.58431375}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -24190,7 +24190,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 34
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -24228,7 +24228,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.4
+      value: 0.3
       inSlope: 0
       outSlope: 0
       tangentMode: 0

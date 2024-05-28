@@ -37,6 +37,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     [SerializeField] private int _startMinutes;
     [SerializeField] private TMP_Text _timerText;
+    [SerializeField] private GameObject _youAreWorthyText;
     private bool _timerActive;
     private float _currentTime;
 
@@ -86,10 +87,10 @@ public class UIManager : MonoSingleton<UIManager>
 
     private Dictionary<string, int> _npcKillThreshold = new Dictionary<string, int>()
     {
-        {"NPC1", 1 },
-        {"NPC2", 2 },
-        {"NPC3", 3 },
-        {"NPC4", 4 }
+        {"NPC1", 10 },
+        {"NPC2", 20 },
+        {"NPC3", 30 },
+        {"NPC4", 40 }
     };
     private Dictionary<string, bool> _confirmedPlayerNotZombie = new Dictionary<string, bool>()
     {
@@ -218,8 +219,14 @@ public class UIManager : MonoSingleton<UIManager>
                 _helicopterNPCs.SetActive(true);
                 _endSceneTimeline.Play();
                 _timerActive = false;
+                //ReturnEnemyMovement(true);
             }
         }
+    }
+
+    public void ReturnEnemyMovement(bool value)
+    {
+        value = true;
     }
 
     private void AddTime(float secondsToAdd)
@@ -314,6 +321,11 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void DialogueText(bool nearPlayer, string npcName, string dialogue, string secondaryDialogue, string tertiaryDialogue, string lastDialogue)
     {
+        if (_lastHoorah == true) // <-- test this!!
+        {
+            return;
+        }
+
         _dialogueBox.SetActive(nearPlayer);
 
         if (!_isOnLastScene)
@@ -460,6 +472,24 @@ public class UIManager : MonoSingleton<UIManager>
     {
         yield return new WaitForSeconds(5f);
         AudioManager.Instance.Vocals(0);
+    }
+
+    public void WorthyText()
+    {
+        StartCoroutine(YouAreWorthyRoutine());
+    }
+
+    IEnumerator YouAreWorthyRoutine()
+    {
+        int count = 0;
+        while (count <= 3)
+        {
+            _youAreWorthyText.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            _youAreWorthyText.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            count++;
+        }
     }
 
     public void SprintSlider(float sprintPercentage)

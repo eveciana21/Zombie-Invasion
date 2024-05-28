@@ -18,8 +18,8 @@ public class Powerup : MonoBehaviour
                 {
                     case 0:
                         Debug.Log("You Picked Up Ammo!");
-                        player.AmmoPickup(60);
-                        AudioManager.Instance.SFX(0);
+                        player.AmmoPickup(90);
+                        AudioManager.Instance.SFX(4);
                         break;
 
                     case 1:
@@ -30,8 +30,8 @@ public class Powerup : MonoBehaviour
 
                     case 2:
                         Debug.Log("You Picked Up Small Ammo!");
-                        player.AmmoPickup(10);
-                        AudioManager.Instance.SFX(0);
+                        player.AmmoPickup(30);
+                        AudioManager.Instance.SFX(4);
                         break;
                 }
             }
