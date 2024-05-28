@@ -105,7 +105,7 @@ public class GameManager : MonoSingleton<GameManager>
             }
 
             // if it has been played already, skip to next timeline
-            else 
+            else
             {
                 _gameStarted = true;
                 _helicopterExitingIntro.Play();
@@ -134,7 +134,6 @@ public class GameManager : MonoSingleton<GameManager>
     {
         _introSceneTimeline.Play();
 
-        // Wait until the cutscene is finished
         yield return new WaitForSeconds((float)_introSceneTimeline.duration);
 
         // Set the PlayerPrefs value to indicate the cutscene has been played
@@ -389,7 +388,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         _playerRopeTimeline.Play();
         _input.SetCursorVisible(false);
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(9);
         _input.CanPressEscapeKey(true);
         _helicopterExitingIntro.Play();
 

@@ -52,8 +52,6 @@ public class EnemyAI : MonoBehaviour
     private Player _player;
     private float _originalSpeed;
 
-    private bool _gameOver;
-
     [SerializeField] private GameObject _ammoPickup;
 
     private enum AIState
@@ -113,10 +111,6 @@ public class EnemyAI : MonoBehaviour
 
     private void CalculateMovement()
     {
-       // UIManager.Instance.ReturnEnemyMovement(true); // <-- test this
-
-        //if (!_gameOver) // <-- Test this
-        //{
         if (_nearPlayer == false)
         {
             MoveToWayPoint();
@@ -125,13 +119,7 @@ public class EnemyAI : MonoBehaviour
         {
             MoveTowardsPlayer();
         }
-        //}
-        //else
-        // {
-        //     MoveToWayPoint();
-        // }
     }
-
 
 
     private void MoveTowardsPlayer()
@@ -507,6 +495,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {

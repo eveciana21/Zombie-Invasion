@@ -44,7 +44,6 @@ public class CameraManager : MonoSingleton<CameraManager>
 
     public void MainMenu()
     {
-        //_gameStarted = false;
         Time.timeScale = 1;
 
         SceneManager.LoadScene(0);
@@ -58,6 +57,5 @@ public class CameraManager : MonoSingleton<CameraManager>
     public void DisplayCursor()
     {
         _input.SetCursorVisible(true);
-        Debug.Log("Cursor Enabled");
     }
 }

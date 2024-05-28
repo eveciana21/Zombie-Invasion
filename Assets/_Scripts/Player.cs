@@ -178,6 +178,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ResetPlayerPos()
+    {
+        transform.position = new Vector3(0, 0, 0);
+    }
+
     private void SprintSliderIncrease(float speed)
     {
         _sprintRefuelSpeed = speed;

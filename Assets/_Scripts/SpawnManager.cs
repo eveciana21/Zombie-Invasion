@@ -35,7 +35,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     public IEnumerator ZombieSpawner()
     {
-        while (_enemiesInGame <= 60)
+        while (_enemiesInGame <= 65)
         {
             _waypointParent = GameObject.Find("Waypoints").transform;
             int random = Random.Range(0, _waypointParent.childCount);
@@ -67,7 +67,7 @@ public class SpawnManager : MonoSingleton<SpawnManager>
             _enemiesInGame++;
             yield return new WaitForSeconds(3f);
         }
-        if (_enemiesInGame >= 60)
+        if (_enemiesInGame >= 65)
         {
             Debug.Log("Enemy Count has reached max");
         }

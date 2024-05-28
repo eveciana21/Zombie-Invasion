@@ -54970,6 +54970,7 @@ MonoBehaviour:
   _textSpeed: 0.075
   _startMinutes: 0
   _timerText: {fileID: 0}
+  _youAreWorthyText: {fileID: 0}
   _sprintSlider: {fileID: 0}
   _dayNightSlider: {fileID: 208813683}
   _sensitivitySlider: {fileID: 1253081783}

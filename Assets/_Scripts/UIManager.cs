@@ -81,7 +81,6 @@ public class UIManager : MonoSingleton<UIManager>
     private int _potionCount;
     private bool _endGame;
     private bool _isOnLastScene;
-    private bool _isGameOver;
 
     private Color _originalTimerTextColor;
 
@@ -203,6 +202,7 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
+
     public void ActivateTimer(bool value)
     {
         _timerActive = value;
@@ -219,15 +219,10 @@ public class UIManager : MonoSingleton<UIManager>
                 _helicopterNPCs.SetActive(true);
                 _endSceneTimeline.Play();
                 _timerActive = false;
-                //ReturnEnemyMovement(true);
             }
         }
     }
 
-    public void ReturnEnemyMovement(bool value)
-    {
-        value = true;
-    }
 
     private void AddTime(float secondsToAdd)
     {
@@ -323,6 +318,7 @@ public class UIManager : MonoSingleton<UIManager>
     {
         if (_lastHoorah == true) // <-- test this!!
         {
+            _dialogueBox.SetActive(false);
             return;
         }
 
@@ -366,18 +362,6 @@ public class UIManager : MonoSingleton<UIManager>
                 {
                     _proveYourWorthText.SetActive(false);
                 }
-            }
-        }
-        else
-        {
-            if (nearPlayer && !_endGame)
-            {
-                StartCoroutine(GetTotTheChopperTextRoutine(lastDialogue));
-            }
-            else
-            {
-                _dialogueBox.SetActive(false);
-                StopCoroutine("GetTotTheChopperTextRoutine");
             }
         }
     }
@@ -609,16 +593,5 @@ public class UIManager : MonoSingleton<UIManager>
             yield return new WaitForSeconds(_textSpeed);
         }
         _okayButton.SetActive(true);
-    }
-
-
-    IEnumerator GetTotTheChopperTextRoutine(string dialogue)
-    {
-        _dialogueText.text = " ";
-        for (int i = 0; i <= dialogue.Length; i++)
-        {
-            _dialogueText.text = dialogue.Substring(0, i);
-            yield return new WaitForSeconds(_textSpeed);
-        }
     }
 }

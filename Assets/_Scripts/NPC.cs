@@ -11,6 +11,7 @@ public class NPC : MonoBehaviour
 
     private bool _isWalking;
     private bool _dialogueTextOnScreen;
+    private bool _canDisplayDialogue;
 
     private float _rotateTowardsPlayerSpeed = 3f;
     private Player _player;
@@ -62,7 +63,6 @@ public class NPC : MonoBehaviour
         if (_player != null)
         {
             CurrentAIState();
-   
             float distanceFromPlayer = Vector3.Distance(transform.position, _player.transform.position);
             if (distanceFromPlayer <= _interactionDistance)
             {
@@ -72,6 +72,14 @@ public class NPC : MonoBehaviour
             }
         }
     }
+
+    public void CannotInteractWithNPC()
+    {
+        _interactionDistance = 0;
+        ResumeEnemySpeed();
+        _player.isEngagingInDialogue(false);
+    }
+
 
     public void AddEnemyToList(EnemyAI enemy)
     {
