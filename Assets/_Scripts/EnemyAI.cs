@@ -255,7 +255,7 @@ public class EnemyAI : MonoBehaviour
         _animator.SetBool("Death", true);
         _navmeshAgent.isStopped = true;
 
-        yield return new WaitForSeconds(Random.Range(5f, 8f));
+        yield return new WaitForSeconds(Random.Range(8f, 12f));
 
         if (_enemyID == 0)
         {
